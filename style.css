@@ -15,9 +15,22 @@ body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* ── Stack container ── */
-.stack {
+/* ── Scroll container ── */
+#scroll-container {
+    height: 100svh;
+    overflow-y: scroll;
     position: relative;
+    scrollbar-width: none;
+}
+
+#scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Stack (sticky) ── */
+.stack {
+    position: sticky;
+    top: 0;
     height: 100svh;
     overflow: hidden;
 }
@@ -89,7 +102,7 @@ body {
 /* ── Body ── */
 .card__body {
     height: calc(100% - var(--tab-h));
-    overflow-y: auto;
+    overflow-y: hidden;
     padding: 2rem 1.5rem 3rem;
     display: flex;
     flex-direction: column;

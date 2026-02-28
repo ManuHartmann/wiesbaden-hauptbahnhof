@@ -1,98 +1,163 @@
-const TAB     = 56;   // tab height in px
-const OVERLAP = 20;   // how much cards overlap each other
-const NET     = TAB - OVERLAP; // 36px — net space per collapsed card
+const TAB     = 56;
+const OVERLAP = 20;
+const NET     = TAB - OVERLAP;  // 36px net space per collapsed card
 
-const stack = document.getElementById('stack');
-const cards = [...document.querySelectorAll('.card')];
-const N     = cards.length;
-let active  = 0;
+const scroller = document.getElementById('scroll-container');
+const spacer   = document.getElementById('scroll-spacer');
+const stackEl  = document.getElementById('stack');
+const cards    = [...document.querySelectorAll('.card')];
+const N        = cards.length;
 
-// ── Layout engine ──────────────────────────────────────────
-function layout(idx, animate = true) {
-    if (idx < 0 || idx >= N) return;
+let TOTAL, TRANS_DIST, OPEN_H;
+let ranges = [];  // [{type, start, end, ...}]
 
-    const TOTAL = stack.clientHeight;
-    const openH = TOTAL - (N - 1) * NET;
-
-    cards.forEach((card, i) => {
-        let top, height;
-
-        if (i < idx) {
-            // Above active: tab visible from top
-            top    = i * NET;
-            height = TAB;
-        } else if (i === idx) {
-            // Active card: full open height
-            top    = idx * NET;
-            height = openH;
-        } else {
-            // Below active: tab peeks from bottom
-            top    = TOTAL - OVERLAP - (N - i) * NET;
-            height = TAB;
-        }
-
-        const transition = animate
-            ? 'top 0.5s cubic-bezier(0.4,0,0.2,1), height 0.5s cubic-bezier(0.4,0,0.2,1)'
-            : 'none';
-
-        card.style.transition = transition;
-        card.style.top        = top + 'px';
-        card.style.height     = height + 'px';
-        card.style.zIndex     = i + 1;
-    });
-
-    active = idx;
+// ── Measurements ────────────────────────────────────────────────────────
+function measure() {
+    TOTAL      = stackEl.clientHeight;
+    TRANS_DIST = TOTAL - OVERLAP - N * NET;  // px a card travels during transition
+    OPEN_H     = TOTAL - (N - 1) * NET;      // height of the active card
 }
 
-// ── Tab clicks ──────────────────────────────────────────────
+// Scrollable content height when card i is fully open
+function contentScrollable(i) {
+    const body = cards[i].querySelector('.card__body');
+    return Math.max(0, body.scrollHeight - (OPEN_H - TAB));
+}
+
+// Build scroll → layout ranges
+function buildRanges() {
+    ranges = [];
+    let pos = 0;
+
+    for (let i = 0; i < N; i++) {
+        // Card i transition (not for first card)
+        if (i > 0) {
+            ranges.push({ type: 'transition', from: i - 1, to: i, start: pos, end: pos + TRANS_DIST });
+            pos += TRANS_DIST;
+        }
+
+        // Card i content scroll
+        const cs = contentScrollable(i);
+        if (cs > 0) {
+            ranges.push({ type: 'content', idx: i, start: pos, end: pos + cs });
+            pos += cs;
+        }
+    }
+
+    spacer.style.height = pos + 'px';
+}
+
+// ── Layout helpers ───────────────────────────────────────────────────────
+function pinnedPos(i, activeIdx) {
+    if (i < activeIdx)   return { top: i * NET,                             height: TAB    };
+    if (i === activeIdx) return { top: activeIdx * NET,                     height: OPEN_H };
+    /* i > activeIdx */  return { top: TOTAL - OVERLAP - (N - i) * NET,    height: TAB    };
+}
+
+function setCard(card, top, height) {
+    card.style.top    = top    + 'px';
+    card.style.height = height + 'px';
+}
+
+function applyPinned(activeIdx) {
+    cards.forEach((card, i) => {
+        const p = pinnedPos(i, activeIdx);
+        setCard(card, p.top, p.height);
+        card.style.zIndex = i + 1;
+    });
+}
+
+// ── Main update — called on every scroll tick ────────────────────────────
+function update() {
+    const s = scroller.scrollTop;
+
+    // Find active range (first range where s < end)
+    let range = null;
+    for (const r of ranges) {
+        if (s < r.end) { range = r; break; }
+    }
+
+    if (!range) {
+        // Past all ranges: last card fully open, content at bottom
+        applyPinned(N - 1);
+        const lastBody = cards[N - 1].querySelector('.card__body');
+        lastBody.scrollTop = lastBody.scrollHeight;
+        return;
+    }
+
+    if (range.type === 'content') {
+        applyPinned(range.idx);
+        cards[range.idx].querySelector('.card__body').scrollTop = s - range.start;
+
+    } else {
+        // transition: card 'to' slides in, card 'from' collapses
+        const { from, to } = range;
+        const delta = s - range.start;  // 0 → TRANS_DIST (direct, no easing)
+
+        cards.forEach((card, i) => {
+            if (i < from) {
+                const p = pinnedPos(i, from);
+                setCard(card, p.top, p.height);
+
+            } else if (i === from) {
+                // Collapse: height shrinks from OPEN_H to TAB
+                setCard(card, from * NET, Math.max(TAB, OPEN_H - delta));
+                card.querySelector('.card__body').scrollTop = 0;
+
+            } else if (i === to) {
+                // Slide in: top moves from startTop to to*NET
+                const startTop = TOTAL - OVERLAP - (N - to) * NET;
+                setCard(card, startTop - delta, Math.min(OPEN_H, TAB + delta));
+                card.querySelector('.card__body').scrollTop = 0;
+
+            } else {
+                // Cards below 'to': stay in their below positions
+                const p = pinnedPos(i, from);
+                setCard(card, p.top, p.height);
+            }
+
+            card.style.zIndex = i + 1;
+        });
+    }
+}
+
+// ── Tab click → scroll to card ───────────────────────────────────────────
+function scrollToCard(idx) {
+    let target = 0;
+    for (const r of ranges) {
+        if (r.type === 'transition' && r.to === idx) {
+            target = r.end;
+            break;
+        }
+    }
+    scroller.scrollTo({ top: target, behavior: 'smooth' });
+}
+
 cards.forEach((card, i) => {
-    card.querySelector('.card__tab').addEventListener('click', () => layout(i));
+    card.querySelector('.card__tab').addEventListener('click', () => scrollToCard(i));
 });
 
-// ── Scroll wheel ────────────────────────────────────────────
-let scrollLock = false;
-
-document.addEventListener('wheel', (e) => {
-    // Allow scrolling inside card content if not at boundary
-    const body = cards[active]?.querySelector('.card__body');
-    if (body) {
-        const atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 2;
-        const atTop    = body.scrollTop <= 0;
-        if (e.deltaY > 0 && !atBottom) return;
-        if (e.deltaY < 0 && !atTop)    return;
+// ── Keyboard ─────────────────────────────────────────────────────────────
+function activeCard() {
+    const s = scroller.scrollTop;
+    let active = 0;
+    for (const r of ranges) {
+        if (r.type === 'transition' && s >= r.end) active = r.to;
     }
+    return active;
+}
 
-    e.preventDefault();
-    if (scrollLock) return;
-    scrollLock = true;
-    setTimeout(() => scrollLock = false, 600);
-
-    if (e.deltaY > 0) layout(active + 1);
-    else              layout(active - 1);
-}, { passive: false });
-
-// ── Touch / swipe ───────────────────────────────────────────
-let touchStartY = 0;
-
-document.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener('touchend', (e) => {
-    const diff = touchStartY - e.changedTouches[0].clientY;
-    if (Math.abs(diff) > 40) {
-        layout(diff > 0 ? active + 1 : active - 1);
-    }
-});
-
-// ── Keyboard ────────────────────────────────────────────────
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown') { e.preventDefault(); layout(active + 1); }
-    if (e.key === 'ArrowUp')   { e.preventDefault(); layout(active - 1); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); scrollToCard(Math.min(activeCard() + 1, N - 1)); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); scrollToCard(Math.max(activeCard() - 1, 0)); }
 });
 
-// ── Resize ──────────────────────────────────────────────────
-window.addEventListener('resize', () => layout(active, false));
+// ── Resize ────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => { measure(); buildRanges(); update(); });
 
-// ── Init (no animation) ─────────────────────────────────────
-layout(0, false);
+// ── Init ─────────────────────────────────────────────────────────────────
+measure();
+buildRanges();
+update();
+
+scroller.addEventListener('scroll', update, { passive: true });
