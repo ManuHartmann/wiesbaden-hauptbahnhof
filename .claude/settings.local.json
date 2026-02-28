@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git add index.html style.css && git commit -m \"$\\(cat <<'EOF'\nStruktur, Bild und Styling ergänzt\n\n- index.html: Bild eingebunden, saubere Sections, deutsche Texte\n- style.css: Layout, Header, Hero-Bild, Cards, Responsive\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git push)",
+      "Bash(npm i -g @anthropic-ai/claude-code)",
+      "Bash(claude --version)",
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git pull)",
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git add index.html style.css && git commit -m \"$\\(cat <<'EOF'\nHTML und CSS wiederhergestellt\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)"
+    ]
+  }
+}
