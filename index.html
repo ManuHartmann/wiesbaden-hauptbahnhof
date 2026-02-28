@@ -8,43 +8,49 @@
 </head>
 <body>
 
-    <!-- Hero -->
-    <header class="hero" style="background-image: url('img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');">
-        <p class="hero__label">Wiesbaden Hauptbahnhof · seit 1906</p>
-        <h1>Wiesbaden <em>Hauptbahnhof</em></h1>
-        <p class="hero__subtitle">1906 als Weltkurstadt-Bahnhof eröffnet, mit Kaiserprivileg und exklusivem Erstklasse-Salon. 116 Jahre später: zweitgrößter Bahnhof Hessens.</p>
-    </header>
+<div class="stack" id="stack">
 
-    <main>
+    <!-- 01 Hero -->
+    <article class="card card--1">
+        <button class="card__tab">
+            <span class="card__num">01</span>
+            <span class="card__name">Wiesbaden Hauptbahnhof</span>
+        </button>
+        <div class="card__body hero" style="background-image: url('img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');">
+            <p class="hero__label">Wiesbaden Hauptbahnhof · seit 1906</p>
+            <h1>Wiesbaden <em>Hauptbahnhof</em></h1>
+            <p class="hero__sub">1906 als Weltkurstadt-Bahnhof eröffnet, mit Kaiserprivileg und exklusivem Erstklasse-Salon. Heute zweitgrößter Bahnhof Hessens mit täglich 46.000 Reisenden.</p>
+        </div>
+    </article>
 
-        <!-- Nächste Verbindungen -->
-        <section class="connections">
-            <div class="connections__header">
-                <div class="connections__title-group">
-                    <span class="connections__icon" aria-hidden="true">🚌</span>
-                    <h2>Nächste <em>Verbindungen</em></h2>
-                </div>
-                <time class="connections__time">09:37:11</time>
+    <!-- 02 Nächste Verbindungen -->
+    <article class="card card--2">
+        <button class="card__tab">
+            <span class="card__num">02</span>
+            <span class="card__name">Nächste Verbindungen</span>
+        </button>
+        <div class="card__body">
+            <div class="connections-header">
+                <h2>Nächste <em>Verbindungen</em></h2>
+                <time class="clock">09:37:11</time>
             </div>
-
-            <div class="connections__meta">
-                <p class="connections__date">Freitag, 27. Februar 2026</p>
-                <nav class="connections__filter" aria-label="Zugtyp-Filter">
-                    <button>ALT</button>
-                    <button>IC</button>
-                    <button>RE</button>
-                    <button>RB</button>
-                    <button>S-Bahn</button>
+            <div class="connections-meta">
+                <p class="date">Freitag, 27. Februar 2026</p>
+                <nav class="filter">
+                    <button class="filter__btn active">Alle</button>
+                    <button class="filter__btn">IC</button>
+                    <button class="filter__btn">RE</button>
+                    <button class="filter__btn">RB</button>
+                    <button class="filter__btn">S-Bahn</button>
                 </nav>
             </div>
-
-            <table>
+            <table class="timetable">
                 <thead>
                     <tr>
-                        <th scope="col">Abfahrt</th>
-                        <th scope="col">Ziel</th>
-                        <th scope="col">Linie</th>
-                        <th scope="col">Gleis</th>
+                        <th>Abfahrt</th>
+                        <th>Ziel</th>
+                        <th>Linie</th>
+                        <th>Gleis</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,19 +104,37 @@
                     </tr>
                 </tbody>
             </table>
-        </section>
+        </div>
+    </article>
 
-        <!-- Geschichte -->
-        <section class="history">
-            <span class="section__icon" aria-hidden="true">🌿</span>
+    <!-- 03 Geschichte -->
+    <article class="card card--3">
+        <button class="card__tab">
+            <span class="card__num">03</span>
+            <span class="card__name">DIE Geschichte</span>
+        </button>
+        <div class="card__body">
             <h2>DIE <em>Geschichte</em></h2>
-
             <ol class="timeline">
                 <li class="timeline__item">
-                    <span class="timeline__year">1914</span>
+                    <span class="timeline__year">1840</span>
+                    <div class="timeline__content">
+                        <h3>Die ersten Bahnhöfe</h3>
+                        <p>Wiesbaden erhält seinen ersten Eisenbahnanschluss mit dem Taunusbahnhof. In den folgenden Jahrzehnten entstehen der Rheinbahnhof (1857) und der Ludwigsbahnhof (1878) — drei separate Kopfbahnhöfe nebeneinander.</p>
+                    </div>
+                </li>
+                <li class="timeline__item">
+                    <span class="timeline__year">1904</span>
                     <div class="timeline__content">
                         <h3>Neubau</h3>
-                        <p>Architekt Fritz Klingholz beginnt den Bau. Die aufwendige neobarocke Ausstattung stammt zu weiten Teilen vom Mainzer Bildhauer Franz Vlamdck. Der Durchgangsbahnhof wurde erzwungen, aber verwendet – er wäre fast drei Kilometer weiter vom Stadtzentrum entfernt gewesen.</p>
+                        <p>Architekt Fritz Klingholz beginnt den Bau. Die aufwendige neobarocke Ausstattung verbindet wilhelminischen Neobarock mit Anklängen an den Jugendstil. Der Durchgangsbahnhof wurde erzwungen — er wäre fast drei Kilometer weiter vom Stadtzentrum entfernt gewesen.</p>
+                    </div>
+                </li>
+                <li class="timeline__item">
+                    <span class="timeline__year">1906</span>
+                    <div class="timeline__content">
+                        <h3>Eröffnung</h3>
+                        <p>Am 15. November 1906 wird der Bahnhof eröffnet. Der erste planmäßige Zug fährt um 2:23 Uhr nachts ein. Der Bau löst die drei bisherigen Wiesbadener Bahnhöfe ab.</p>
                     </div>
                 </li>
                 <li class="timeline__item">
@@ -124,63 +148,56 @@
                     <span class="timeline__year">2002</span>
                     <div class="timeline__content">
                         <h3>Schnellbahnanbindung</h3>
-                        <p>Nach langen Debatten über Tunnelvarianten unter der Stadt wird eine ebenerdige Anbindung an die Schnellfahrstrecke Köln-Rhein/Main realisiert. Das Wiesbadener Kreuz gilt als die wirtschaftlichste Lösung.</p>
-                    </div>
-                </li>
-                <li class="timeline__item">
-                    <span class="timeline__year">2014</span>
-                    <div class="timeline__content">
-                        <h3>Erster Eisenbahnanschluss</h3>
-                        <p>Wiesbaden erhält seinen ersten Eisenbahnanschluss mit dem Taunusbahnhof für die Strecke nach Frankfurt. In den folgenden Jahrzehnten entstehen der Rheinbahnhof (1857) und der Ludwigsbahnhof (1878) – drei separate Kopfbahnhöfe nebeneinander.</p>
+                        <p>Nach langen Debatten über Tunnelvarianten unter der Stadt wird eine ebenerdige Anbindung an die Schnellfahrstrecke Köln–Rhein/Main realisiert. Das Wiesbadener Kreuz gilt als die wirtschaftlichste Lösung.</p>
                     </div>
                 </li>
                 <li class="timeline__item">
                     <span class="timeline__year">2021</span>
                     <div class="timeline__content">
                         <h3>Brückenschäden</h3>
-                        <p>Weiterer Schaden an der Bahnhofsbrücke legt den Bahnhof vom 18. Juni bis 21. Dezember fast vollständig lahm. Die Brücke wird am 6. November 2023 gesperrt – und planmäßig am 22. Dezember der Betrieb wieder aufgenommen.</p>
+                        <p>Schäden an der Bahnhofsbrücke legen den Bahnhof vom 18. Juni bis 21. Dezember fast vollständig lahm. Am 22. Dezember wird der Betrieb planmäßig wieder aufgenommen.</p>
                     </div>
                 </li>
             </ol>
-        </section>
+        </div>
+    </article>
 
-        <!-- Der Kaiser & der Bahnhof -->
-        <section class="kaiser">
-            <span class="section__icon" aria-hidden="true">🌿</span>
+    <!-- 04 Kaiser -->
+    <article class="card card--4">
+        <button class="card__tab">
+            <span class="card__num">04</span>
+            <span class="card__name">Der Kaiser &amp; der Bahnhof</span>
+        </button>
+        <div class="card__body">
             <h2>Der Kaiser <em>&amp;</em> der Bahnhof</h2>
-
             <blockquote>
-                <p>„Prunkbau war die bevorzugte Sommerresidenz des Kaisers – das Bahnhof sein persönliches Empfangsportal."</p>
+                „Kaiser Wilhelm II. hatte sich sehr um die Gestaltung des Bahnhofs bemüht."
+                <cite>— Bernhard Hager, Wiesbadener Historiker</cite>
             </blockquote>
-
             <div class="kaiser__text">
-                <p>Kaiser Wilhelm II. reiste jeden Jahr nach Wiesbaden, das als seine bevorzugte Kurstadt galt. Der Bahnhof wurde bewusst auf diesen Gast ausgerichtet. Ein eigenes Empfangsgebäude an der Westseite der Bahnhofshalle, baulich vom Hauptgebäude getrennt, empfing den Kaiser.</p>
-                <p>Der Kaiserbahnhof war für Hofzüge reserviert und für die Öffentlichkeit vollständig gesperrt. Sogar ein eigener Erstklasse-Wartesaal war eingerichtet – in keinem anderen deutschen Bahnhof gab es einen separaten Saal nur für die erste Klasse.</p>
+                <p>Kaiser Wilhelm II. reiste alljährlich im Mai nach Wiesbaden, das als seine bevorzugte Kurstadt galt. Der Bahnhof wurde bewusst auf diesen Gast ausgerichtet. Die roten und grünen Ziegel auf dem Dach gehen auf die persönlichen Ideen des Kaisers zurück.</p>
+                <p>Für Kaiser und Adel wurde ein eigenes „Kaisergleis" (heutiges Gleis 1) errichtet. Neben Gleis 1 befand sich der Kaiserpavillon, wo die höchsten Herrschaften auf ihre Züge warteten. Der Pavillon wurde im Zweiten Weltkrieg zerstört — die Fassade ist am Gleis noch gut zu erkennen.</p>
             </div>
-
             <div class="kaiser__images">
                 <figure>
-                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Historische Aufnahme des Bahnhofs">
-                    <figcaption>Blick in das Kaiserportal</figcaption>
+                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Wiesbaden Hauptbahnhof Außenansicht">
+                    <figcaption>Außenansicht des Bahnhofs</figcaption>
                 </figure>
                 <figure>
-                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Historische Aufnahme mit Reisenden">
-                    <figcaption>Reisende vor dem Haupteingang</figcaption>
+                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Wiesbaden Hauptbahnhof historisch">
+                    <figcaption>Historische Aufnahme um 1910</figcaption>
                 </figure>
                 <figure>
-                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Außenansicht historisch">
-                    <figcaption>Außenansicht um 1910</figcaption>
+                    <img src="img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg" alt="Kaiserpavillon">
+                    <figcaption>Der Kaiserpavillon an Gleis 1</figcaption>
                 </figure>
             </div>
-        </section>
+            <p class="source">Quelle: <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank">Wikipedia – Wiesbaden Hauptbahnhof</a></p>
+        </div>
+    </article>
 
-    </main>
+</div>
 
-    <footer>
-        <p>Wiesbaden<br>Hauptbahnhof</p>
-        <p>Quelle: <a href="https://de.wikipedia.org">wikipedia.de</a></p>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
