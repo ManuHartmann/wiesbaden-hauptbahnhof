@@ -33,10 +33,28 @@ body {
 }
 
 /* Card colors */
-.card--1 { background: #1a1a2e; color: #fff; }
+.card--1 { color: #fff; }
 .card--2 { background: #6b3020; color: #fff; }
 .card--3 { background: #2d4a35; color: #fff; }
 .card--4 { background: #f0ebe0; color: #222; }
+
+/* ── Hero card: full-bleed image, kein Card-Chrome ── */
+.card--1 .card__tab {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
+}
+
+.card--1 .card__body {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
 
 /* ── Tab ── */
 .card__tab {
@@ -54,11 +72,11 @@ body {
     text-align: left;
 }
 
-.card__num {
-    font-size: 0.7rem;
-    opacity: 0.45;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.05em;
+.card__icon {
+    font-size: 1rem;
+    opacity: 0.7;
+    width: 1.2rem;
+    text-align: center;
 }
 
 .card__name {

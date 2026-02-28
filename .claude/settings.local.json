@@ -6,7 +6,10 @@
       "Bash(npm i -g @anthropic-ai/claude-code)",
       "Bash(claude --version)",
       "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git pull)",
-      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git add index.html style.css && git commit -m \"$\\(cat <<'EOF'\nHTML und CSS wiederhergestellt\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)"
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git add index.html style.css && git commit -m \"$\\(cat <<'EOF'\nHTML und CSS wiederhergestellt\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)",
+      "WebFetch(domain:de.wikipedia.org)",
+      "WebSearch",
+      "Bash(cd \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/Wiesbaden_Hauptbahnhof\" && git add index.html style.css script.js && git commit -m \"$\\(cat <<'EOF'\nStacked Card Navigation mit Wiesbaden-Inhalt\n\n- Stacked Card UI: 4 Sections, animiert, scroll/swipe/keyboard\n- Hero mit Bahnhofsbild, Verbindungen, Geschichte-Timeline, Kaiser-Section\n- Inhalt basierend auf Wikipedia Wiesbaden Hauptbahnhof\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)"
     ]
   }
 }
