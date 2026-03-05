@@ -11,6 +11,128 @@ const N        = cards.length;
 let TOTAL, TRANS_DIST, OPEN_H;
 let ranges = [];  // [{type, start, end, ...}]
 
+// ── Clock & Timetable ───────────────────────────────────────────────────
+const TRAIN_DESTINATIONS = [
+    { name: 'Frankfurt (Main) Hbf', types: ['ICE', 'IC', 'RB'] },
+    { name: 'Limburg (Lahn) Hbf', types: ['IC', 'RE'] },
+    { name: 'München Hbf', types: ['ICE', 'EC'] },
+    { name: 'Köln Hbf', types: ['ICE', 'IC'] },
+    { name: 'Hamburg Hbf', types: ['ICE', 'IC'] },
+    { name: 'Berlin Hbf', types: ['ICE'] },
+    { name: 'Düsseldorf Hbf', types: ['ICE', 'IC', 'RE'] },
+    { name: 'Mainz Hbf', types: ['IC', 'RE', 'RB'] },
+    { name: 'Koblenz Hbf', types: ['IC', 'RE'] },
+    { name: 'Bad Homburg', types: ['S-Bahn', 'RB'] },
+    { name: 'Niedernhausen', types: ['RB', 'S-Bahn'] },
+    { name: 'Idstein', types: ['RB', 'S-Bahn'] },
+    { name: 'Taunusstein', types: ['RB'] },
+    { name: 'Wetzlar', types: ['RE', 'RB'] },
+    { name: 'Darmstadt Hbf', types: ['RB', 'S-Bahn'] },
+];
+
+const TRACKS = [1, 2, 3, 4, 5, 6, 7, 8];
+
+function getTypeClass(type) {
+    if (type === 'ICE') return 'badge--ice';
+    if (type === 'IC') return 'badge--ic';
+    if (type === 'EC') return 'badge--ice';
+    if (type === 'RE') return 'badge--ic';
+    if (type === 'RB') return 'badge--rb';
+    if (type === 'S-Bahn') return 'badge--ic';
+    return 'badge--ice';
+}
+
+function timeToMinutes(hours, minutes) {
+    return hours * 60 + minutes;
+}
+
+function minutesToTime(totalMinutes) {
+    const hours = String(Math.floor(totalMinutes / 60)).padStart(2, '0');
+    const minutes = String(totalMinutes % 60).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+function generateTimetable() {
+    const now = new Date();
+    const currentMinutes = timeToMinutes(now.getHours(), now.getMinutes());
+    
+    const trains = [];
+    
+    // Generate trains throughout the day, every 5-15 minutes
+    let time = 5 * 60; // Start at 5:00
+    const endTime = 24 * 60; // Until midnight
+    
+    while (time < endTime) {
+        // Only show 15-20 upcoming trains
+        if (trains.length >= 20) break;
+        
+        // Only include future trains
+        if (time >= currentMinutes - 2) { // Show trains up to 2 minutes ago
+            const destination = TRAIN_DESTINATIONS[Math.floor(Math.random() * TRAIN_DESTINATIONS.length)];
+            const types = destination.types;
+            const type = types[Math.floor(Math.random() * types.length)];
+            const track = TRACKS[Math.floor(Math.random() * TRACKS.length)];
+            
+            trains.push({
+                time: minutesToTime(time),
+                destination: destination.name,
+                type: type,
+                track: track,
+                minutes: time
+            });
+        }
+        
+        // Random interval between trains
+        time += 5 + Math.floor(Math.random() * 11); // 5-15 minutes
+    }
+    
+    return trains.sort((a, b) => a.minutes - b.minutes);
+}
+
+function updateTimetable() {
+    const trains = generateTimetable();
+    const tbody = document.querySelector('.timetable tbody');
+    
+    tbody.innerHTML = trains.map(train => `
+        <tr>
+            <td>${train.time}</td>
+            <td>${train.destination}</td>
+            <td><span class="badge ${getTypeClass(train.type)}">${train.type}</span></td>
+            <td>${train.track}</td>
+        </tr>
+    `).join('');
+}
+
+function updateClock() {
+    const now = new Date();
+    
+    // Update clock
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const clockEl = document.getElementById('clock');
+    if (clockEl) {
+        clockEl.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    
+    // Update date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('de-DE', options);
+    const dateEl = document.getElementById('date-display');
+    if (dateEl) {
+        dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+    }
+    
+    // Update timetable every 10 seconds
+    if (now.getSeconds() % 10 === 0) {
+        updateTimetable();
+    }
+}
+
+// Initialize clock and timetable immediately
+updateClock();
+setInterval(updateClock, 1000);
+
 // ── Measurements ────────────────────────────────────────────────────────
 function measure() {
     TOTAL      = stackEl.clientHeight;
