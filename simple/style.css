@@ -21,42 +21,76 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; }
 img { max-width: 100%; max-height: 100%; object-fit: cover; }
 
 
-/* ─── 2. FARBEN ─── */
+/* ─── 2. FARBEN & STACKING ───
+   Jede Section überlапpt die vorherige um 50px (margin-top: -50px).
+   z-index stellt sicher dass neuere Sections oben liegen.
+   border-radius rundet die oberen Ecken ab (ausser Hero).
+   min-height: 100svh + 50px damit jede Section den ganzen Screen füllt.
+   ─────────────────────────────────────────────────────────────────── */
 
-#abfahrten  { background: #6b3020; color: #fff; }
-#geschichte { background: #2d4a35; color: #fff; }
-#kaiser     { background: #f0ebe0; color: #222; }
-#karte      { background: #1a1a2e; color: #fff; }
-footer      { background: #2d2d2d; color: white; }
+#hero       { position: relative; z-index: 1; }
+#abfahrten  { position: relative; z-index: 2; background: #6b3020; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
+#geschichte { position: relative; z-index: 3; background: #2d4a35; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
+#kaiser     { position: relative; z-index: 4; background: #f0ebe0; color: #222; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
+#karte      { position: relative; z-index: 5; background: #1a1a2e; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
+footer      { position: relative; z-index: 6; background: #2d2d2d; color: white; border-radius: 25px 25px 0 0; margin-top: -50px; }
 
 
 /* ─── 3. HERO ─── */
 
 #hero {
   position: relative;
-  min-height: 100vh;
+  height: calc(100svh + 50px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 2rem var(--pad);
+  padding: var(--pad) var(--pad) 30vh;
   color: white;
-  background: url('img/ICE_an_Gleis_8_B.jpg') center / cover;
+  background: url('img/ICE_an_Gleis_8_B.jpg') 60% / cover;
 }
 
-/* Dunkles Overlay über dem Bild */
+/* Overlay */
 #hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(26, 26, 46, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
 
-/* Text über dem Overlay */
-#hero h1, #hero p { position: relative; z-index: 2; }
+/* Alle Kinder über dem Overlay */
+#hero > * { position: relative; z-index: 2; }
 
-/* Bild-Tag verstecken — Hintergrund kommt aus CSS */
-#hero img { display: none; }
+/* Label: "Hessische Landeshauptstadt · Seit 1906" */
+.hero-label {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+  margin-bottom: 0.4rem;
+}
+
+/* H1: "Wiesbaden" weiss, "Hauptbahnhof" kursiv + kupfer */
+#hero h1 {
+  font-size: clamp(3rem, 13vw, 6rem);
+  font-weight: 900;
+  line-height: 1.0;
+  margin-bottom: 0.9rem;
+}
+
+#hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: #c4622d;
+}
+
+/* Untertitel */
+#hero p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  max-width: 42ch;
+}
 
 
 /* ─── 4. ABFAHRTEN ─── */
