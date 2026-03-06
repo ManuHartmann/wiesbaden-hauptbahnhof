@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Oswald:wght@300;400;500&display=swap');
+/* ─── 1. BASE ─── */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -6,27 +6,28 @@
   padding: 0;
 }
 
-/* Skip Link — nur sichtbar wenn fokussiert (Tastatur) */
-.skip-link {
-  position: absolute;
-  top: -100px;
-}
-.skip-link:focus {
-  top: 0;
-}
+body { font-family: 'Abel', sans-serif; }
 
-/* Titel-Schrift */
-h1, h2, h3 {
-  font-family: 'Playfair Display', serif;
-}
+/* Skip-Link — nur bei Tastaturfokus sichtbar */
+.skip-link { position: absolute; top: -100px; }
+.skip-link:focus { top: 0; }
 
-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-}
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-/* ─── HERO ─── */
+img { max-width: 100%; max-height: 100%; object-fit: cover; }
+
+
+/* ─── 2. FARBEN ─── */
+
+#abfahrten  { background: #6b3020; color: #fff; }
+#geschichte { background: #2d4a35; color: #fff; }
+#kaiser     { background: #f0ebe0; color: #222; }
+#karte      { background: #f4f4f2; }
+footer      { background: #2d2d2d; color: white; }
+
+
+/* ─── 3. HERO ─── */
+
 #hero {
   position: relative;
   min-height: 100vh;
@@ -35,17 +36,10 @@ img {
   justify-content: flex-end;
   padding: 2rem 1.5rem;
   color: white;
+  background: url('img/ICE_an_Gleis_8_B.jpg') center / cover;
 }
 
-/* Farben pro Section */
-#hero {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg/1200px-BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');
-  background-size: cover;
-  background-position: center;
-  color: white;
-}
-
-/* Overlay — liegt über dem Bild, unter dem Text */
+/* Dunkles Overlay über dem Bild */
 #hero::before {
   content: '';
   position: absolute;
@@ -54,107 +48,23 @@ img {
   z-index: 1;
 }
 
-/* Text soll über dem Overlay liegen */
-#hero h1,
-#hero p {
-  position: relative;
-  z-index: 2;
-}
+/* Text über dem Overlay */
+#hero h1, #hero p { position: relative; z-index: 2; }
 
-/* Hero-Bild verstecken — wird als CSS-Hintergrund verwendet */
+/* Bild-Tag verstecken — Hintergrund kommt aus CSS */
 #hero img { display: none; }
-#abfahrten  { background: #6b3020; color: #ffffff; }
-#geschichte { background: #2d4a35; color: #ffffff; }
-#kaiser     { background: #f0ebe0; color: #222222; }
-#karte      { background: #f4f4f2; }
-footer      { background: #2d2d2d; color: white; }
 
-/* Fahrplan Grid */
-.timetable-wrap { overflow-x: auto; }
 
-.timetable {
-  display: grid;
-  grid-template-columns: 70px 1fr 70px 50px;
-  min-width: 320px;
-}
+/* ─── 4. ABFAHRTEN ─── */
 
-/* Kopfzeile — transparenter Hintergrund, gedämpfter Text */
-.timetable-head {                                                                                                                                             
-  background: rgba(0, 0, 0, 0.4); 
-  color: rgb(216, 216, 216);
-  font-family: 'Oswald', sans-serif;
-  font-size: 11px;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.6rem 0.5rem;
-  white-space: nowrap;
-}
+#abfahrten { padding: 1.5rem 1.25rem; }
 
-/* Datenzeilen — dunkler Hintergrund, weißer Text */
-.timetable-cell {
-  background: #1e1e1e;
-  color: white;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  padding: 0.85rem 0.5rem;
-  border-bottom: 1px solid #2a2a2a;
-}
+/* Icon auf eigener Zeile */
+#abfahrten h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
 
-/* Verspätung — rot, inline neben der Uhrzeit */
-.delay {
-  display: inline;
-  color: #e74c3c;
-  font-size: 0.75rem;
-}
+#abfahrten h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 0.4rem; }
 
-/* Kleiner "via"-Text unter dem Ziel */
-.timetable-cell small {
-  display: block;
-  font-weight: normal;
-  font-size: 0.65rem;
-  color: #888;
-  margin-top: 0.2rem;
-}
-
-/* Desktop ab 768px */
-@media (min-width: 768px) {
-
-  .timetable {
-    grid-template-columns: 100px 1fr 100px 60px;
-  }
-
-  .timetable-head,
-  .timetable-cell {
-    font-size: 15px;
-    padding: 10px 12px;
-  }
-
-}
-
-/* ─── ABFAHRTEN SECTION ─── */
-
-/* Innenabstand der Section */
-#abfahrten {
-  padding: 1.5rem 1.25rem;
-}
-
-/* Icon: eigene Zeile über dem Titel */
-#abfahrten h2 i {
-  display: block;
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Großer Titel */
-#abfahrten h2 {
-  font-size: 2.25rem;
-  line-height: 1.1;
-  margin-bottom: 0.4rem;
-}
-
-/* Datum — klein und in Großbuchstaben */
+/* Datum-Zeile */
 #datum {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -163,24 +73,77 @@ footer      { background: #2d2d2d; color: white; }
   margin-bottom: 1.5rem;
 }
 
-/* Große Uhrzeitanzeige */
+/* Große Digitaluhr */
 #uhr {
   display: block;
   font-size: 2.75rem;
   font-weight: bold;
-  font-family: monospace;
+  font-family: 'Abel', sans-serif;
   margin-bottom: 1rem;
 }
 
-/* Filter-Buttons: nebeneinander mit Flexbox */
-#abfahrten nav {
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
+@media (min-width: 768px) {
+  #abfahrten { padding: 2.5rem 2rem; }
+  #abfahrten h2 { font-size: 3rem; }
+  #uhr { font-size: 3.5rem; }
 }
 
-/* Einzelner Filter-Button: Rahmen, kein Hintergrund */
+
+/* ── 4a. Fahrplan-Tabelle ── */
+
+.timetable-wrap { overflow: hidden; border-radius: 1px; }
+
+.timetable {
+  width: 100%;
+  min-width: 320px;
+  border-collapse: collapse;
+}
+
+/* Kopfzeile: transparent, gedämpft */
+.timetable th {
+  background: rgba(0, 0, 0, 0.4);
+  color: rgb(216, 216, 216);
+  font-family: 'Abel', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 0.5rem;
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* Datenzeilen: dunkel */
+.timetable td {
+  background: #1e1e1e;
+  color: white;
+  font-family: 'Abel', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.85rem 0.5rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+/* "via"-Text unter dem Ziel */
+.timetable td small {
+  display: block;
+  font-size: 0.65rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+
+/* Verspätung — überschreibt display:block von td small */
+small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
+
+@media (min-width: 768px) {
+  .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
+}
+
+
+/* ── 4b. Filter-Buttons & Badges ── */
+
+#abfahrten nav { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
 #abfahrten nav button {
   padding: 0.4rem 0.7rem;
   border: 1px solid white;
@@ -193,18 +156,9 @@ footer      { background: #2d2d2d; color: white; }
   border-radius: 4px;
 }
 
-/* Aktiver Button: leicht dunkler gefüllt */
-#abfahrten nav button.active {
-  background: rgba(0, 0, 0, 0.35);
-}
+#abfahrten nav button.active { background: rgba(0, 0, 0, 0.35); }
 
-/* ganze Tabelle */
-.timetable-wrap {
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-/* Farbige Badges für Zugtypen */
+/* Zugtyp-Badges */
 .badge {
   display: inline-block;
   padding: 0.2rem 0.5rem;
@@ -214,12 +168,12 @@ footer      { background: #2d2d2d; color: white; }
   color: white;
 }
 
-.badge-ice { background: #e74c3c; } /* Rot für ICE */
-.badge-s   { background: #27ae60; } /* Grün für S-Bahn */
-.badge-rb  { background: #8d6e63; } /* Braun für RB */
-.badge-re  { background: #2980b9; } /* Blau für RE */
+.badge-ice { background: #e74c3c; }
+.badge-s   { background: #27ae60; }
+.badge-rb  { background: #8d6e63; }
+.badge-re  { background: #2980b9; }
 
-/* Hinweistext unten (> bedeutet: nur direktes Kind von #abfahrten) */
+/* Quellenhinweis */
 #abfahrten > small {
   display: block;
   text-align: center;
@@ -228,17 +182,279 @@ footer      { background: #2d2d2d; color: white; }
   padding-top: 1rem;
 }
 
-/* Desktop: mehr Platz und größere Schrift */
+
+/* ─── 5. GESCHICHTE / TIMELINE ─── */
+
+#geschichte { padding: 1.5rem 1.25rem; }
+
+#geschichte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+#geschichte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 2rem; }
+
+#geschichte h2 strong { font-style: normal; font-weight: 900; }
+
+/* Wrapper mit vertikaler Linie */
+.timeline { position: relative; }
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 81px; /* Mitte der Dot-Spalte (73px Jahr + 9px halbe Dot-Breite) */
+  width: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Eintrag: Jahr | Dot | Inhalt */
+.timeline-entry { display: flex; align-items: flex-start; margin-bottom: 2.5rem; }
+
+/* Feste Breite für die Jahres-Spalte */
+.timeline-year {
+  flex: 0 0 73px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 0.6rem;
+  line-height: 1.2;
+}
+
+/* Dot zentriert auf der Linie */
+.timeline-dot {
+  flex: 0 0 18px;
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+}
+
+.timeline-dot::before {
+  content: '';
+  width: 10px; height: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+}
+
+/* Textinhalt rechts */
+.timeline-content { flex: 1; padding-left: 0.75rem; }
+
+.timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
+
+.timeline-content p { font-size: 0.9rem; line-height: 1.6; opacity: 0.85; }
+
+.timeline-content figure { margin-top: 0.75rem; }
+
+.timeline-content img { width: 100%; border-radius: 4px; }
+
+.timeline-content figcaption { font-size: 0.7rem; opacity: 0.55; margin-top: 0.3rem; }
+
+/* Wikipedia-Link am Ende */
+#geschichte > a { display: block; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+
 @media (min-width: 768px) {
-  #abfahrten {
-    padding: 2.5rem 2rem;
-  }
+  #geschichte { padding: 2.5rem 2rem; }
+  .timeline::before { left: calc(100px + 16px); }
+  .timeline-year { flex-basis: 100px; font-size: 1.9rem; }
+  .timeline-dot { flex-basis: 32px; }
+  .timeline-content h3 { font-size: 1.1rem; }
+}
 
-  #abfahrten h2 {
-    font-size: 3rem;
-  }
 
-  #uhr {
-    font-size: 3.5rem;
-  }
+/* ─── 6. KAISER ─── */
+
+#kaiser { padding: 1.5rem 1.25rem; }
+
+/* Icon auf eigener Zeile — wie andere Sections */
+#kaiser h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+#kaiser h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1.25rem; }
+
+/* Zitat mit linkem Balken */
+#kaiser blockquote {
+  border-left: 3px solid #8d6e63;
+  padding-left: 1rem;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 1.25rem;
+}
+
+#kaiser p { margin-bottom: 1rem; }
+
+/* Horizontaler Bild-Scroll — bricht aus dem Section-Padding aus */
+.kaiser-bilder {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  gap: 0.5rem;
+  margin: 1.25rem -1.25rem;
+  scrollbar-width: none;
+}
+
+.kaiser-bilder::-webkit-scrollbar { display: none; }
+
+.kaiser-bilder figure {
+  flex: 0 0 85vw;
+  scroll-snap-align: start;
+}
+
+.kaiser-bilder figure:first-child { margin-left: 1.25rem; }
+.kaiser-bilder figure:last-child  { margin-right: 1.25rem; }
+
+.kaiser-bilder img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.kaiser-bilder figcaption {
+  font-size: 0.7rem;
+  opacity: 0.55;
+  margin-top: 0.3rem;
+}
+
+/* Hinweisbox am Ende */
+.kaiser-note {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.25rem;
+}
+
+.kaiser-note i { font-size: 1.1rem; opacity: 0.5; flex-shrink: 0; padding-top: 0.15rem; }
+
+.kaiser-note p { font-size: 0.85rem; line-height: 1.6; opacity: 0.75; margin: 0; }
+
+@media (min-width: 768px) {
+  #kaiser { padding: 2.5rem 2rem; }
+  .kaiser-bilder { margin: 1.25rem -2rem; }
+  .kaiser-bilder figure { flex-basis: 45vw; }
+  .kaiser-bilder figure:first-child { margin-left: 2rem; }
+  .kaiser-bilder figure:last-child  { margin-right: 2rem; }
+}
+
+
+/* ─── 7. KARTE ─── */
+
+#karte { padding: 1.5rem 1.25rem; }
+
+/* Icon auf eigener Zeile */
+#karte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+#karte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1.25rem; }
+
+/* Karte bricht aus dem Padding aus */
+#karte iframe {
+  display: block;
+  margin: 0 -1.25rem;
+  width: calc(100% + 2.5rem);
+  border: none;
+}
+
+/* Umgebungs-Liste mit Icons */
+.karte-liste {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.karte-liste li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.karte-liste i { opacity: 0.5; width: 1rem; flex-shrink: 0; }
+
+/* Link-Buttons */
+.karte-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.karte-links a {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #222;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.karte-links a:hover { background: #222; color: #f4f4f2; }
+
+@media (min-width: 768px) {
+  #karte { padding: 2.5rem 2rem; }
+  #karte iframe { margin: 0 -2rem; width: calc(100% + 4rem); }
+}
+
+
+/* ─── 8. FOOTER ─── */
+
+footer {
+  padding: 2rem 1.25rem 1.5rem;
+}
+
+/* Titel + Eröffnungsjahr */
+.footer-top {
+  margin-bottom: 1.5rem;
+}
+
+.footer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+
+.footer-meta {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.4;
+}
+
+/* Nav-Links */
+.footer-nav {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1.25rem;
+}
+
+.footer-nav a {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  opacity: 0.55;
+}
+
+.footer-nav a:hover { opacity: 1; }
+
+/* Quellenangabe */
+.footer-credit {
+  display: block;
+  font-size: 0.65rem;
+  opacity: 0.3;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  footer { padding: 2.5rem 2rem 2rem; }
 }

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Wiesbaden Hauptbahnhof — neobaroker Kopfbahnhof am Salzbachtal. Geschichte, Abfahrten und Lage im Überblick.">
   <title>Wiesbaden Hauptbahnhof</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Abel&display=swap">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -36,57 +39,67 @@
       </nav>
 
       <div class="timetable-wrap">
-      <div class="timetable">
-
-        <!-- Kopfzeile -->
-        <div class="timetable-head">Abfahrt</div>
-        <div class="timetable-head">Ziel</div>
-        <div class="timetable-head">Linie</div>
-        <div class="timetable-head">Gleis</div>
-
-        <!-- ICE Fernverkehr -->
-        <div class="timetable-cell">09:12</div>
-        <div class="timetable-cell">Frankfurt, Berlin, Hamburg, München <br><small>via Frankfurt (Main) Hbf</small></div>
-        <div class="timetable-cell"><span class="badge badge-ice">ICE</span></div>
-        <div class="timetable-cell">4</div>
-
-        <!-- Regionalexpress -->
-        <div class="timetable-cell">09:28 <small class="delay">+7'</small></div>
-        <div class="timetable-cell">Frankfurt (Main) Hbf <br><small>via Frankfurt-Höchst</small></div>
-        <div class="timetable-cell"><span class="badge badge-re">RE 9</span></div>
-        <div class="timetable-cell">1</div>
-
-        <!-- Regionalbahn Rheintal -->
-        <div class="timetable-cell">09:35</div>
-        <div class="timetable-cell">Koblenz Hbf <br><small>via Rüdesheim, Bingen (Rhein)</small></div>
-        <div class="timetable-cell"><span class="badge badge-rb">RB 10</span></div>
-        <div class="timetable-cell">2</div>
-
-        <!-- Ländchesbahn -->
-        <div class="timetable-cell">09:41 <small class="delay">+3'</small></div>
-        <div class="timetable-cell">Niedernhausen <br><small>via Wiesbaden-Ost, Idstein</small></div>
-        <div class="timetable-cell"><span class="badge badge-rb">RB 21</span></div>
-        <div class="timetable-cell">3</div>
-
-        <!-- S1 -->
-        <div class="timetable-cell">09:48</div>
-        <div class="timetable-cell">Rödermark-Ober-Roden <br><small>via Frankfurt Hbf, Darmstadt</small></div>
-        <div class="timetable-cell"><span class="badge badge-s">S 1</span></div>
-        <div class="timetable-cell">5</div>
-
-        <!-- S8 -->
-        <div class="timetable-cell">09:53</div>
-        <div class="timetable-cell">Hanau Hbf <br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></div>
-        <div class="timetable-cell"><span class="badge badge-s">S 8</span></div>
-        <div class="timetable-cell">6</div>
-
-        <!-- S9 -->
-        <div class="timetable-cell">10:08</div>
-        <div class="timetable-cell">Hanau Hbf <br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></div>
-        <div class="timetable-cell"><span class="badge badge-s">S 9</span></div>
-        <div class="timetable-cell">7</div>
-
-      </div>
+      <table class="timetable">
+        <thead>
+          <tr>
+            <th>Abfahrt</th>
+            <th>Ziel</th>
+            <th>Linie</th>
+            <th>Gleis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ICE Fernverkehr -->
+          <tr>
+            <td>09:12</td>
+            <td>Frankfurt, Berlin, Hamburg, München<br><small>via Frankfurt (Main) Hbf</small></td>
+            <td><span class="badge badge-ice">ICE</span></td>
+            <td>4</td>
+          </tr>
+          <!-- Regionalexpress -->
+          <tr>
+            <td>09:28 <small class="delay">+7'</small></td>
+            <td>Frankfurt (Main) Hbf<br><small>via Frankfurt-Höchst</small></td>
+            <td><span class="badge badge-re">RE 9</span></td>
+            <td>1</td>
+          </tr>
+          <!-- Regionalbahn Rheintal -->
+          <tr>
+            <td>09:35</td>
+            <td>Koblenz Hbf<br><small>via Rüdesheim, Bingen (Rhein)</small></td>
+            <td><span class="badge badge-rb">RB 10</span></td>
+            <td>2</td>
+          </tr>
+          <!-- Ländchesbahn -->
+          <tr>
+            <td>09:41 <small class="delay">+3'</small></td>
+            <td>Niedernhausen<br><small>via Wiesbaden-Ost, Idstein</small></td>
+            <td><span class="badge badge-rb">RB 21</span></td>
+            <td>3</td>
+          </tr>
+          <!-- S1 -->
+          <tr>
+            <td>09:48</td>
+            <td>Rödermark-Ober-Roden<br><small>via Frankfurt Hbf, Darmstadt</small></td>
+            <td><span class="badge badge-s">S 1</span></td>
+            <td>5</td>
+          </tr>
+          <!-- S8 -->
+          <tr>
+            <td>09:53</td>
+            <td>Hanau Hbf<br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></td>
+            <td><span class="badge badge-s">S 8</span></td>
+            <td>6</td>
+          </tr>
+          <!-- S9 -->
+          <tr>
+            <td>10:08</td>
+            <td>Hanau Hbf<br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></td>
+            <td><span class="badge badge-s">S 9</span></td>
+            <td>7</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
 
       <small><a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Quelle: Wikipedia</a></small>
@@ -94,104 +107,149 @@
 
     <!-- Geschichte Section -->
     <section id="geschichte">
-      <h2><i class="fa-solid fa-book"></i> Die Geschichte</h2>
+      <h2><i class="fa-solid fa-book"></i> <strong>DIE</strong> <em>Geschichte</em></h2>
 
-      <article>
-        <h3>1904 — Neubau</h3>
-        <p>Architekt Fritz Klingholz beginnt den Bau. Die aufwändige neobarocke Ausstattung stammt zu weiten Teilen vom Mainzer Bildhauer Franz Vlasdeck. Ein Durchgangsbahnhof wurde erwogen, aber verworfen — er wäre fast drei Kilometer weiter vom Stadtzentrum entfernt gewesen.</p>
-      </article>
+      <div class="timeline">
 
-      <article>
-        <h3>1906 — Eröffnung</h3>
-        <figure>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/A_wiesbadeni_f%C5%91p%C3%A1lyaudvar_1906-ban.jpg" alt="Ansichtskarte Wiesbaden Hauptbahnhof 1906" loading="lazy">
-          <figcaption>Wiesbaden Hauptbahnhof zur Eröffnung 1906</figcaption>
-        </figure>
-        <p>Der neue Hauptbahnhof öffnet und ersetzt drei ältere Bahnhöfe. Einzigartig: ein eigener Kaiserbahnsteig und ein exklusiver Wartesaal allein für die 1. Klasse.</p>
-      </article>
+        <article class="timeline-entry">
+          <div class="timeline-year">1904</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Neubau</h3>
+            <p>Architekt Fritz Klingholz beginnt den Bau. Die aufwändige neobarocke Ausstattung stammt zu weiten Teilen vom Mainzer Bildhauer Franz Vlasdeck. Ein Durchgangsbahnhof wurde erwogen, aber verworfen — er wäre fast drei Kilometer weiter vom Stadtzentrum entfernt gewesen.</p>
+          </div>
+        </article>
 
-      <article>
-        <h3>1923 — Bombenanschlag</h3>
-        <p>Während der alliierten Rheinlandbesetzung wird ein Bombenanschlag auf die Schalterhalle verübt. Zwei Reisende werden verletzt, einer schwer.</p>
-      </article>
+        <article class="timeline-entry">
+          <div class="timeline-year">1906</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Eröffnung</h3>
+            <p>Der neue Hauptbahnhof öffnet und ersetzt drei ältere Bahnhöfe. Einzigartig: ein eigener Kaiserbahnsteig und ein exklusiver Wartesaal allein für die 1. Klasse.</p>
+            <figure>
+              <img src="img/A_wiesbadeni_főpályaudvar_1906-ban.jpg" alt="Ansichtskarte Wiesbaden Hauptbahnhof 1906" loading="lazy">
+              <figcaption>Wiesbaden Hauptbahnhof zur Eröffnung 1906</figcaption>
+            </figure>
+          </div>
+        </article>
 
-      <article>
-        <h3>2002 — ICE-Anbindung</h3>
-        <p>Nach langen Debatten über Tunnelvarianten unter der Stadt wird eine ebenerdige Anbindung an die Schnellfahrstrecke Köln–Rhein/Main realisiert. Das Wiesbadener Kreuz gilt als die wirtschaftlichste Lösung.</p>
-        <figure>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Hauptbahnhof-6.jpg" alt="Gleisanlage Wiesbaden Hauptbahnhof" loading="lazy">
-          <figcaption>Gleisanlage nach der ICE-Anbindung</figcaption>
-        </figure>
-      </article>
+        <article class="timeline-entry">
+          <div class="timeline-year">1923</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Bombenanschlag</h3>
+            <p>Während der alliierten Rheinlandbesetzung wird ein Bombenanschlag auf die Schalterhalle verübt. Zwei Reisende werden verletzt, einer schwer.</p>
+          </div>
+        </article>
 
-      <article>
-        <h3>2004 — Die ersten Bahnhöfe</h3>
-        <p>Wiesbaden erhält seinen ersten Eisenbahnanschluss mit dem Taunusbahnhof für die Strecke nach Frankfurt. In den folgenden Jahrzehnten entstehen der Rheinbahnhof (1857) und der Ludwigsbahnhof (1879) — drei separate Kopfbahnhöfe nebeneinander.</p>
-      </article>
+        <article class="timeline-entry">
+          <div class="timeline-year">2002</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>ICE-Anbindung</h3>
+            <p>Nach langen Debatten über Tunnelvarianten unter der Stadt wird eine ebenerdige Anbindung an die Schnellfahrstrecke Köln–Rhein/Main realisiert. Das Wiesbadener Kreuz gilt als die wirtschaftlichste Lösung.</p>
+            <figure>
+              <img src="img/Hauptbahnhof-6.jpg" alt="Gleisanlage Wiesbaden Hauptbahnhof" loading="lazy">
+              <figcaption>Gleisanlage nach der ICE-Anbindung</figcaption>
+            </figure>
+          </div>
+        </article>
 
-      <article>
-        <h3>2021 — Sechs Monate Stillstand</h3>
-        <p>Der Schaden an der Salzbachtalbrücke legt den Bahnhof vom 18. Juni bis 21. Dezember fast vollständig lahm. Die Brücke wird am 6. November 2021 gesprengt — und planmässig am 22. Dezember der Betrieb wieder aufgenommen.</p>
-      </article>
+        <article class="timeline-entry">
+          <div class="timeline-year">2004</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Die ersten Bahnhöfe</h3>
+            <p>Wiesbaden erhält seinen ersten Eisenbahnanschluss mit dem Taunusbahnhof für die Strecke nach Frankfurt. In den folgenden Jahrzehnten entstehen der Rheinbahnhof (1857) und der Ludwigsbahnhof (1879) — drei separate Kopfbahnhöfe nebeneinander.</p>
+          </div>
+        </article>
+
+        <article class="timeline-entry">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Sechs Monate Stillstand</h3>
+            <p>Der Schaden an der Salzbachtalbrücke legt den Bahnhof vom 18. Juni bis 21. Dezember fast vollständig lahm. Die Brücke wird am 6. November 2021 gesprengt — und planmässig am 22. Dezember der Betrieb wieder aufgenommen.</p>
+          </div>
+        </article>
+
+      </div>
 
       <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Mehr auf Wikipedia</a>
     </section>
 
     <!-- Kaiser Section -->
     <section id="kaiser">
-      <h2><i class="fa-solid fa-crown"></i> Der Kaiser &amp; sein Bahnhof</h2>
+      <h2><i class="fa-solid fa-crown"></i> Der Kaiser &amp; <em>der Bahnhof</em></h2>
 
       <blockquote>
         „Wiesbaden war die bevorzugte Sommerresidenz des Kaisers — der Bahnhof sein persönliches Empfangsportal."
       </blockquote>
 
-      <figure>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Wartesaal_1_Klasse_WI_Hbf.tif/800px-Wartesaal_1_Klasse_WI_Hbf.tif.jpg" alt="Historischer Wartesaal 1. Klasse im Wiesbaden Hauptbahnhof" loading="lazy">
-        <figcaption>Salon für den Kaiser</figcaption>
-      </figure>
+      <p>Kaiser Wilhelm II. reiste jeden Mai nach Wiesbaden, das als seine bevorzugte Kurstadt galt. Der Bahnhof wurde bewusst auf diesen Gast ausgerichtet: Ein eigenes Empfangsgebäude an der Westseite der Bahnsteighalle, baulich vom Hauptgebäude getrennt, empfing den Kaiser.</p>
+      <p>Der Kaiserbahnsteig war für Hofzüge reserviert und für die Öffentlichkeit vollständig gesperrt. Sogar ein eigener Erstklasse-Wartesaal war eingerichtet — in keinem anderen deutschen Bahnhof gab es einen separaten Saal nur für die erste Klasse.</p>
 
-      <figure>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/F%C3%BCrstenzimmer_WI_Hbf.tif/800px-F%C3%BCrstenzimmer_WI_Hbf.tif.jpg" alt="Fürstenzimmer im Wiesbaden Hauptbahnhof" loading="lazy">
-        <figcaption>Kaiser Wilhelm II</figcaption>
-      </figure>
+      <div class="kaiser-bilder">
+        <figure>
+          <img src="img/Wartesaal_1_Klasse_WI_Hbf.tif.jpg" alt="Wartesaal 1. Klasse" loading="lazy">
+          <figcaption>Salon für den Kaiser</figcaption>
+        </figure>
+        <figure>
+          <img src="img/Fürstenzimmer_WI_Hbf.tif.jpg" alt="Fürstenzimmer" loading="lazy">
+          <figcaption>Der Kaiser reist an</figcaption>
+        </figure>
+        <figure>
+          <img src="img/Wartesaal_2_Kl_WI_Hbf.tif.jpg" alt="Wartesaal 2. Klasse" loading="lazy">
+          <figcaption>Wartesaal 2. Klasse</figcaption>
+        </figure>
+      </div>
 
-      <p>Kaiser Wilhelm II. reiste jeden Mai nach Wiesbaden. Der Bahnhof wurde bewusst auf diesen Gast ausgerichtet: Ein eigenes Empfangsgebäude, baulich vom Hauptgebäude getrennt, empfing den Kaiser.</p>
-      <p>Der Kaiserbahnsteig war für Hofzüge reserviert und der Öffentlichkeit vollständig gesperrt. In keinem anderen deutschen Bahnhof gab es einen separaten Wartesaal allein für die erste Klasse.</p>
+      <div class="kaiser-note">
+        <i class="fa-solid fa-landmark"></i>
+        <p>Das Kaisergebäude wurde im Zweiten Weltkrieg zerstört. Der historische Zugang zum Kaiserbahnsteig in der Bahnsteighalle ist bis heute erhalten — als stiller Fingerzeig in die Vergangenheit.</p>
+      </div>
     </section>
 
     <!-- Karte Section -->
     <section id="karte">
-      <h2><i class="fa-solid fa-map-location-dot"></i> Karte &amp; Umgebung</h2>
+      <h2><i class="fa-solid fa-map-location-dot"></i> Karte &amp; <em>Umgebung</em></h2>
 
       <iframe
         src="https://www.openstreetmap.org/export/embed.html?bbox=8.2295%2C50.0685%2C8.2530%2C50.0775&layer=mapnik&marker=50.0730%2C8.2413"
         width="100%"
-        height="400"
+        height="360"
         title="OpenStreetMap Karte des Wiesbaden Hauptbahnhofs">
       </iframe>
 
-      <ul>
-        <li>Kaiserbahnsteig — Westflügel, Gleis 1</li>
-        <li>Lilien-Carré — direkt nebenan</li>
-        <li>Salzbachtal — Grünzug &amp; Brunnen</li>
-        <li>Innenstadt — 5 min zu Fuß</li>
+      <ul class="karte-liste">
+        <li><i class="fa-solid fa-location-dot"></i> Kaiserbahnsteig — Westflügel, Gleis 1</li>
+        <li><i class="fa-solid fa-store"></i> Lilien-Carré — direkt nebenan</li>
+        <li><i class="fa-solid fa-tree"></i> Salzbachtal — Grünzug &amp; Brunnen</li>
+        <li><i class="fa-solid fa-person-walking"></i> Innenstadt — 5 min zu Fuß</li>
       </ul>
 
-      <a href="https://maps.google.com/?q=Wiesbaden+Hauptbahnhof" target="_blank" rel="noopener noreferrer">Google Maps öffnen</a>
-      <a href="https://www.bahn.de/buchung/fahrplan/suche#sts=true&so=Wiesbaden+Hbf" target="_blank" rel="noopener noreferrer">Verbindung suchen</a>
+      <div class="karte-links">
+        <a href="https://maps.google.com/?q=Wiesbaden+Hauptbahnhof" target="_blank" rel="noopener noreferrer">Google Maps öffnen</a>
+        <a href="https://www.bahn.de/buchung/fahrplan/suche#sts=true&so=Wiesbaden+Hbf" target="_blank" rel="noopener noreferrer">Verbindung suchen</a>
+      </div>
     </section>
   </main>
 
-  <!-- Footer Section -->
+  <!-- Footer -->
   <footer>
-    <p>Wiesbaden Hauptbahnhof — Eröffnet 15. November 1906</p>
-    <nav aria-label="Footer Navigation">
+    <div class="footer-top">
+      <p class="footer-title">Wiesbaden<br><em>Hauptbahnhof</em></p>
+      <p class="footer-meta">Eröffnet 15. November 1906</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer Navigation">
       <a href="#abfahrten">Abfahrten</a>
       <a href="#geschichte">Geschichte</a>
       <a href="#kaiser">Kaiser</a>
-      <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Wikipedia</a>
+      <a href="#karte">Karte</a>
     </nav>
-    <small>Quelle: de.wikipedia.org · Bilder: Wikimedia Commons CC BY-SA</small>
+
+    <small class="footer-credit">Quelle: de.wikipedia.org · Bilder: Wikimedia Commons CC BY-SA</small>
   </footer>
 
   <script src="script.js"></script>
