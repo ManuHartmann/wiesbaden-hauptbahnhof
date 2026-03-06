@@ -13,7 +13,7 @@
 }
 
 :root {
-  --tab-h:  56px;
+  --tab-h:  40px;
   --radius: 20px;
 
   /* Card Farben */
@@ -155,6 +155,11 @@ a {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+}
+
+.card__body h2 {
+  will-change: opacity, transform;
+  pointer-events: none;
 }
 
 .card--1 .card__body {

@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Oswald:wght@300;400;500&display=swap');
+
+*::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Skip Link — nur sichtbar wenn fokussiert (Tastatur) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Titel-Schrift */
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* ─── HERO ─── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem;
+  color: white;
+}
+
+/* Farben pro Section */
+#hero       { background: #1a1a2e; color: white; }
+#abfahrten  { background: #f0f4f8; }
+#geschichte { background: #fff8f0; }
+#kaiser     { background: #f5f0e8; }
+#karte      { background: #eaf4ea; }
+footer      { background: #2d2d2d; color: white; }
+
+/* Fahrplan Grid */
+.fahrplan-wrapper { overflow-x: auto; }
+
+.fahrplan {
+  display: grid;
+  grid-template-columns: 70px 1fr 70px 45px;
+  min-width: 320px;
+}
+
+/* Kopfzeile */
+.kopf {
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px;
+  border-bottom: 2px solid black;
+  white-space: nowrap;
+}
+
+/* Datenzeilen */
+.zelle {
+  font-size: 12px;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Desktop ab 768px */
+@media (min-width: 768px) {
+
+  .fahrplan {
+    grid-template-columns: 100px 1fr 100px 60px;
+  }
+
+  .kopf,
+  .zelle {
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+
+}

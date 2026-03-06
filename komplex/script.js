@@ -1,5 +1,5 @@
-const TAB     = 56;
-const OVERLAP = 20;
+const TAB     = 40; 
+const OVERLAP = 1;  
 const NET     = TAB - OVERLAP;  // 36px net space per collapsed card
 
 const scroller = document.getElementById('scroll-container');
@@ -181,10 +181,18 @@ function setCard(card, top, height) {
     card.style.height = height + 'px';
 }
 
+function setHeading(card, progress) {
+    const h2 = card.querySelector('.card__body h2');
+    if (!h2) return;
+    h2.style.opacity   = 1 - progress;
+    h2.style.transform = `translateY(${-24 * progress}px)`;
+}
+
 function applyPinned(activeIdx) {
     cards.forEach((card, i) => {
         const p = pinnedPos(i, activeIdx);
         setCard(card, p.top, p.height);
+        setHeading(card, i === activeIdx ? 0 : 1);
         card.style.zIndex = i + 1;
     });
 }
@@ -215,27 +223,32 @@ function update() {
         // transition: card 'to' slides in, card 'from' collapses
         const { from, to } = range;
         const delta = s - range.start;  // 0 → TRANS_DIST (direct, no easing)
+        const progress = delta / TRANS_DIST;
 
         cards.forEach((card, i) => {
             if (i < from) {
                 const p = pinnedPos(i, from);
                 setCard(card, p.top, p.height);
+                setHeading(card, 1);
 
             } else if (i === from) {
                 // Collapse: height shrinks from OPEN_H to TAB
                 setCard(card, from * NET, Math.max(TAB, OPEN_H - delta));
                 card.querySelector('.card__body').scrollTop = 0;
+                setHeading(card, progress);
 
             } else if (i === to) {
                 // Slide in: top moves from startTop to to*NET
                 const startTop = TOTAL - OVERLAP - (N - to) * NET;
                 setCard(card, startTop - delta, Math.min(OPEN_H, TAB + delta));
                 card.querySelector('.card__body').scrollTop = 0;
+                setHeading(card, 1 - progress);
 
             } else {
                 // Cards below 'to': stay in their below positions
                 const p = pinnedPos(i, from);
                 setCard(card, p.top, p.height);
+                setHeading(card, 1);
             }
 
             card.style.zIndex = i + 1;
