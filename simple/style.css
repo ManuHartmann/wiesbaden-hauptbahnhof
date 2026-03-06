@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Oswald:wght@300;400;500&display=swap');
 
-*::before, *::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -38,49 +38,207 @@ img {
 }
 
 /* Farben pro Section */
-#hero       { background: #1a1a2e; color: white; }
-#abfahrten  { background: #f0f4f8; }
-#geschichte { background: #fff8f0; }
-#kaiser     { background: #f5f0e8; }
-#karte      { background: #eaf4ea; }
+#hero {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg/1200px-BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+/* Overlay — liegt über dem Bild, unter dem Text */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 46, 0.4);
+  z-index: 1;
+}
+
+/* Text soll über dem Overlay liegen */
+#hero h1,
+#hero p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hero-Bild verstecken — wird als CSS-Hintergrund verwendet */
+#hero img { display: none; }
+#abfahrten  { background: #6b3020; color: #ffffff; }
+#geschichte { background: #2d4a35; color: #ffffff; }
+#kaiser     { background: #f0ebe0; color: #222222; }
+#karte      { background: #f4f4f2; }
 footer      { background: #2d2d2d; color: white; }
 
 /* Fahrplan Grid */
-.fahrplan-wrapper { overflow-x: auto; }
+.timetable-wrap { overflow-x: auto; }
 
-.fahrplan {
+.timetable {
   display: grid;
-  grid-template-columns: 70px 1fr 70px 45px;
+  grid-template-columns: 70px 1fr 70px 50px;
   min-width: 320px;
 }
 
-/* Kopfzeile */
-.kopf {
-  font-weight: bold;
-  font-size: 12px;
-  padding: 5px;
-  border-bottom: 2px solid black;
+/* Kopfzeile — transparenter Hintergrund, gedämpfter Text */
+.timetable-head {                                                                                                                                             
+  background: rgba(0, 0, 0, 0.4); 
+  color: rgb(216, 216, 216);
+  font-family: 'Oswald', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 0.5rem;
   white-space: nowrap;
 }
 
-/* Datenzeilen */
-.zelle {
-  font-size: 12px;
-  padding: 5px;
-  border-bottom: 1px solid #ccc;
+/* Datenzeilen — dunkler Hintergrund, weißer Text */
+.timetable-cell {
+  background: #1e1e1e;
+  color: white;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.85rem 0.5rem;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+/* Verspätung — rot, inline neben der Uhrzeit */
+.delay {
+  display: inline;
+  color: #e74c3c;
+  font-size: 0.75rem;
+}
+
+/* Kleiner "via"-Text unter dem Ziel */
+.timetable-cell small {
+  display: block;
+  font-weight: normal;
+  font-size: 0.65rem;
+  color: #888;
+  margin-top: 0.2rem;
 }
 
 /* Desktop ab 768px */
 @media (min-width: 768px) {
 
-  .fahrplan {
+  .timetable {
     grid-template-columns: 100px 1fr 100px 60px;
   }
 
-  .kopf,
-  .zelle {
+  .timetable-head,
+  .timetable-cell {
     font-size: 15px;
     padding: 10px 12px;
   }
 
+}
+
+/* ─── ABFAHRTEN SECTION ─── */
+
+/* Innenabstand der Section */
+#abfahrten {
+  padding: 1.5rem 1.25rem;
+}
+
+/* Icon: eigene Zeile über dem Titel */
+#abfahrten h2 i {
+  display: block;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Großer Titel */
+#abfahrten h2 {
+  font-size: 2.25rem;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+
+/* Datum — klein und in Großbuchstaben */
+#datum {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Große Uhrzeitanzeige */
+#uhr {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: bold;
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+/* Filter-Buttons: nebeneinander mit Flexbox */
+#abfahrten nav {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+/* Einzelner Filter-Button: Rahmen, kein Hintergrund */
+#abfahrten nav button {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Aktiver Button: leicht dunkler gefüllt */
+#abfahrten nav button.active {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Abgerundete Ecken um die ganze Tabelle */
+.timetable-wrap {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Farbige Badges für Zugtypen */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+.badge-ice { background: #e74c3c; } /* Rot für ICE */
+.badge-s   { background: #27ae60; } /* Grün für S-Bahn */
+.badge-rb  { background: #8d6e63; } /* Braun für RB */
+.badge-re  { background: #2980b9; } /* Blau für RE */
+
+/* Hinweistext unten (> bedeutet: nur direktes Kind von #abfahrten) */
+#abfahrten > small {
+  display: block;
+  text-align: center;
+  font-size: 0.65rem;
+  opacity: 0.5;
+  padding-top: 1rem;
+}
+
+/* Desktop: mehr Platz und größere Schrift */
+@media (min-width: 768px) {
+  #abfahrten {
+    padding: 2.5rem 2rem;
+  }
+
+  #abfahrten h2 {
+    font-size: 3rem;
+  }
+
+  #uhr {
+    font-size: 3.5rem;
+  }
 }

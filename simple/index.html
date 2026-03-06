@@ -22,73 +22,74 @@
 
     <!-- Abfahrten Section -->
     <section id="abfahrten">
-      <h2><i class="fa-solid fa-train"></i> Nächste Verbindungen</h2>
+      <h2><i class="fa-solid fa-train"></i> Nächste <em>Verbindungen</em></h2>
       <p id="datum">--</p>
       <time id="uhr">--:--:--</time>
 
       <!-- Filter Buttons -->
       <nav>
-        <button>Alle</button>
+        <button class="active">Alle</button>
         <button>ICE</button>
         <button>RB</button>
         <button>RE</button>
         <button>S-Bahn</button>
       </nav>
 
-      <div class="fahrplan-wrapper">
-      <div class="fahrplan">
+      <div class="timetable-wrap">
+      <div class="timetable">
 
         <!-- Kopfzeile -->
-        <div class="kopf">Abfahrt</div>
-        <div class="kopf">Ziel</div>
-        <div class="kopf">Linie</div>
-        <div class="kopf">Gleis</div>
+        <div class="timetable-head">Abfahrt</div>
+        <div class="timetable-head">Ziel</div>
+        <div class="timetable-head">Linie</div>
+        <div class="timetable-head">Gleis</div>
 
-        <!-- Zeilen -->
-        <div class="zelle">9:40</div>
-        <div class="zelle">Frankfurt (Main) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">ICE 209</div>
-        <div class="zelle">4</div>
+        <!-- ICE Fernverkehr -->
+        <div class="timetable-cell">09:12</div>
+        <div class="timetable-cell">Frankfurt, Berlin, Hamburg, München <br><small>via Frankfurt (Main) Hbf</small></div>
+        <div class="timetable-cell"><span class="badge badge-ice">ICE</span></div>
+        <div class="timetable-cell">4</div>
 
-        <div class="zelle">9:45</div>
-        <div class="zelle">Limburg (Lahn) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">S 11</div>
-        <div class="zelle">1</div>
+        <!-- Regionalexpress -->
+        <div class="timetable-cell">09:28 <small class="delay">+7'</small></div>
+        <div class="timetable-cell">Frankfurt (Main) Hbf <br><small>via Frankfurt-Höchst</small></div>
+        <div class="timetable-cell"><span class="badge badge-re">RE 9</span></div>
+        <div class="timetable-cell">1</div>
 
-        <div class="zelle">9:53</div>
-        <div class="zelle">München Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">RB 21</div>
-        <div class="zelle">3</div>
+        <!-- Regionalbahn Rheintal -->
+        <div class="timetable-cell">09:35</div>
+        <div class="timetable-cell">Koblenz Hbf <br><small>via Rüdesheim, Bingen (Rhein)</small></div>
+        <div class="timetable-cell"><span class="badge badge-rb">RB 10</span></div>
+        <div class="timetable-cell">2</div>
 
-        <div class="zelle">9:58 <small>+7</small></div>
-        <div class="zelle">Frankfurt (Main) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">S 2</div>
-        <div class="zelle">2</div>
+        <!-- Ländchesbahn -->
+        <div class="timetable-cell">09:41 <small class="delay">+3'</small></div>
+        <div class="timetable-cell">Niedernhausen <br><small>via Wiesbaden-Ost, Idstein</small></div>
+        <div class="timetable-cell"><span class="badge badge-rb">RB 21</span></div>
+        <div class="timetable-cell">3</div>
 
-        <div class="zelle">10:02</div>
-        <div class="zelle">Frankfurt (Main) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">RB 4</div>
-        <div class="zelle">1</div>
+        <!-- S1 -->
+        <div class="timetable-cell">09:48</div>
+        <div class="timetable-cell">Rödermark-Ober-Roden <br><small>via Frankfurt Hbf, Darmstadt</small></div>
+        <div class="timetable-cell"><span class="badge badge-s">S 1</span></div>
+        <div class="timetable-cell">5</div>
 
-        <div class="zelle">10:15</div>
-        <div class="zelle">Frankfurt (Main) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">ICE 167</div>
-        <div class="zelle">5</div>
+        <!-- S8 -->
+        <div class="timetable-cell">09:53</div>
+        <div class="timetable-cell">Hanau Hbf <br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></div>
+        <div class="timetable-cell"><span class="badge badge-s">S 8</span></div>
+        <div class="timetable-cell">6</div>
 
-        <div class="zelle">10:30 <small>+3</small></div>
-        <div class="zelle">Frankfurt (Main) Hbf <br><small>via Mainz Hbf</small></div>
-        <div class="zelle">RB 23</div>
-        <div class="zelle">3</div>
-
-        <div class="zelle">10:50</div>
-        <div class="zelle">Niedernhausen <br><small>via Wiesbaden-Ost</small></div>
-        <div class="zelle">S 23</div>
-        <div class="zelle">2</div>
+        <!-- S9 -->
+        <div class="timetable-cell">10:08</div>
+        <div class="timetable-cell">Hanau Hbf <br><small>via Frankfurt Flughafen, Frankfurt Hbf</small></div>
+        <div class="timetable-cell"><span class="badge badge-s">S 9</span></div>
+        <div class="timetable-cell">7</div>
 
       </div>
       </div>
 
-      <small>* * * Simulierte Daten · Echtzeit via DB API nicht verfügbar</small>
+      <small><a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Quelle: Wikipedia</a></small>
     </section>
 
     <!-- Geschichte Section -->
