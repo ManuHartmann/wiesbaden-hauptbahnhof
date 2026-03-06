@@ -15,6 +15,7 @@
 :root {
   --tab-h:  40px;
   --radius: 20px;
+  background-color: #cc2222;
 
   /* Card Farben */
   --card-2-bg: #6b3020;

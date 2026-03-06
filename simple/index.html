@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Abel&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -173,9 +174,17 @@
           </div>
         </article>
 
-      </div>
+        <article class="timeline-entry">
+          <div class="timeline-year">Heute</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Verkehrsknoten</h3>
+            <p>Der Wiesbaden Hauptbahnhof steht heute unter Denkmalschutz. Täglich nutzen ihn rund 27 000 Reisende — als Ausgangspunkt für ICE-Verbindungen, Regionalbahnen und die S-Bahn ins Rhein-Main-Gebiet. Die neobarocke Fassade von 1906 ist vollständig erhalten.</p>
+            <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Mehr auf Wikipedia</a>
+          </div>
+        </article>
 
-      <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Mehr auf Wikipedia</a>
+      </div>
     </section>
 
     <!-- Kaiser Section -->
@@ -214,18 +223,16 @@
     <section id="karte">
       <h2><i class="fa-solid fa-map-location-dot"></i> Karte &amp; <em>Umgebung</em></h2>
 
-      <iframe
-        src="https://www.openstreetmap.org/export/embed.html?bbox=8.2295%2C50.0685%2C8.2530%2C50.0775&layer=mapnik&marker=50.0730%2C8.2413"
-        width="100%"
-        height="360"
-        title="OpenStreetMap Karte des Wiesbaden Hauptbahnhofs">
-      </iframe>
+      <div id="map"></div>
 
       <ul class="karte-liste">
-        <li><i class="fa-solid fa-location-dot"></i> Kaiserbahnsteig — Westflügel, Gleis 1</li>
-        <li><i class="fa-solid fa-store"></i> Lilien-Carré — direkt nebenan</li>
-        <li><i class="fa-solid fa-tree"></i> Salzbachtal — Grünzug &amp; Brunnen</li>
-        <li><i class="fa-solid fa-person-walking"></i> Innenstadt — 5 min zu Fuß</li>
+        <li><i class="fa-solid fa-crown"></i> Alter Kaisereingang — Westflügel, historischer Hofzugang</li>
+        <li><i class="fa-solid fa-bus"></i> Busbahnhof ZOB — direkt vor dem Haupteingang</li>
+        <li><i class="fa-solid fa-building-columns"></i> Altstadt — 10 min zu Fuß, Marktkirche &amp; Schlossplatz</li>
+        <li><i class="fa-solid fa-tree"></i> Kurpark — 15 min zu Fuß, grösster Kurpark Deutschlands</li>
+        <li><i class="fa-solid fa-taxi"></i> Taxistand — Südseite Bahnhofsvorplatz</li>
+        <li><i class="fa-solid fa-bicycle"></i> Fahrradverleih — nextbike-Station am Vorplatz</li>
+        <li><i class="fa-solid fa-suitcase"></i> Gepäckaufbewahrung — Gleis 1, tägl. 6–22 Uhr</li>
       </ul>
 
       <div class="karte-links">
@@ -252,6 +259,7 @@
     <small class="footer-credit">Quelle: de.wikipedia.org · Bilder: Wikimedia Commons CC BY-SA</small>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

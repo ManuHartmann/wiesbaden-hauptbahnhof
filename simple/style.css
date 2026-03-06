@@ -1,5 +1,9 @@
 /* ─── 1. BASE ─── */
 
+:root {
+  --pad: 20px; /* Mindest-Abstand zum Bildschirmrand (6-Spalten-Grid) */
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -22,7 +26,7 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
 #abfahrten  { background: #6b3020; color: #fff; }
 #geschichte { background: #2d4a35; color: #fff; }
 #kaiser     { background: #f0ebe0; color: #222; }
-#karte      { background: #f4f4f2; }
+#karte      { background: #1a1a2e; color: #fff; }
 footer      { background: #2d2d2d; color: white; }
 
 
@@ -34,7 +38,7 @@ footer      { background: #2d2d2d; color: white; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 2rem 1.5rem;
+  padding: 2rem var(--pad);
   color: white;
   background: url('img/ICE_an_Gleis_8_B.jpg') center / cover;
 }
@@ -57,7 +61,7 @@ footer      { background: #2d2d2d; color: white; }
 
 /* ─── 4. ABFAHRTEN ─── */
 
-#abfahrten { padding: 1.5rem 1.25rem; }
+#abfahrten { padding: 1.5rem var(--pad); }
 
 /* Icon auf eigener Zeile */
 #abfahrten h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
@@ -185,7 +189,7 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 
 /* ─── 5. GESCHICHTE / TIMELINE ─── */
 
-#geschichte { padding: 1.5rem 1.25rem; }
+#geschichte { padding: 1.5rem var(--pad); }
 
 #geschichte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
 
@@ -193,20 +197,27 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 
 #geschichte h2 strong { font-style: normal; font-weight: 900; }
 
-/* Wrapper mit vertikaler Linie */
-.timeline { position: relative; }
+/* Wrapper */
+.timeline { margin-left: -8px; }
 
-.timeline::before {
+/* Eintrag: Jahr | Dot | Inhalt */
+/* Linie läuft von Dot zu Dot — stoppt automatisch beim letzten */
+.timeline-entry {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.timeline-entry:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 0; bottom: 0;
-  left: 81px; /* Mitte der Dot-Spalte (73px Jahr + 9px halbe Dot-Breite) */
+  left: 81px; /* Mitte der Dot-Spalte */
+  top: 17px;  /* Dot-Mitte: 12px padding + 5px (halbe Dot-Höhe) */
+  height: calc(100% + 2.5rem); /* bis zum nächsten Dot */
   width: 2px;
   background: rgba(255, 255, 255, 0.25);
 }
-
-/* Eintrag: Jahr | Dot | Inhalt */
-.timeline-entry { display: flex; align-items: flex-start; margin-bottom: 2.5rem; }
 
 /* Feste Breite für die Jahres-Spalte */
 .timeline-year {
@@ -230,7 +241,7 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 .timeline-dot::before {
   content: '';
   width: 10px; height: 10px;
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255);
   border-radius: 50%;
 }
 
@@ -248,11 +259,11 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 .timeline-content figcaption { font-size: 0.7rem; opacity: 0.55; margin-top: 0.3rem; }
 
 /* Wikipedia-Link am Ende */
-#geschichte > a { display: block; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+.timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
 
 @media (min-width: 768px) {
   #geschichte { padding: 2.5rem 2rem; }
-  .timeline::before { left: calc(100px + 16px); }
+  .timeline-entry:not(:last-child)::after { left: calc(100px + 16px); }
   .timeline-year { flex-basis: 100px; font-size: 1.9rem; }
   .timeline-dot { flex-basis: 32px; }
   .timeline-content h3 { font-size: 1.1rem; }
@@ -261,7 +272,7 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 
 /* ─── 6. KAISER ─── */
 
-#kaiser { padding: 1.5rem 1.25rem; }
+#kaiser { padding: 1.5rem var(--pad); }
 
 /* Icon auf eigener Zeile — wie andere Sections */
 #kaiser h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
@@ -286,8 +297,8 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
-  gap: 0.5rem;
-  margin: 1.25rem -1.25rem;
+  gap: 0.75rem;
+  margin: 1.25rem calc(-1 * var(--pad));
   scrollbar-width: none;
 }
 
@@ -298,8 +309,8 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
   scroll-snap-align: start;
 }
 
-.kaiser-bilder figure:first-child { margin-left: 1.25rem; }
-.kaiser-bilder figure:last-child  { margin-right: 1.25rem; }
+.kaiser-bilder figure:first-child { margin-left: var(--pad); }
+.kaiser-bilder figure:last-child  { margin-right: var(--pad); }
 
 .kaiser-bilder img {
   width: 100%;
@@ -333,77 +344,91 @@ small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
   #kaiser { padding: 2.5rem 2rem; }
   .kaiser-bilder { margin: 1.25rem -2rem; }
   .kaiser-bilder figure { flex-basis: 45vw; }
-  .kaiser-bilder figure:first-child { margin-left: 2rem; }
   .kaiser-bilder figure:last-child  { margin-right: 2rem; }
 }
 
 
 /* ─── 7. KARTE ─── */
 
-#karte { padding: 1.5rem 1.25rem; }
+#karte {
+  padding: 1.5rem var(--pad);
+  background: #1a1a2e;
+  color: #fff;
+}
 
-/* Icon auf eigener Zeile */
 #karte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
 
 #karte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1.25rem; }
 
-/* Karte bricht aus dem Padding aus */
-#karte iframe {
-  display: block;
-  margin: 0 -1.25rem;
-  width: calc(100% + 2.5rem);
-  border: none;
+/* Leaflet Map */
+#map {
+  width: 100%;
+  height: 360px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-/* Umgebungs-Liste mit Icons */
+/* POI-Liste */
 .karte-liste {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 1.25rem;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
 }
 
 .karte-liste li {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-  opacity: 0.8;
+  gap: 1rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
 }
 
-.karte-liste i { opacity: 0.5; width: 1rem; flex-shrink: 0; }
+.karte-liste i {
+  font-size: 1.2rem;
+  width: 1.4rem;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
 
-/* Link-Buttons */
+/* Buttons nebeneinander */
 .karte-links {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 1.25rem;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
 .karte-links a {
-  padding: 0.45rem 0.9rem;
-  border: 1px solid #222;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  font-size: 0.75rem;
   text-decoration: none;
-  letter-spacing: 0.06em;
+  text-align: center;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.karte-links a:hover { background: #222; color: #f4f4f2; }
+.karte-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
 
 @media (min-width: 768px) {
   #karte { padding: 2.5rem 2rem; }
-  #karte iframe { margin: 0 -2rem; width: calc(100% + 4rem); }
+  .karte-links a { flex: 0 0 auto; }
 }
 
 
 /* ─── 8. FOOTER ─── */
 
 footer {
-  padding: 2rem 1.25rem 1.5rem;
+  padding: 2rem var(--pad) 1.5rem;
 }
 
 /* Titel + Eröffnungsjahr */
