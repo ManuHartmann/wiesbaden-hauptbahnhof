@@ -234,7 +234,6 @@ function update() {
             } else if (i === from) {
                 // Collapse: height shrinks from OPEN_H to TAB
                 setCard(card, from * NET, Math.max(TAB, OPEN_H - delta));
-                card.querySelector('.card__body').scrollTop = 0;
                 setHeading(card, progress);
 
             } else if (i === to) {
