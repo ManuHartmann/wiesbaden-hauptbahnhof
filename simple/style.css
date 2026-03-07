@@ -15,11 +15,11 @@
   --color-geschichte: #2d4a35;
   --color-kaiser:     #f0ebe0;
   --color-karte:      #1a1a2e;
-  --color-footer:     #2d2d2d;
+  --color-footer:     #1C1208;
 
   /* Farben — Text */
   --text-light: #ffffff;
-  --text-dark:  #222222;
+  --text-dark:  #1C1208;
 
   /* Farben — Akzent */
   --accent-kupfer: #c4622d;  /* Hero h1 em */
@@ -32,8 +32,8 @@
   --badge-re:  #2980b9;
 
   /* Farben — Timetable */
-  --timetable-row:    #1e1e1e;
-  --timetable-border: #2a2a2a;
+  --timetable-row:    #1C1208;
+  --timetable-border: #2e1e0e;
   --timetable-delay:  #e74c3c;
 
   /* Fonts */
@@ -99,7 +99,7 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
   right: 0;
   border-radius: 25px 25px 0 0;
   overflow: hidden;
-  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -8px 24px rgba(28, 18, 8, 0.3);
   display: flex;
   flex-direction: column;
 }
@@ -117,7 +117,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   top: 0;
   z-index: 2;
   color: white;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(28,18,8,0.5) 0%, transparent 100%);
   transition:
     top        var(--dur) var(--ease),
     height     var(--dur) var(--ease),
@@ -315,7 +315,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(28, 18, 8, 0.7);
   z-index: 1;
 }
 
@@ -369,7 +369,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   display: block;
   font-size: 2.75rem;
   font-weight: bold;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   margin-bottom: 1rem;
 }
 
@@ -390,7 +390,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 .timetable th {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(28, 18, 8, 0.4);
   color: rgb(216, 216, 216);
   font-family: var(--font-body);
   font-size: 11px;
@@ -413,6 +413,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   overflow: hidden;
   padding: 0.85rem 0.5rem;
   border-bottom: 1px solid var(--timetable-border);
+  text-align: left;
 }
 
 .timetable td small {
@@ -420,9 +421,13 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   font-size: 0.65rem;
   color: #888;
   margin-top: 0.2rem;
+  text-align: left;
 }
 
 .timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.75rem; }
+
+.timetable th:nth-child(4),
+.timetable td:nth-child(4) { text-align: right; }
 
 @media (min-width: 768px) {
   .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
@@ -445,7 +450,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   border-radius: 4px;
 }
 
-#abfahrten nav button.active { background: rgba(0, 0, 0, 0.35); }
+#abfahrten nav button.active { background: rgba(28, 18, 8, 0.35); }
 
 .badge {
   display: inline-block;
@@ -461,7 +466,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 .badge-rb  { background: var(--badge-rb);  }
 .badge-re  { background: var(--badge-re);  }
 
-#abfahrten small {
+#abfahrten .card__body > small {
   display: block;
   text-align: center;
   font-size: 0.65rem;
@@ -590,7 +595,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(28, 18, 8, 0.06);
   border-radius: 4px;
   padding: 1rem;
   margin-top: 0.25rem;
