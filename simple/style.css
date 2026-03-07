@@ -111,13 +111,62 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
 #kaiser     { background: var(--color-kaiser);     color: var(--text-dark);  }
 #karte      { background: var(--color-karte);      color: var(--text-light); }
 footer.card { background: var(--color-footer);     color: var(--text-light); }
-/* ── Hero-Header: schwebt über dem Background ── */
+/* ── Hero-Header: morpht von Tab (oben) zum Titel (unten) ── */
 #hero .card__header {
   position: absolute;
   top: 0;
   z-index: 2;
   color: white;
   background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+  transition:
+    top        var(--dur) var(--ease),
+    height     var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+
+/* Expanded: Header fährt zur h1-Position unten */
+#hero.is-active .card__header {
+  top: calc(100% - 30vh - 10rem);
+  height: 10rem;
+  background: transparent;
+  overflow: visible;
+}
+
+/* Haus-Icon: immer oben links, unabhängig vom Header */
+.hero-icon {
+  position: absolute;
+  top: calc(var(--tab-h) / 2);
+  transform: translateY(-50%);
+  left: var(--pad);
+  z-index: 3;
+  color: white;
+  font-size: 0.9rem;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+#hero.is-active .card__header-name {
+  font-size: clamp(3rem, 13vw, 6rem);
+  font-weight: 900;
+  line-height: 1.0;
+  top: 1rem;
+  letter-spacing: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* em: im Collapsed-Tab neutral, im Expanded kupfer+kursiv */
+#hero .card__header-name em {
+  font-style: normal;
+  color: inherit;
+  transition: color var(--dur) var(--ease);
+}
+
+#hero.is-active .card__header-name em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent-kupfer);
 }
 
 /* ── Card Header: 3 States ─────────────────────────────────
@@ -285,7 +334,11 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   font-weight: 900;
   line-height: 1.0;
   margin-bottom: 0.9rem;
+  transition: opacity var(--dur) var(--ease);
 }
+
+/* h1 als unsichtbarer Layout-Spacer wenn Header-Morph aktiv */
+#hero.is-active h1 { opacity: 0; }
 
 #hero h1 em {
   font-style: italic;

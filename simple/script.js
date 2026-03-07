@@ -147,8 +147,8 @@ function update() {
         setCard(card, p.top, p.height);
       }
 
-      // Klassen: 'to' wird ab Halbzeit aktiv, 'from' verliert is-active sofort
-      const active = i === to ? progress >= 0.5 : false;
+      // Klassen: 'from' aktiv bis Halbzeit, dann wechselt is-active auf 'to'
+      const active = (i === from && progress < 0.5) || (i === to && progress >= 0.5);
       card.classList.toggle('is-active', active);
       card.classList.remove('is-scrolled');
       card.style.zIndex = i + 1;
