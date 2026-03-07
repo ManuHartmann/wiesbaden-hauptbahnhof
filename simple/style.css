@@ -5,6 +5,10 @@
   --pad:   20px;
   --tab-h: 50px;
 
+  /* Header-Transition */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur:  0.45s;
+
   /* Farben — Cards */
   --color-hero:       #cc2222;  /* Hintergrundfarbe der Seite (hinter Hero) */
   --color-abfahrten:  #6b3020;
@@ -96,6 +100,8 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
   border-radius: 25px 25px 0 0;
   overflow: hidden;
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
 }
 #hero.card { border-radius: 0; }
 
@@ -105,39 +111,131 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
 #kaiser     { background: var(--color-kaiser);     color: var(--text-dark);  }
 #karte      { background: var(--color-karte);      color: var(--text-light); }
 footer.card { background: var(--color-footer);     color: var(--text-light); }
-footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
+/* ── Hero-Header: schwebt über dem Background ── */
+#hero .card__header {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  color: white;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+}
 
-/* ── Tab (sichtbarer Streifen wenn Card eingeklappt) ── */
-.card__tab {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+/* ── Card Header: 3 States ─────────────────────────────────
+   Absolute positioning für Icon + Name → kein flex-direction-
+   Flip, beide Elemente bewegen sich unabhängig via transform.
+
+   State 1: default         — kleiner Tab, Icon + Label
+   State 2: .is-active      — grosses Icon + grosser Titel
+   State 3: .is-scrolled    — schrumpft zurück auf Tab-Grösse
+   ───────────────────────────────────────────────────────── */
+
+/* State 1: Collapsed */
+.card__header {
+  position: relative;
   height: var(--tab-h);
+  flex-shrink: 0;
   width: 100%;
-  padding: 0 var(--pad);
   background: transparent;
   border: none;
   cursor: pointer;
   color: inherit;
+  overflow: hidden;
+  transition: height var(--dur) var(--ease);
+}
+
+.card__header-icon {
+  position: absolute;
+  left: var(--pad);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.65;
+  transition:
+    top      var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    font-size var(--dur) var(--ease),
+    opacity   var(--dur) var(--ease);
+}
+
+.card__header-name {
+  position: absolute;
+  left: calc(var(--pad) + 1.4rem + 0.75rem);
+  right: var(--pad);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   font-family: var(--font-body);
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    top          var(--dur) var(--ease),
+    left         var(--dur) var(--ease),
+    transform    var(--dur) var(--ease),
+    font-size    var(--dur) var(--ease),
+    letter-spacing var(--dur) var(--ease);
 }
 
-
-/* Hero-Tab: schwebt über dem Background */
-#hero .card__tab {
-  position: absolute;
-  top: 0;
-  z-index: 2;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
+/* State 2: Expanded */
+.card.is-active .card__header {
+  height: 6.5rem;
 }
 
-.card__icon { font-size: 0.9rem; width: 1rem; opacity: 0.65; flex-shrink: 0; }
-.card__name { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
+.card.is-active .card__header-icon {
+  top: 1.25rem;
+  transform: translateY(0);
+  font-size: 1.75rem;
+  opacity: 1;
+}
+
+.card.is-active .card__header-name {
+  top: 3.4rem;
+  left: var(--pad);
+  right: var(--pad);
+  transform: translateY(0);
+  font-size: 2.25rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* State 3: Scrolled — schrumpft zurück (identisch zu State 1) */
+.card.is-active.is-scrolled .card__header {
+  height: var(--tab-h);
+}
+
+.card.is-active.is-scrolled .card__header-icon {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.65;
+}
+
+.card.is-active.is-scrolled .card__header-name {
+  top: 50%;
+  left: calc(var(--pad) + 1.4rem + 0.75rem);
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 500;
+  white-space: nowrap;
+}
 
 /* ── Card Body (JS setzt scrollTop direkt) ── */
 .card__body {
-  height: calc(100% - var(--tab-h));
+  flex: 1;
+  min-height: 0;
   overflow-y: hidden;
   padding: 1.5rem var(--pad);
 }
@@ -205,8 +303,6 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
 
 /* ─── 4. ABFAHRTEN ─── */
 
-#abfahrten h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-#abfahrten h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 0.4rem; }
 
 #datum {
   font-size: 0.7rem;
@@ -323,8 +419,6 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
 
 /* ─── 5. GESCHICHTE / TIMELINE ─── */
 
-#geschichte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-#geschichte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 2rem; }
 #geschichte h2 strong { font-style: normal; font-weight: 900; }
 
 .timeline { margin-left: -8px; }
@@ -394,8 +488,6 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
   gap: 1rem;
 }
 
-#kaiser h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-#kaiser h2 { font-size: 2.25rem; line-height: 1.1; }
 
 #kaiser blockquote {
   border-left: 3px solid var(--accent-kaiser);
@@ -464,14 +556,11 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
 
 /* ─── 7. KARTE ─── */
 
-#karte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
 #karte .card__body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
-
-#karte h2 { font-size: 2.25rem; line-height: 1.1; }
 
 #map {
   width: 100%;

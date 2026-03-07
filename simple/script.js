@@ -81,6 +81,9 @@ function applyPinned(activeIdx) {
     const p = pinnedPos(i, activeIdx);
     setCard(cards[i], p.top, p.height);
     cards[i].style.zIndex = i + 1;
+    const active = i === activeIdx;
+    cards[i].classList.toggle('is-active', active);
+    if (!active) cards[i].classList.remove('is-scrolled');
   }
   cards[N - 1].style.zIndex = N;  // Footer immer oben
 }
@@ -115,12 +118,15 @@ function update() {
 
   if (range.type === 'content') {
     applyPinned(range.idx);
-    cards[range.idx].querySelector('.card__body').scrollTop = s - range.start;
+    const scrolled = s - range.start;
+    cards[range.idx].querySelector('.card__body').scrollTop = scrolled;
+    cards[range.idx].classList.toggle('is-scrolled', scrolled > 10);
 
   } else {
     // Übergang: Card 'to' schiebt sich rein, Card 'from' klappt zu
     const { from, to } = range;
     const delta = s - range.start;
+    const progress = delta / (range.end - range.start);  // 0 → 1
 
     for (let i = 0; i < N - 1; i++) {
       const card = cards[i];
@@ -141,6 +147,10 @@ function update() {
         setCard(card, p.top, p.height);
       }
 
+      // Klassen: 'to' wird ab Halbzeit aktiv, 'from' verliert is-active sofort
+      const active = i === to ? progress >= 0.5 : false;
+      card.classList.toggle('is-active', active);
+      card.classList.remove('is-scrolled');
       card.style.zIndex = i + 1;
     }
   }
@@ -156,14 +166,14 @@ function scrollToCard(idx) {
 }
 
 cards.forEach((card, i) => {
-  if (i === N - 1) return;  // Footer hat keinen Tab
-  card.querySelector('.card__tab').addEventListener('click', () => scrollToCard(i));
+  if (i === N - 1) return;  // Footer hat keinen Header
+  const header = card.querySelector('.card__header, .card__tab');
+  if (header) header.addEventListener('click', () => scrollToCard(i));
 });
 
 // Tastatur: Pfeiltasten durch alle fokussierbaren Elemente navigieren
 const FOCUSABLE_CONTENT = [
   '.card__body > p',
-  '.card__body h2',
   '.card__body h3',
   'figure',
   'blockquote',
