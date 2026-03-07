@@ -160,19 +160,70 @@ cards.forEach((card, i) => {
   card.querySelector('.card__tab').addEventListener('click', () => scrollToCard(i));
 });
 
-// Tastatur: Pfeiltasten wechseln zwischen Cards
-function activeCard() {
-  const s = scroller.scrollTop;
-  let active = 0;
-  for (const r of ranges) {
-    if (r.type === 'transition' && s >= r.end) active = r.to;
-  }
-  return active;
+// Tastatur: Pfeiltasten durch alle fokussierbaren Elemente navigieren
+const FOCUSABLE_CONTENT = [
+  '.card__body > p',
+  '.card__body h2',
+  '.card__body h3',
+  'figure',
+  'blockquote',
+  'article.timeline-entry',
+  '#map',
+  '.karte-liste li',
+  '.kaiser-note',
+].join(', ');
+
+document.querySelectorAll(FOCUSABLE_CONTENT).forEach(el => {
+  if (!el.getAttribute('tabindex')) el.setAttribute('tabindex', '0');
+});
+
+function allFocusable() {
+  return [...document.querySelectorAll('a[href], button, [tabindex="0"]')];
 }
 
+// Pfeiltasten: nur fokussieren — focusin übernimmt das Scrollen
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowDown') { e.preventDefault(); scrollToCard(Math.min(activeCard() + 1, N - 2)); }
-  if (e.key === 'ArrowUp')   { e.preventDefault(); scrollToCard(Math.max(activeCard() - 1, 0)); }
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+  e.preventDefault();
+
+  const all  = allFocusable();
+  const idx  = all.indexOf(document.activeElement);
+  const next = e.key === 'ArrowDown'
+    ? all[Math.min(idx + 1, all.length - 1)]
+    : all[Math.max(idx - 1, 0)];
+
+  if (!next || next === document.activeElement) return;
+  next.focus({ preventScroll: true });
+});
+
+// focusin: bei jedem Fokus zur richtigen Stelle scrollen
+function offsetInBody(el, body) {
+  let offset = 0;
+  let node = el;
+  while (node && node !== body) {
+    offset += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return offset;
+}
+
+document.addEventListener('focusin', e => {
+  const cardEl  = e.target.closest('.card');
+  if (!cardEl) return;
+  const cardIdx = cards.indexOf(cardEl);
+  if (cardIdx < 0 || cardIdx >= N - 1) return;  // Footer ignorieren
+
+  // Wo endet der Übergang zu dieser Card?
+  let transEnd = 0;
+  for (const r of ranges) {
+    if (r.type === 'transition' && r.to === cardIdx) { transEnd = r.end; break; }
+  }
+
+  const body   = cardEl.querySelector('.card__body');
+  const elOff  = offsetInBody(e.target, body);
+  const target = transEnd + Math.max(0, elOff - 20);
+
+  scroller.scrollTo({ top: target, behavior: 'smooth' });
 });
 
 // Resize: neu messen

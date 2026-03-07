@@ -56,6 +56,15 @@ h1, h2, h3 { font-family: var(--font-display); }
 
 img { max-width: 100%; max-height: 100%; object-fit: cover; }
 
+/* ─── Accessibility: Fokus-Ring ─── */
+:focus { outline: none; }
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
 
 /* ─── 2. SCROLL-ARCHITEKTUR ───
    #scroll-container scrollt (nicht die Page).
@@ -113,7 +122,7 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
   font-family: var(--font-body);
   text-align: left;
 }
-.card__tab:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
+
 
 /* Hero-Tab: schwebt über dem Background */
 #hero .card__tab {
@@ -528,12 +537,23 @@ footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
 /* ─── 8. FOOTER ─── */
 
 footer .card__body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: start;
-  gap: 2rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  footer .card__body {
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
 }
 
 .footer-title {
