@@ -1,8 +1,40 @@
 /* ─── 1. BASE ─── */
 
 :root {
-  --pad:  20px;  /* Mindest-Abstand zum Bildschirmrand (6-Spalten-Grid) */
-  --peek: 50px;  /* Wie viel von der nächsten Card unten herausschaut */
+  /* Layout */
+  --pad:   20px;
+  --tab-h: 50px;
+
+  /* Farben — Cards */
+  --color-hero:       #cc2222;  /* Hintergrundfarbe der Seite (hinter Hero) */
+  --color-abfahrten:  #6b3020;
+  --color-geschichte: #2d4a35;
+  --color-kaiser:     #f0ebe0;
+  --color-karte:      #1a1a2e;
+  --color-footer:     #2d2d2d;
+
+  /* Farben — Text */
+  --text-light: #ffffff;
+  --text-dark:  #222222;
+
+  /* Farben — Akzent */
+  --accent-kupfer: #c4622d;  /* Hero h1 em */
+  --accent-kaiser: #8d6e63;  /* Blockquote-Balken */
+
+  /* Farben — Badges */
+  --badge-ice: #e74c3c;
+  --badge-s:   #27ae60;
+  --badge-rb:  #8d6e63;
+  --badge-re:  #2980b9;
+
+  /* Farben — Timetable */
+  --timetable-row:    #1e1e1e;
+  --timetable-border: #2a2a2a;
+  --timetable-delay:  #e74c3c;
+
+  /* Fonts */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Abel', Arial, sans-serif;
 }
 
 *, *::before, *::after {
@@ -11,49 +43,119 @@
   padding: 0;
 }
 
-body { font-family: 'Abel', sans-serif; }
+body {
+  font-family: var(--font-body);
+  height: 100svh;
+  overflow: hidden;
+}
 
-/* Skip-Link — nur bei Tastaturfokus sichtbar */
 .skip-link { position: absolute; top: -100px; }
 .skip-link:focus { top: 0; }
 
-h1, h2, h3 { font-family: 'Playfair Display', serif; }
+h1, h2, h3 { font-family: var(--font-display); }
 
 img { max-width: 100%; max-height: 100%; object-fit: cover; }
 
 
-/* ─── 2. FARBEN & STACKING ───
-   Jede Card klebt mit sticky oben — höhere z-index schieben sich drüber.
-   --peek: wie viel von der nächsten Card unten herausschaut.
-   ─────────────────────────────────────────────────────────────────── */
+/* ─── 2. SCROLL-ARCHITEKTUR ───
+   #scroll-container scrollt (nicht die Page).
+   #stack ist sticky — ein Fenster, das immer 100svh gross bleibt.
+   .card wird von JS positioniert (top + height per inline style).
+   ─────────────────────────────────────────────────────────────── */
 
-/* Sticky-Basis für alle Cards */
-#hero, #abfahrten, #geschichte, #kaiser, #karte, footer {
+#scroll-container {
+  height: 100svh;
+  overflow-y: scroll;
+  position: relative;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+#scroll-container::-webkit-scrollbar { display: none; }
+
+#stack {
   position: sticky;
   top: 0;
+  height: 100svh;
+  overflow: hidden;
 }
 
-#hero       { height: 100svh; z-index: 1; }
-#abfahrten  { height: 100svh; overflow-y: auto; z-index: 2; background: #6b3020; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
-#geschichte { height: 100svh; overflow-y: auto; z-index: 3; background: #2d4a35; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
-#kaiser     { height: 100svh; overflow-y: auto; z-index: 4; background: #f0ebe0; color: #222; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
-#karte      { height: 100svh; overflow-y: auto; z-index: 5; background: #1a1a2e; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
-footer      {                                   z-index: 6; background: #2d2d2d; color: white;  border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
+/* Card-Basis — position & height kommen vom JS */
+.card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 25px 25px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3);
+}
+#hero.card { border-radius: 0; }
+
+/* Farben */
+#abfahrten  { background: var(--color-abfahrten);  color: var(--text-light); }
+#geschichte { background: var(--color-geschichte); color: var(--text-light); }
+#kaiser     { background: var(--color-kaiser);     color: var(--text-dark);  }
+#karte      { background: var(--color-karte);      color: var(--text-light); }
+footer.card { background: var(--color-footer);     color: var(--text-light); }
+footer.card .card__body { height: 100%; }  /* kein Tab → volle Höhe */
+
+/* ── Tab (sichtbarer Streifen wenn Card eingeklappt) ── */
+.card__tab {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: var(--tab-h);
+  width: 100%;
+  padding: 0 var(--pad);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-family: var(--font-body);
+  text-align: left;
+}
+.card__tab:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
+
+/* Hero-Tab: schwebt über dem Background */
+#hero .card__tab {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
+}
+
+.card__icon { font-size: 0.9rem; width: 1rem; opacity: 0.65; flex-shrink: 0; }
+.card__name { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* ── Card Body (JS setzt scrollTop direkt) ── */
+.card__body {
+  height: calc(100% - var(--tab-h));
+  overflow-y: hidden;
+  padding: 1.5rem var(--pad);
+}
+
+@media (min-width: 768px) {
+  .card__body { padding: 2rem 2.5rem; }
+}
 
 
 /* ─── 3. HERO ─── */
 
-#hero {
+/* Body füllt die ganze Card aus, trägt Hintergrundbild + Overlay */
+#hero .card__body {
+  position: absolute;
+  inset: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: var(--pad) var(--pad) 30vh;
   color: white;
   background: url('img/ICE_an_Gleis_8_B.jpg') 60% / cover;
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* Overlay */
-#hero::before {
+#hero .card__body::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -61,10 +163,8 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   z-index: 1;
 }
 
-/* Alle Kinder über dem Overlay */
-#hero > * { position: relative; z-index: 2; }
+#hero .card__body > * { position: relative; z-index: 2; }
 
-/* Label: "Hessische Landeshauptstadt · Seit 1906" */
 .hero-label {
   font-size: 0.8rem;
   font-weight: 400;
@@ -73,7 +173,6 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   margin-bottom: 0.4rem;
 }
 
-/* H1: "Wiesbaden" weiss, "Hauptbahnhof" kursiv + kupfer */
 #hero h1 {
   font-size: clamp(3rem, 13vw, 6rem);
   font-weight: 900;
@@ -84,10 +183,9 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 #hero h1 em {
   font-style: italic;
   font-weight: 400;
-  color: #c4622d;
+  color: var(--accent-kupfer);
 }
 
-/* Untertitel */
 #hero p {
   font-size: 0.85rem;
   line-height: 1.6;
@@ -98,14 +196,9 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 
 /* ─── 4. ABFAHRTEN ─── */
 
-#abfahrten { padding: 1.5rem var(--pad); }
-
-/* Icon auf eigener Zeile */
 #abfahrten h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-
 #abfahrten h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 0.4rem; }
 
-/* Datum-Zeile */
 #datum {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -114,17 +207,15 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   margin-bottom: 1.5rem;
 }
 
-/* Große Digitaluhr */
 #uhr {
   display: block;
   font-size: 2.75rem;
   font-weight: bold;
-  font-family: 'Abel', sans-serif;
+  font-family: var(--font-body);
   margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
-  #abfahrten { padding: 2.5rem 2rem; }
   #abfahrten h2 { font-size: 3rem; }
   #uhr { font-size: 3.5rem; }
 }
@@ -140,11 +231,10 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   border-collapse: collapse;
 }
 
-/* Kopfzeile: transparent, gedämpft */
 .timetable th {
   background: rgba(0, 0, 0, 0.4);
   color: rgb(216, 216, 216);
-  font-family: 'Abel', sans-serif;
+  font-family: var(--font-body);
   font-size: 11px;
   font-weight: 300;
   text-transform: uppercase;
@@ -154,21 +244,19 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   text-align: left;
 }
 
-/* Datenzeilen: dunkel */
 .timetable td {
-  background: #1e1e1e;
-  color: white;
-  font-family: 'Abel', sans-serif;
+  background: var(--timetable-row);
+  color: var(--text-light);
+  font-family: var(--font-body);
   font-size: 1rem;
   font-weight: 400;
   height: 56px;
   max-height: 56px;
   overflow: hidden;
   padding: 0.85rem 0.5rem;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--timetable-border);
 }
 
-/* "via"-Text unter dem Ziel */
 .timetable td small {
   display: block;
   font-size: 0.65rem;
@@ -176,8 +264,7 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   margin-top: 0.2rem;
 }
 
-/* Verspätung — höhere Spezifität als .timetable td small */
-.timetable td small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
+.timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.75rem; }
 
 @media (min-width: 768px) {
   .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
@@ -202,7 +289,6 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 
 #abfahrten nav button.active { background: rgba(0, 0, 0, 0.35); }
 
-/* Zugtyp-Badges */
 .badge {
   display: inline-block;
   padding: 0.2rem 0.5rem;
@@ -212,13 +298,12 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   color: white;
 }
 
-.badge-ice { background: #e74c3c; }
-.badge-s   { background: #27ae60; }
-.badge-rb  { background: #8d6e63; }
-.badge-re  { background: #2980b9; }
+.badge-ice { background: var(--badge-ice); }
+.badge-s   { background: var(--badge-s);   }
+.badge-rb  { background: var(--badge-rb);  }
+.badge-re  { background: var(--badge-re);  }
 
-/* Quellenhinweis */
-#abfahrten > small {
+#abfahrten small {
   display: block;
   text-align: center;
   font-size: 0.65rem;
@@ -229,19 +314,12 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 
 /* ─── 5. GESCHICHTE / TIMELINE ─── */
 
-#geschichte { padding: 1.5rem var(--pad); }
-
 #geschichte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-
 #geschichte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 2rem; }
-
 #geschichte h2 strong { font-style: normal; font-weight: 900; }
 
-/* Wrapper */
 .timeline { margin-left: -8px; }
 
-/* Eintrag: Jahr | Dot | Inhalt */
-/* Linie läuft von Dot zu Dot — stoppt automatisch beim letzten */
 .timeline-entry {
   display: flex;
   align-items: flex-start;
@@ -252,14 +330,13 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 .timeline-entry:not(:last-child)::after {
   content: '';
   position: absolute;
-  left: 81px; /* Mitte der Dot-Spalte */
-  top: 17px;  /* Dot-Mitte: 12px padding + 5px (halbe Dot-Höhe) */
-  height: calc(100% + 2.5rem); /* bis zum nächsten Dot */
+  left: 81px;
+  top: 17px;
+  height: calc(100% + 2.5rem);
   width: 2px;
   background: rgba(255, 255, 255, 0.25);
 }
 
-/* Feste Breite für die Jahres-Spalte */
 .timeline-year {
   flex: 0 0 73px;
   font-family: 'Playfair Display', serif;
@@ -270,7 +347,6 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   line-height: 1.2;
 }
 
-/* Dot zentriert auf der Linie */
 .timeline-dot {
   flex: 0 0 18px;
   display: flex;
@@ -285,26 +361,17 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   border-radius: 50%;
 }
 
-/* Textinhalt rechts */
 .timeline-content { flex: 1; padding-left: 0.75rem; }
-
 .timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
-
 .timeline-content p { font-size: 0.9rem; line-height: 1.6; opacity: 0.85; }
-
 .timeline-content figure { margin-top: 0.75rem; }
-
 .timeline-content img { width: 100%; border-radius: 4px; }
-
 .timeline-content figcaption { font-size: 0.7rem; opacity: 0.55; margin-top: 0.3rem; }
-
-/* Wikipedia-Link am Ende */
 .timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
 
 @media (min-width: 768px) {
-  #geschichte { padding: 2.5rem 2rem; }
   .timeline-entry:not(:last-child)::after { left: calc(100px + 16px); }
-  .timeline-year { flex-basis: 100px; font-size: 1.9rem; }
+  .timeline-year { flex-basis: 100px; font-size: 1.9rem; font-family: var(--font-display); }
   .timeline-dot { flex-basis: 32px; }
   .timeline-content h3 { font-size: 1.1rem; }
 }
@@ -312,16 +379,11 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 
 /* ─── 6. KAISER ─── */
 
-#kaiser { padding: 1.5rem var(--pad); }
-
-/* Icon auf eigener Zeile — wie andere Sections */
 #kaiser h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-
 #kaiser h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1.25rem; }
 
-/* Zitat mit linkem Balken */
 #kaiser blockquote {
-  border-left: 3px solid #8d6e63;
+  border-left: 3px solid var(--accent-kaiser);
   padding-left: 1rem;
   font-style: italic;
   font-size: 0.95rem;
@@ -332,7 +394,7 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 
 #kaiser p { margin-bottom: 1rem; }
 
-/* Horizontaler Bild-Scroll — bricht aus dem Section-Padding aus */
+/* Horizontaler Bild-Scroll — bricht aus dem Card-Padding aus */
 .kaiser-bilder {
   display: flex;
   overflow-x: scroll;
@@ -365,7 +427,6 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   margin-top: 0.3rem;
 }
 
-/* Hinweisbox am Ende */
 .kaiser-note {
   display: flex;
   gap: 0.75rem;
@@ -377,38 +438,28 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 }
 
 .kaiser-note i { font-size: 1.1rem; opacity: 0.5; flex-shrink: 0; padding-top: 0.15rem; }
-
 .kaiser-note p { font-size: 0.85rem; line-height: 1.6; opacity: 0.75; margin: 0; }
 
 @media (min-width: 768px) {
-  #kaiser { padding: 2.5rem 2rem; }
-  .kaiser-bilder { margin: 1.25rem -2rem; }
+  .kaiser-bilder { margin: 1.25rem -2.5rem; }
   .kaiser-bilder figure { flex-basis: 45vw; }
-  .kaiser-bilder figure:last-child  { margin-right: 2rem; }
+  .kaiser-bilder figure:first-child { margin-left: 2.5rem; }
+  .kaiser-bilder figure:last-child  { margin-right: 2.5rem; }
 }
 
 
 /* ─── 7. KARTE ─── */
 
-#karte {
-  padding: 1.5rem var(--pad);
-  background: #1a1a2e;
-  color: #fff;
-}
-
 #karte h2 i { display: block; font-size: 1.75rem; margin-bottom: 0.5rem; }
-
 #karte h2 { font-size: 2.25rem; line-height: 1.1; margin-bottom: 1.25rem; }
 
-/* Leaflet Map */
 #map {
   width: 100%;
-  height: 360px;
+  height: 300px;
   border-radius: 20px;
   overflow: hidden;
 }
 
-/* POI-Liste */
 .karte-liste {
   list-style: none;
   display: flex;
@@ -433,7 +484,6 @@ footer      {                                   z-index: 6; background: #2d2d2d;
   opacity: 0.6;
 }
 
-/* Buttons nebeneinander */
 .karte-links {
   display: flex;
   gap: 0.75rem;
@@ -460,24 +510,18 @@ footer      {                                   z-index: 6; background: #2d2d2d;
 }
 
 @media (min-width: 768px) {
-  #karte { padding: 2.5rem 2rem; }
   .karte-links a { flex: 0 0 auto; }
 }
 
 
 /* ─── 8. FOOTER ─── */
 
-footer {
-  padding: 2rem var(--pad) 1.5rem;
-}
+footer .card__body { padding-top: 2rem; }
 
-/* Titel + Eröffnungsjahr */
-.footer-top {
-  margin-bottom: 1.5rem;
-}
+.footer-top { margin-bottom: 1.5rem; }
 
 .footer-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.1;
@@ -491,7 +535,6 @@ footer {
   opacity: 0.4;
 }
 
-/* Nav-Links */
 .footer-nav {
   display: flex;
   gap: 1.5rem;
@@ -511,15 +554,10 @@ footer {
 
 .footer-nav a:hover { opacity: 1; }
 
-/* Quellenangabe */
 .footer-credit {
   display: block;
   font-size: 0.65rem;
   opacity: 0.3;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 1rem;
-}
-
-@media (min-width: 768px) {
-  footer { padding: 2.5rem 2rem 2rem; }
 }
