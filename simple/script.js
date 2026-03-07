@@ -29,7 +29,7 @@ let ranges = [];  // [{type, start, end, ...}]
 // Footer (letztes card) ist aus dem normalen Stack-System ausgenommen
 function measure() {
   TOTAL      = stackEl.clientHeight;
-  FOOTER_H   = Math.round(TOTAL / 3);                   // ~⅓ Viewport-Höhe
+  FOOTER_H   = 150;                   // ~⅓ Viewport-Höhe
   TRANS_DIST = TOTAL - OVERLAP - (N - 1) * NET;         // N-1 content cards
   OPEN_H     = TOTAL - (N - 2) * NET;                   // aktive Card ohne Footer
 }
