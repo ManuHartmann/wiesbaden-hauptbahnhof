@@ -1,7 +1,8 @@
 /* ─── 1. BASE ─── */
 
 :root {
-  --pad: 20px; /* Mindest-Abstand zum Bildschirmrand (6-Spalten-Grid) */
+  --pad:  20px;  /* Mindest-Abstand zum Bildschirmrand (6-Spalten-Grid) */
+  --peek: 50px;  /* Wie viel von der nächsten Card unten herausschaut */
 }
 
 *, *::before, *::after {
@@ -22,25 +23,27 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
 
 
 /* ─── 2. FARBEN & STACKING ───
-   Jede Section überlапpt die vorherige um 50px (margin-top: -50px).
-   z-index stellt sicher dass neuere Sections oben liegen.
-   border-radius rundet die oberen Ecken ab (ausser Hero).
-   min-height: 100svh + 50px damit jede Section den ganzen Screen füllt.
+   Jede Card klebt mit sticky oben — höhere z-index schieben sich drüber.
+   --peek: wie viel von der nächsten Card unten herausschaut.
    ─────────────────────────────────────────────────────────────────── */
 
-#hero       { position: relative; z-index: 1; }
-#abfahrten  { position: relative; z-index: 2; background: #6b3020; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
-#geschichte { position: relative; z-index: 3; background: #2d4a35; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
-#kaiser     { position: relative; z-index: 4; background: #f0ebe0; color: #222; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
-#karte      { position: relative; z-index: 5; background: #1a1a2e; color: #fff; border-radius: 25px 25px 0 0; min-height: calc(100svh + 50px); margin-top: -50px; }
-footer      { position: relative; z-index: 6; background: #2d2d2d; color: white; border-radius: 25px 25px 0 0; margin-top: -50px; }
+/* Sticky-Basis für alle Cards */
+#hero, #abfahrten, #geschichte, #kaiser, #karte, footer {
+  position: sticky;
+  top: 0;
+}
+
+#hero       { height: 100svh; z-index: 1; }
+#abfahrten  { height: 100svh; overflow-y: auto; z-index: 2; background: #6b3020; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
+#geschichte { height: 100svh; overflow-y: auto; z-index: 3; background: #2d4a35; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
+#kaiser     { height: 100svh; overflow-y: auto; z-index: 4; background: #f0ebe0; color: #222; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
+#karte      { height: 100svh; overflow-y: auto; z-index: 5; background: #1a1a2e; color: #fff; border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
+footer      {                                   z-index: 6; background: #2d2d2d; color: white;  border-radius: 25px 25px 0 0; margin-top: calc(-1 * var(--peek)); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.3); }
 
 
 /* ─── 3. HERO ─── */
 
 #hero {
-  position: relative;
-  height: calc(100svh + 50px);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -158,6 +161,9 @@ footer      { position: relative; z-index: 6; background: #2d2d2d; color: white;
   font-family: 'Abel', sans-serif;
   font-size: 1rem;
   font-weight: 400;
+  height: 56px;
+  max-height: 56px;
+  overflow: hidden;
   padding: 0.85rem 0.5rem;
   border-bottom: 1px solid #2a2a2a;
 }
@@ -170,8 +176,8 @@ footer      { position: relative; z-index: 6; background: #2d2d2d; color: white;
   margin-top: 0.2rem;
 }
 
-/* Verspätung — überschreibt display:block von td small */
-small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
+/* Verspätung — höhere Spezifität als .timetable td small */
+.timetable td small.delay { display: inline; color: #e74c3c; font-size: 0.75rem; }
 
 @media (min-width: 768px) {
   .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
