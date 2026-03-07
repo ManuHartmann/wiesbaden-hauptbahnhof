@@ -1,0 +1,118 @@
+/* ─── ABFAHRTEN ─── */
+
+#datum {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+
+#uhr {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: bold;
+  font-family: var(--font-display);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  #abfahrten h2 { font-size: 3rem; }
+  #uhr { font-size: 3.5rem; }
+}
+
+
+/* ── Fahrplan-Tabelle ── */
+
+.timetable-wrap { overflow: hidden; border-radius: 1px; }
+
+.timetable {
+  width: 100%;
+  min-width: 320px;
+  border-collapse: collapse;
+}
+
+.timetable th {
+  background: rgba(28, 18, 8, 0.4);
+  color: rgb(216, 216, 216);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 0.5rem;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.timetable td {
+  background: var(--timetable-row);
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  height: 56px;
+  max-height: 56px;
+  overflow: hidden;
+  padding: 0.85rem 0.5rem;
+  border-bottom: 1px solid var(--timetable-border);
+  text-align: left;
+}
+
+.timetable td small {
+  display: block;
+  font-size: 0.65rem;
+  color: #888;
+  margin-top: 0.2rem;
+  text-align: left;
+}
+
+.timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.75rem; }
+
+.timetable th:nth-child(4),
+.timetable td:nth-child(4) { text-align: right; }
+
+@media (min-width: 768px) {
+  .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
+}
+
+
+/* ── Filter-Buttons & Badges ── */
+
+#abfahrten nav { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+#abfahrten nav button {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#abfahrten nav button.active { background: rgba(28, 18, 8, 0.35); }
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+.badge-ice { background: var(--badge-ice); }
+.badge-s   { background: var(--badge-s);   }
+.badge-rb  { background: var(--badge-rb);  }
+.badge-re  { background: var(--badge-re);  }
+
+#abfahrten .card__body > small {
+  display: block;
+  text-align: center;
+  font-size: 0.65rem;
+  opacity: 0.5;
+  padding-top: 1rem;
+}
