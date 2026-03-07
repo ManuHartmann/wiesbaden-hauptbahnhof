@@ -158,9 +158,9 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   flex: 1;
   min-height: 0;
   overflow-y: hidden;
-  padding: 1.5rem var(--pad);
+  padding: 1.5rem var(--pad) 7rem;
 }
 
 @media (min-width: 768px) {
-  .card__body { padding: 2rem 2.5rem; }
+  .card__body { padding: 2rem 2.5rem 9rem; }
 }

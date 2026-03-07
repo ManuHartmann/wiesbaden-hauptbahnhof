@@ -36,12 +36,24 @@
   display: flex;
   justify-content: center;
   padding-top: 12px;
+  position: relative;
 }
 
 .timeline-dot::before {
   content: '';
   width: 10px; height: 10px;
   background: rgba(255, 255, 255);
+  border-radius: 50%;
+}
+
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  top: 9.5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px; height: 15px;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
 }
 

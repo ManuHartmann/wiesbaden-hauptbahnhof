@@ -24,13 +24,38 @@
 
 /* ── Fahrplan-Tabelle ── */
 
-.timetable-wrap { overflow: hidden; border-radius: 1px; }
+.timetable-wrap {
+  border-radius: 1px;
+}
 
 .timetable {
   width: 100%;
   min-width: 320px;
   border-collapse: collapse;
+  table-layout: fixed;
 }
+
+/* thead bleibt sichtbar, nur tbody scrollt */
+.timetable thead tr,
+.timetable tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.timetable tbody {
+  display: block;
+  height: calc(5 * 56px);
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.25) transparent;
+}
+
+/* Spaltenbreiten fixieren damit thead + tbody fluchten */
+.timetable th:nth-child(1), .timetable td:nth-child(1) { width: 22%; }
+.timetable th:nth-child(2), .timetable td:nth-child(2) { width: 48%; }
+.timetable th:nth-child(3), .timetable td:nth-child(3) { width: 18%; }
+.timetable th:nth-child(4), .timetable td:nth-child(4) { width: 12%; }
 
 .timetable th {
   background: rgba(28, 18, 8, 0.4);
