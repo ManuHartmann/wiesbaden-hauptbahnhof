@@ -136,7 +136,7 @@
 .kaiser-bilder::-webkit-scrollbar { display: none; }
 
 .kaiser-bilder figure {
-  flex: 0 0 85vw;
+  flex: 0 0 58vw;
   scroll-snap-align: start;
 }
 
@@ -148,6 +148,9 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 4px;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .kaiser-bilder figcaption {

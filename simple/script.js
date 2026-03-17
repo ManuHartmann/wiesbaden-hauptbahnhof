@@ -15,6 +15,7 @@ setInterval(tick, 1000);
 const TAB     = 100;             // px — muss mit --tab-h in CSS übereinstimmen
 const OVERLAP = 55;             // px — muss mit border-radius in CSS übereinstimmen!
 const NET     = TAB - OVERLAP;  // px — netto Scroll-Abstand pro Tab
+const PAUSE   = 150;            // px — Scroll-Stop am Ende jeder Card
 
 const scroller = document.getElementById('scroll-container');
 const spacer   = document.getElementById('scroll-spacer');
@@ -54,6 +55,12 @@ function buildRanges() {
     if (cs > 0) {
       ranges.push({ type: 'content', idx: i, start: pos, end: pos + cs });
       pos += cs;
+    }
+
+    // Pause am Ende jeder Card bevor die nächste Transition startet
+    if (i < N - 2) {
+      ranges.push({ type: 'pause', idx: i, start: pos, end: pos + PAUSE });
+      pos += PAUSE;
     }
   }
 
@@ -116,7 +123,11 @@ function update() {
   // Footer komplett unterhalb des Viewports verstecken
   setCard(cards[N - 1], TOTAL, FOOTER_H);
 
-  if (range.type === 'content') {
+  if (range.type === 'pause') {
+    // Card bleibt offen, nichts bewegt sich
+    applyPinned(range.idx);
+
+  } else if (range.type === 'content') {
     applyPinned(range.idx);
     const scrolled = s - range.start;
     cards[range.idx].querySelector('.card__body').scrollTop = scrolled;
@@ -147,10 +158,13 @@ function update() {
         setCard(card, p.top, p.height);
       }
 
-      // Klassen: 'from' aktiv bis Halbzeit, dann wechselt is-active auf 'to'
-      const active = (i === from && progress < 0.5) || (i === to && progress >= 0.5);
+      // Titel wächst wenn die Card ~70% ihrer finalen Höhe erreicht hat
+      const toCardHeight = Math.min(OPEN_H, TAB + delta);
+      const active = (i === to && toCardHeight >= OPEN_H * 0.2);
       card.classList.toggle('is-active', active);
-      card.classList.remove('is-scrolled');
+      // Keep from-card's header suppressed so its title doesn't re-expand mid-transition
+      if (i === from) card.classList.add('is-scrolled');
+      else card.classList.remove('is-scrolled');
       card.style.zIndex = i + 1;
     }
   }

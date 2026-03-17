@@ -1,5 +1,10 @@
 /* ─── ABFAHRTEN ─── */
 
+#abfahrten .card__body {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
 #datum {
   font-size: 0.7rem;
   text-transform: uppercase;

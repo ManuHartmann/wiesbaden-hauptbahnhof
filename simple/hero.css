@@ -6,7 +6,7 @@
   top: 0;
   z-index: 2;
   color: white;
-  background: linear-gradient(to bottom, rgba(28,18,8,0.5) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(28,18,8,0.65) 0%, transparent 100%);
   transition:
     top        var(--dur) var(--ease),
     height     var(--dur) var(--ease),
@@ -43,6 +43,7 @@
   white-space: normal;
   overflow: visible;
   text-overflow: clip;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
 }
 
 /* em: im Collapsed-Tab neutral, im Expanded kupfer+kursiv */
@@ -63,6 +64,8 @@
   position: absolute;
   inset: 0;
   height: 100%;
+  mask-image: none;
+  -webkit-mask-image: none;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -77,13 +80,21 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(28, 18, 8, 0.7);
+  background: linear-gradient(
+    to bottom,
+    rgba(28, 18, 8, 0.35) 0%,
+    rgba(28, 18, 8, 0.70) 25%,
+    rgba(28, 18, 8, 0.85) 60%,
+    rgba(28, 18, 8, 0.92) 100%
+  );
   z-index: 1;
 }
 
 #hero .card__body > * { position: relative; z-index: 2; }
 
+/* Reorder: label + p above h1 so they don't overlap the morphed title */
 .hero-label {
+  order: 1;
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -92,10 +103,12 @@
 }
 
 #hero h1 {
+  order: 3;
   font-size: clamp(3rem, 13vw, 6rem);
   font-weight: 900;
   line-height: 1.0;
   margin-bottom: 0.9rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   transition: opacity var(--dur) var(--ease);
 }
 
@@ -109,6 +122,7 @@
 }
 
 #hero p {
+  order: 2;
   font-size: 0.85rem;
   line-height: 1.6;
   opacity: 0.8;
