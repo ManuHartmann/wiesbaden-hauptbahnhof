@@ -43,18 +43,23 @@
           <i class="fa-solid fa-train card__header-icon"></i>
           <span class="card__header-name">Nächste Verbindungen</span>
         </button>
-        <div class="card__body">
+        <div class="abfahrten-sticky">
           <time id="uhr">--:--:--</time>
           <p id="datum">--</p>
 
           <nav>
             <button class="active">Alle</button>
             <button>ICE</button>
+            <button>IC</button>
+            <button>EC</button>
             <button>RB</button>
             <button>RE</button>
             <button>S-Bahn</button>
+            <button>Bus</button>
           </nav>
 
+        </div>
+        <div class="card__body">
           <div class="timetable-wrap">
             <table class="timetable">
               <thead>
@@ -214,9 +219,10 @@
             </table>
           </div>
 
-          <small><a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer">Quelle: Wikipedia</a></small>
+          <p class="source" id="abfahrten-source">Simulierte Daten</p>
         </div>
       </section>
+
 
       <!-- ── Card 3: Geschichte ── -->
       <section id="geschichte" class="card">

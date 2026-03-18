@@ -1,27 +1,15 @@
 /* ─── HERO ─── */
 
-/* Header: morpht von Tab (oben) zum Titel (unten) */
+/* Header bleibt oben als dezenter Gradient-Overlay */
 #hero .card__header {
   position: absolute;
   top: 0;
   z-index: 2;
   color: white;
-  background: linear-gradient(to bottom, rgba(28,18,8,0.65) 0%, transparent 100%);
-  transition:
-    top        var(--dur) var(--ease),
-    height     var(--dur) var(--ease),
-    background var(--dur) var(--ease);
+  background: linear-gradient(to bottom, rgba(28,18,8,0.55) 0%, transparent 100%);
 }
 
-/* Expanded: Header fährt zur h1-Position unten */
-#hero.is-active .card__header {
-  top: calc(100% - 30vh - 10rem);
-  height: 10rem;
-  background: transparent;
-  overflow: visible;
-}
-
-/* Haus-Icon: immer oben links, unabhängig vom Header */
+/* Haus-Icon oben links */
 .hero-icon {
   position: absolute;
   top: calc(var(--tab-h) / 2);
@@ -34,32 +22,7 @@
   pointer-events: none;
 }
 
-#hero.is-active .card__header-name {
-  font-size: clamp(3rem, 13vw, 6rem);
-  font-weight: 900;
-  line-height: 1.0;
-  top: 1rem;
-  letter-spacing: 0;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
-}
-
-/* em: im Collapsed-Tab neutral, im Expanded kupfer+kursiv */
-#hero .card__header-name em {
-  font-style: normal;
-  color: inherit;
-  transition: color var(--dur) var(--ease);
-}
-
-#hero.is-active .card__header-name em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent-kupfer);
-}
-
-/* Body füllt die ganze Card aus, trägt Hintergrundbild + Overlay */
+/* Body füllt die ganze Card, Inhalt beginnt bei ~30vh von oben */
 #hero .card__body {
   position: absolute;
   inset: 0;
@@ -68,8 +31,8 @@
   -webkit-mask-image: none;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: var(--pad) var(--pad) 30vh;
+  justify-content: flex-start;
+  padding: 30vh var(--pad) var(--pad);
   color: white;
   background: url('img/ICE_an_Gleis_8_B.jpg') 60% / cover;
   overflow: hidden;
@@ -83,37 +46,30 @@
   background: linear-gradient(
     to bottom,
     rgba(28, 18, 8, 0.35) 0%,
-    rgba(28, 18, 8, 0.70) 25%,
-    rgba(28, 18, 8, 0.85) 60%,
-    rgba(28, 18, 8, 0.92) 100%
+    rgba(28, 18, 8, 0.65) 28%,
+    rgba(28, 18, 8, 0.78) 60%,
+    rgba(28, 18, 8, 0.88) 100%
   );
   z-index: 1;
 }
 
 #hero .card__body > * { position: relative; z-index: 2; }
 
-/* Reorder: label + p above h1 so they don't overlap the morphed title */
 .hero-label {
-  order: 1;
   font-size: 0.8rem;
   font-weight: 400;
   letter-spacing: 0.04em;
   opacity: 0.75;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 #hero h1 {
-  order: 3;
-  font-size: clamp(3rem, 13vw, 6rem);
+  font-size: clamp(2.8rem, 12vw, 5.5rem);
   font-weight: 900;
-  line-height: 1.0;
-  margin-bottom: 0.9rem;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
-  transition: opacity var(--dur) var(--ease);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
 }
-
-/* h1 als unsichtbarer Layout-Spacer wenn Header-Morph aktiv */
-#hero.is-active h1 { opacity: 0; }
 
 #hero h1 em {
   font-style: italic;
@@ -122,7 +78,6 @@
 }
 
 #hero p {
-  order: 2;
   font-size: 0.85rem;
   line-height: 1.6;
   opacity: 0.8;

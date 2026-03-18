@@ -1,10 +1,5 @@
 /* ─── ABFAHRTEN ─── */
 
-#abfahrten .card__body {
-  mask-image: none;
-  -webkit-mask-image: none;
-}
-
 #datum {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -27,6 +22,30 @@
 }
 
 
+/* ── Sticky-Bereich (Uhr, Datum, Filter, Tabellenheader) ── */
+
+.abfahrten-sticky {
+  flex-shrink: 0;
+  padding: 1.5rem var(--pad) 0;
+}
+
+#abfahrten .card__body {
+  padding-top: 0;
+  padding-bottom: 2rem;
+  padding-right: 0;
+  mask-image: none;
+  -webkit-mask-image: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+
+@media (min-width: 768px) {
+  .abfahrten-sticky { padding: 2rem 2.5rem 0; }
+}
+
+
 /* ── Fahrplan-Tabelle ── */
 
 .timetable-wrap {
@@ -40,20 +59,12 @@
   table-layout: fixed;
 }
 
-/* thead bleibt sichtbar, nur tbody scrollt */
-.timetable thead tr,
-.timetable tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-}
 
-.timetable tbody {
-  display: block;
-  height: calc(5 * 56px);
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.25) transparent;
+.timetable tr.departing {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateX(-24px);
+  pointer-events: none;
 }
 
 /* Spaltenbreiten fixieren damit thead + tbody fluchten */
@@ -61,6 +72,12 @@
 .timetable th:nth-child(2), .timetable td:nth-child(2) { width: 48%; }
 .timetable th:nth-child(3), .timetable td:nth-child(3) { width: 18%; }
 .timetable th:nth-child(4), .timetable td:nth-child(4) { width: 12%; }
+
+.timetable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
 
 .timetable th {
   background: rgba(28, 18, 8, 0.4);
@@ -135,14 +152,16 @@
 }
 
 .badge-ice { background: var(--badge-ice); }
+.badge-ic  { background: #922b21; }
+.badge-ec  { background: #1a5276; }
 .badge-s   { background: var(--badge-s);   }
 .badge-rb  { background: var(--badge-rb);  }
 .badge-re  { background: var(--badge-re);  }
+.badge-bus { background: #e67e22; }
 
-#abfahrten .card__body > small {
-  display: block;
-  text-align: center;
-  font-size: 0.65rem;
-  opacity: 0.5;
-  padding-top: 1rem;
+#abfahrten .card__body .source {
+  font-size: 0.7rem;
+  opacity: 0.55;
+  margin-top: 0.5rem;
 }
+

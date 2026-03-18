@@ -37,7 +37,9 @@ function measure() {
 
 // Wie viel Inhalt in Card i über die sichtbare Fläche hinausgeht
 function contentScrollable(i) {
-  const body = cards[i].querySelector('.card__body');
+  const body   = cards[i].querySelector('.card__body');
+  // Abfahrten: scrollt eigenständig, kein JS-gestützter Scroll
+  if (cards[i].querySelector('.abfahrten-sticky')) return 0;
   return Math.max(0, body.scrollHeight - (OPEN_H - TAB));
 }
 
@@ -137,7 +139,6 @@ function update() {
     // Übergang: Card 'to' schiebt sich rein, Card 'from' klappt zu
     const { from, to } = range;
     const delta = s - range.start;
-    const progress = delta / (range.end - range.start);  // 0 → 1
 
     for (let i = 0; i < N - 1; i++) {
       const card = cards[i];
@@ -232,6 +233,7 @@ function offsetInBody(el, body) {
 }
 
 document.addEventListener('focusin', e => {
+  if (e.target.closest('#abfahrten nav')) return;  // Filter-Buttons ausschliessen
   const cardEl  = e.target.closest('.card');
   if (!cardEl) return;
   const cardIdx = cards.indexOf(cardEl);
@@ -259,6 +261,183 @@ buildRanges();
 update();
 
 scroller.addEventListener('scroll', update, { passive: true });
+
+// Abfahrten: Header schrumpft beim Tabellen-Scroll
+const abfahrtenBody = document.querySelector('#abfahrten .card__body');
+if (abfahrtenBody) {
+  abfahrtenBody.addEventListener('scroll', () => {
+    document.getElementById('abfahrten')
+      .classList.toggle('is-scrolled', abfahrtenBody.scrollTop > 10);
+  }, { passive: true });
+}
+
+// ── Abfahrten Filter & Live-Daten ─────────────────────────────
+const filterMap = {
+  'ICE':    'badge-ice',
+  'IC':     'badge-ic',
+  'EC':     'badge-ec',
+  'RB':     'badge-rb',
+  'RE':     'badge-re',
+  'S-Bahn': 'badge-s',
+  'Bus':    'badge-bus',
+};
+
+const filterBtns = [...document.querySelectorAll('#abfahrten nav button')];
+
+function applyCurrentFilter() {
+  const activeBtn = document.querySelector('#abfahrten nav button.active');
+  const filter    = activeBtn ? activeBtn.textContent.trim() : 'Alle';
+  document.querySelectorAll('.timetable tbody tr').forEach(row => {
+    row.hidden = filter !== 'Alle' && !row.querySelector('.' + filterMap[filter]);
+  });
+}
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyCurrentFilter();
+    buildRanges();
+    update();
+  });
+});
+
+// ── Simulierte Abfahrten ───────────────────────────────────────
+
+const SIM_TEMPLATES = [
+  { name: 'ICE 505', badge: 'badge-ice', direction: 'München Hbf',           via: ['Frankfurt (Main) Hbf', 'Nürnberg Hbf'],     gleis: '4',   interval: 60,  offset: 5  },
+  { name: 'ICE 11',  badge: 'badge-ice', direction: 'Berlin Hbf',            via: ['Frankfurt (Main) Hbf', 'Erfurt Hbf'],       gleis: '4',   interval: 120, offset: 35 },
+  { name: 'IC 2028', badge: 'badge-ic',  direction: 'Köln Hbf',              via: ['Koblenz Hbf'],                              gleis: '3',   interval: 120, offset: 52 },
+  { name: 'EC 9',    badge: 'badge-ec',  direction: 'Basel SBB',             via: ['Frankfurt (Main) Hbf', 'Freiburg (Brsg)'], gleis: '4',   interval: 180, offset: 78 },
+  { name: 'RE 9',    badge: 'badge-re',  direction: 'Frankfurt (Main) Hbf',  via: ['Frankfurt-Höchst'],                        gleis: '1',   interval: 30,  offset: 8  },
+  { name: 'RE 25',   badge: 'badge-re',  direction: 'Limburg (Lahn)',         via: ['Bad Schwalbach'],                          gleis: '2',   interval: 60,  offset: 22 },
+  { name: 'RB 10',   badge: 'badge-rb',  direction: 'Koblenz Hbf',           via: ['Rüdesheim', 'Bingen (Rhein)'],            gleis: '2',   interval: 60,  offset: 35 },
+  { name: 'RB 21',   badge: 'badge-rb',  direction: 'Niedernhausen',         via: ['Wiesbaden-Ost', 'Idstein'],               gleis: '3',   interval: 30,  offset: 11 },
+  { name: 'S 1',     badge: 'badge-s',   direction: 'Rödermark-Ober-Roden',  via: ['Frankfurt Hbf', 'Darmstadt'],             gleis: '5',   interval: 20,  offset: 0  },
+  { name: 'S 8',     badge: 'badge-s',   direction: 'Hanau Hbf',             via: ['Frankfurt Flughafen', 'Frankfurt Hbf'],   gleis: '6',   interval: 20,  offset: 7  },
+  { name: 'S 9',     badge: 'badge-s',   direction: 'Hanau Hbf',             via: ['Frankfurt Flughafen', 'Frankfurt Hbf'],   gleis: '7',   interval: 20,  offset: 13 },
+  { name: 'Bus X83', badge: 'badge-bus', direction: 'Mainz Hbf',             via: ['Biebrich'],                               gleis: 'ZOB', interval: 30,  offset: 3  },
+];
+
+function buildSimDeps() {
+  const now     = Date.now();
+  const horizon = now + 3 * 60 * 60_000;
+  const midnight = new Date(); midnight.setHours(0, 0, 0, 0);
+  const deps = [];
+  for (const t of SIM_TEMPLATES) {
+    const ms = t.interval * 60_000;
+    let time  = midnight.getTime() + t.offset * 60_000;
+    while (time < now - 60_000) time += ms;
+    while (time <= horizon) {
+      const delay = Math.random() < 0.25 ? Math.floor(Math.random() * 7) + 1 : 0;
+      deps.push({ time, delay, ...t });
+      time += ms;
+    }
+  }
+  return deps.sort((a, b) => a.time - b.time);
+}
+
+function timeStr(ts) {
+  const d = new Date(ts);
+  return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+}
+
+function renderSimDeps(deps) {
+  const tbody = document.querySelector('.timetable tbody');
+  if (!tbody) return;
+  tbody.innerHTML = deps.map(d => {
+    const delayHtml = d.delay > 0 ? ` <small class="delay">+${d.delay}'</small>` : '';
+    const viaHtml   = d.via.length ? `<br><small>via ${d.via.slice(0, 2).join(', ')}</small>` : '';
+    return `<tr data-time="${d.time}">
+      <td>${timeStr(d.time)}${delayHtml}</td>
+      <td>${d.direction}${viaHtml}</td>
+      <td><span class="badge ${d.badge}">${d.name}</span></td>
+      <td>${d.gleis}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('abfahrten-source').textContent = 'Simulierte Daten';
+  applyCurrentFilter();
+  buildRanges();
+  update();
+}
+
+function checkExpiredRows() {
+  const tbody = document.querySelector('.timetable tbody');
+  if (!tbody) return;
+  const now = Date.now();
+  [...tbody.querySelectorAll('tr:not(.departing)')].forEach(row => {
+    if (+row.dataset.time < now) {
+      row.classList.add('departing');
+      setTimeout(() => { row.remove(); buildRanges(); update(); }, 600);
+    }
+  });
+  // Nachfüllen wenn weniger als 10 Zeilen übrig
+  if (tbody.querySelectorAll('tr:not(.departing)').length < 10) {
+    renderSimDeps(buildSimDeps());
+  }
+}
+
+// Sofort rendern + alle 30s abgelaufene Zeilen entfernen
+renderSimDeps(buildSimDeps());
+setInterval(checkExpiredRows, 30_000);
+
+// ── Live-API (überschreibt Simulation wenn verfügbar) ──────────
+const ABFAHRTEN_API = 'https://v6.db.transport.rest/stops/8000250/departures?results=30&duration=180&stopovers=true';
+
+function depBadge(line) {
+  const name    = (line.name || '').trim();
+  const product = line.product || '';
+  if (product === 'bus')         return 'badge-bus';
+  if (product === 'suburban')    return 'badge-s';
+  if (name.startsWith('ICE'))    return 'badge-ice';
+  if (name.startsWith('EC'))     return 'badge-ec';
+  if (name.startsWith('IC'))     return 'badge-ic';
+  if (product === 'nationalExpress' || product === 'national') return 'badge-ice';
+  if (name.startsWith('RE'))     return 'badge-re';
+  return 'badge-rb';
+}
+
+function renderDepartures(deps) {
+  const tbody = document.querySelector('.timetable tbody');
+  if (!tbody) return;
+  tbody.innerHTML = deps
+    .filter(d => d.line.product !== 'tram' && d.line.product !== 'subway' && d.line.product !== 'taxi')
+    .map(d => {
+      const ts        = new Date(d.plannedWhen || d.when).getTime();
+      const time      = timeStr(ts);
+      const delayMin  = d.delay ? Math.round(d.delay / 60) : 0;
+      const delayHtml = delayMin > 0 ? ` <small class="delay">+${delayMin}'</small>` : '';
+      const badge     = depBadge(d.line);
+      const gleis     = d.plannedPlatform || d.platform || '–';
+      const stopovers = d.nextStopovers || d.stopovers || [];
+      const viaNames  = stopovers.map(s => s.stop?.name).filter(n => n && n !== d.direction).slice(0, 2);
+      const viaHtml   = viaNames.length ? `<br><small>via ${viaNames.join(', ')}</small>` : '';
+      return `<tr data-time="${ts}">
+        <td>${time}${delayHtml}</td>
+        <td>${d.direction || '–'}${viaHtml}</td>
+        <td><span class="badge ${badge}">${d.line.name}</span></td>
+        <td>${gleis}</td>
+      </tr>`;
+    }).join('');
+  document.getElementById('abfahrten-source').textContent = 'Live-Daten';
+  applyCurrentFilter();
+  buildRanges();
+  update();
+}
+
+async function fetchDepartures() {
+  try {
+    const res  = await fetch(ABFAHRTEN_API);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    if (data.departures?.length) renderDepartures(data.departures);
+  } catch {
+    // Simulation läuft bereits, nichts zu tun
+  }
+}
+
+fetchDepartures();
+setInterval(fetchDepartures, 60_000);
 
 // ── Leaflet Karte ─────────────────────────────────────────────
 // scrollWheelZoom deaktiviert — sonst würde das Mausrad die Karte zoomen statt zu scrollen
