@@ -26,15 +26,23 @@
 
 .abfahrten-sticky {
   flex-shrink: 0;
-  padding: 1.5rem var(--pad) 0;
+  padding: 1rem var(--pad) 0;
 }
 
 #abfahrten .card__body {
   padding-top: 0;
-  padding-bottom: 2rem;
-  padding-right: 0;
+  padding-bottom: 1rem;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
   mask-image: none;
   -webkit-mask-image: none;
+  display: flex;
+  flex-direction: column;
+}
+
+#abfahrten .timetable-wrap {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -80,7 +88,7 @@
 }
 
 .timetable th {
-  background: rgba(28, 18, 8, 0.4);
+  background: #3a1a08;
   color: rgb(216, 216, 216);
   font-family: var(--font-body);
   font-size: 11px;

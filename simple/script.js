@@ -263,11 +263,11 @@ update();
 scroller.addEventListener('scroll', update, { passive: true });
 
 // Abfahrten: Header schrumpft beim Tabellen-Scroll
-const abfahrtenBody = document.querySelector('#abfahrten .card__body');
-if (abfahrtenBody) {
-  abfahrtenBody.addEventListener('scroll', () => {
+const abfahrtenTable = document.querySelector('#abfahrten .timetable-wrap');
+if (abfahrtenTable) {
+  abfahrtenTable.addEventListener('scroll', () => {
     document.getElementById('abfahrten')
-      .classList.toggle('is-scrolled', abfahrtenBody.scrollTop > 10);
+      .classList.toggle('is-scrolled', abfahrtenTable.scrollTop > 10);
   }, { passive: true });
 }
 
