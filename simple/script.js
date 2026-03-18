@@ -92,6 +92,7 @@ function applyPinned(activeIdx) {
     cards[i].style.zIndex = i + 1;
     const active = i === activeIdx;
     cards[i].classList.toggle('is-active', active);
+    cards[i].classList.toggle('is-fully-open', active);
     if (!active) cards[i].classList.remove('is-scrolled');
   }
   cards[N - 1].style.zIndex = N;  // Footer immer oben
@@ -163,6 +164,7 @@ function update() {
       const toCardHeight = Math.min(OPEN_H, TAB + delta);
       const active = (i === to && toCardHeight >= OPEN_H * 0.2);
       card.classList.toggle('is-active', active);
+      card.classList.remove('is-fully-open');
       // Keep from-card's header suppressed so its title doesn't re-expand mid-transition
       if (i === from) card.classList.add('is-scrolled');
       else card.classList.remove('is-scrolled');
@@ -269,6 +271,14 @@ if (abfahrtenTable) {
     document.getElementById('abfahrten')
       .classList.toggle('is-scrolled', abfahrtenTable.scrollTop > 10);
   }, { passive: true });
+
+  // Wenn Card noch nicht vollständig offen: Wheel-Events an Haupt-Scroller weiterleiten
+  abfahrtenTable.addEventListener('wheel', (e) => {
+    if (!document.getElementById('abfahrten').classList.contains('is-fully-open')) {
+      e.preventDefault();
+      scroller.scrollTop += e.deltaY;
+    }
+  }, { passive: false });
 }
 
 // ── Abfahrten Filter & Live-Daten ─────────────────────────────
@@ -287,9 +297,13 @@ const filterBtns = [...document.querySelectorAll('#abfahrten nav button')];
 function applyCurrentFilter() {
   const activeBtn = document.querySelector('#abfahrten nav button.active');
   const filter    = activeBtn ? activeBtn.textContent.trim() : 'Alle';
+  let visible = 0;
   document.querySelectorAll('.timetable tbody tr').forEach(row => {
-    row.hidden = filter !== 'Alle' && !row.querySelector('.' + filterMap[filter]);
+    const hide = filter !== 'Alle' && !row.querySelector('.' + filterMap[filter]);
+    row.hidden = hide;
+    if (!hide) visible++;
   });
+  document.querySelector('.timetable-empty').hidden = visible > 0;
 }
 
 filterBtns.forEach(btn => {

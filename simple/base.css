@@ -11,11 +11,11 @@
 
   /* Farben — Cards */
   --color-hero:       #cc2222;
-  --color-abfahrten:  #6b3020;
-  --color-geschichte: #2d4a35;
-  --color-kaiser:     #f0ebe0;
-  --color-karte:      #1a1a2e;
-  --color-footer:     #1C1208;
+  --color-abfahrten:  #8B4A2B;
+  --color-geschichte: #2D4A3E;
+  --color-kaiser:     #F5EFE0;
+  --color-karte:      #1C1208;
+  --color-footer:     #2D4A3E;
 
   /* Farben — Text */
   --text-light: #ffffff;
@@ -32,8 +32,8 @@
   --badge-re:  #2980b9;
 
   /* Farben — Timetable */
-  --timetable-row:    #1C1208;
-  --timetable-border: #2e1e0e;
+  --timetable-row:    #361a0c;
+  --timetable-border: #7a3d20;
   --timetable-delay:  #e74c3c;
 
   /* Fonts */

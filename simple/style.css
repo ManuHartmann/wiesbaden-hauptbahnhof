@@ -11,11 +11,11 @@
 
   /* Farben — Cards */
   --color-hero:       #cc2222;  /* Hintergrundfarbe der Seite (hinter Hero) */
-  --color-abfahrten:  #6b3020;
-  --color-geschichte: #2d4a35;
-  --color-kaiser:     #f0ebe0;
-  --color-karte:      #1a1a2e;
-  --color-footer:     #1C1208;
+  --color-abfahrten:  #8B4A2B;
+  --color-geschichte: #2D4A3E;
+  --color-kaiser:     #F5EFE0;
+  --color-karte:      #1C1208;
+  --color-footer:     #2D4A3E;
 
   /* Farben — Text */
   --text-light: #ffffff;
