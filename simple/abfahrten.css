@@ -1,11 +1,11 @@
 /* ─── ABFAHRTEN ─── */
 
 #datum {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   opacity: 0.6;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 #uhr {
@@ -13,7 +13,7 @@
   font-size: 2.75rem;
   font-weight: bold;
   font-family: var(--font-display);
-  margin-bottom: 0.2rem;
+  margin-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -44,13 +44,13 @@
   flex: 1;
   min-height: 0;
   overflow-y: hidden;
-  overscroll-behavior: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.18) transparent;
 }
 
 #abfahrten.is-fully-open .timetable-wrap {
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 @media (min-width: 768px) {
@@ -68,18 +68,7 @@
   width: 100%;
   min-width: 320px;
   border-collapse: collapse;
-  border-spacing: 0;
   table-layout: fixed;
-}
-
-.timetable, .timetable th, .timetable td {
-  border-left: none;
-  border-right: none;
-  border-top: none;
-}
-
-.timetable tbody, .timetable tr {
-  background: var(--timetable-row);
 }
 
 
@@ -103,11 +92,10 @@
 }
 
 .timetable th {
-  border: none;
-  background: #1C1208;
+  background: #3a1a08;
   color: rgb(216, 216, 216);
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -126,23 +114,22 @@
   max-height: 56px;
   overflow: hidden;
   padding: 0.85rem 0.5rem;
-  border: none;
   border-bottom: 1px solid var(--timetable-border);
   text-align: left;
 }
 
 .timetable td small {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   color: #888;
   margin-top: 0.2rem;
   text-align: left;
 }
 
-.timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.75rem; }
+.timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.85rem; }
 
 .timetable th:nth-child(4),
-.timetable td:nth-child(4) { text-align: right; padding-right: 15px; }
+.timetable td:nth-child(4) { text-align: right; padding-right: 12px; }
 
 @media (min-width: 768px) {
   .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
@@ -151,27 +138,28 @@
 
 /* ── Filter-Buttons & Badges ── */
 
-#abfahrten nav { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+#abfahrten nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
 
 #abfahrten nav button {
+  min-height: 44px;
   padding: 0.5rem 1rem;
   border: 1px solid white;
   background: transparent;
   color: white;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   letter-spacing: 0.08em;
   cursor: pointer;
   border-radius: 8px;
 }
 
-#abfahrten nav button.active { background: #1C1208; }
+#abfahrten nav button.active { background: rgba(28, 18, 8, 0.35); }
 
 .badge {
   display: inline-block;
   padding: 0.2rem 0.5rem;
   border-radius: 1px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: bold;
   color: white;
 }
@@ -185,14 +173,14 @@
 .badge-bus { background: #e67e22; }
 
 .timetable-empty {
-  font-size: 0.85rem;
+  font-size: 1rem;
   opacity: 0.5;
   padding: 1.5rem 0;
   text-align: center;
 }
 
 #abfahrten .card__body .source {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   opacity: 0.55;
   margin-top: 0.5rem;
 }

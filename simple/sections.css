@@ -59,11 +59,11 @@
 
 .timeline-content { flex: 1; padding-left: 0.75rem; }
 .timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
-.timeline-content p { font-size: 0.9rem; line-height: 1.6; opacity: 0.85; }
+.timeline-content p { font-size: 1rem; line-height: 1.6; opacity: 0.85; }
 .timeline-content figure { margin-top: 0.75rem; }
 .timeline-content img { width: 100%; min-height: 150px; border-radius: 4px; }
-.timeline-content figcaption { font-size: 0.7rem; opacity: 0.55; margin-top: 0.3rem; }
-.timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
+.timeline-content figcaption { font-size: 0.85rem; opacity: 0.55; margin-top: 0.3rem; }
+.timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
 
 @media (min-width: 768px) {
   .timeline-entry:not(:last-child)::after { left: calc(100px + 16px); }
@@ -154,7 +154,7 @@
 }
 
 .kaiser-bilder figcaption {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   opacity: 0.55;
   margin-top: 0.3rem;
 }
@@ -170,7 +170,7 @@
 }
 
 .kaiser-note i { font-size: 1.1rem; opacity: 0.5; flex-shrink: 0; padding-top: 0.15rem; }
-.kaiser-note p { font-size: 0.85rem; line-height: 1.6; opacity: 0.75; margin: 0; }
+.kaiser-note p { font-size: 1rem; line-height: 1.6; opacity: 0.75; margin: 0; }
 
 @media (min-width: 768px) {
   .kaiser-bilder { margin: 1.25rem -2.5rem; }
@@ -208,7 +208,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   opacity: 0.85;
 }
 
@@ -230,7 +230,7 @@
   padding: 0.6rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   text-decoration: none;
   text-align: center;
   letter-spacing: 0.1em;
@@ -280,7 +280,7 @@ footer .card__body {
 }
 
 .footer-meta {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   opacity: 0.4;
@@ -293,7 +293,7 @@ footer .card__body {
   padding: 0.6rem 1.2rem;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   text-decoration: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -307,4 +307,4 @@ footer .card__body {
   border-color: rgba(255, 255, 255, 0.7);
 }
 
-.footer-button i { font-size: 0.7rem; }
+.footer-button i { font-size: 0.85rem; }
