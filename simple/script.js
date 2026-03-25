@@ -12,8 +12,8 @@ tick();
 setInterval(tick, 1000);
 
 // ── Card Stack (komplex-Architektur) ──────────────────────────────────────
-const TAB     = 100;             // px — muss mit --tab-h in CSS übereinstimmen
-const OVERLAP = 55;             // px — muss mit border-radius in CSS übereinstimmen!
+const TAB     = 75;              // px — muss mit --tab-h in CSS übereinstimmen
+const OVERLAP = 25;             // px — muss mit border-radius in CSS übereinstimmen!
 const NET     = TAB - OVERLAP;  // px — netto Scroll-Abstand pro Tab
 const PAUSE   = 150;            // px — Scroll-Stop am Ende jeder Card
 
@@ -75,9 +75,9 @@ function buildRanges() {
 
 // Wo liegt Card i wenn Card activeIdx offen ist?
 function pinnedPos(i, activeIdx) {
-  if (i < activeIdx)   return { top: i * NET,                          height: TAB    };
-  if (i === activeIdx) return { top: activeIdx * NET,                  height: OPEN_H };
-  /* i > activeIdx */  return { top: TOTAL - OVERLAP - (N - 1 - i) * NET, height: TAB    };
+  if (i < activeIdx)   return { top: i * NET,                               height: TAB    };
+  if (i === activeIdx) return { top: activeIdx * NET,                        height: i === N - 2 ? OPEN_H - OVERLAP : OPEN_H };
+  /* i > activeIdx */  return { top: TOTAL - OVERLAP - (N - 1 - i) * NET,  height: TAB    };
 }
 
 function setCard(card, top, height) {
@@ -95,7 +95,7 @@ function applyPinned(activeIdx) {
     cards[i].classList.toggle('is-fully-open', active);
     if (!active) cards[i].classList.remove('is-scrolled');
   }
-  cards[N - 1].style.zIndex = N;  // Footer immer oben
+  cards[N - 1].style.zIndex = 50;  // Footer über der CSS-Maske (#stack::after)
 }
 
 // Hauptfunktion — bei jedem Scroll-Tick
@@ -152,7 +152,8 @@ function update() {
 
       } else if (i === to) {
         const startTop = TOTAL - OVERLAP - (N - 1 - to) * NET;
-        setCard(card, startTop - delta, Math.min(OPEN_H, TAB + delta));
+        const maxH = to === N - 2 ? OPEN_H - OVERLAP : OPEN_H;
+        setCard(card, startTop - delta, Math.min(maxH, TAB + delta));
         card.querySelector('.card__body').scrollTop = 0;
 
       } else {

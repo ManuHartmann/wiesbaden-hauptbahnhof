@@ -33,12 +33,13 @@
   --dur:  0.45s;
 
   /* Hintergrundfarben der einzelnen Cards */
-  --color-hero:       #cc2222;  /* Hintergrund hinter dem Hero-Bild */
+  --color-hero:       #cc2222;  /* Hintergrund hinter dem Hero-Bild (sichtbar bis Bild lädt) */
   --color-abfahrten:  #8B4A2B;
-  --color-geschichte: #2D4A3E;
+  --color-gruen:      #2D4A3E;  /* Gemeinsame Basis für Geschichte + Footer */
+  --color-geschichte: var(--color-gruen);
   --color-kaiser:     #F5EFE0;
   --color-karte:      #1C1208;
-  --color-footer:     #2D4A3E;
+  --color-footer:     var(--color-gruen);
 
   /* Textfarben */
   --text-light: #ffffff;
@@ -50,18 +51,37 @@
 
   /* Farben für Linien-Badges in der Fahrplan-Tabelle */
   --badge-ice: #e74c3c;
+  --badge-ic:  #922b21;
+  --badge-ec:  #1a5276;
   --badge-s:   #27ae60;
   --badge-rb:  #8d6e63;
   --badge-re:  #2980b9;
+  --badge-bus: #e67e22;
 
   /* Farben innerhalb der Fahrplan-Tabelle */
-  --timetable-row:    #361a0c;   /* Zeilenhintergrund */
-  --timetable-border: #7a3d20;   /* Trennlinie zwischen Zeilen */
-  --timetable-delay:  #e74c3c;   /* Verspätungsanzeige */
+  --timetable-row:         #361a0c;           /* Zeilenhintergrund */
+  --timetable-border:      #7a3d20;           /* Trennlinie zwischen Zeilen */
+  --timetable-delay:       #e74c3c;           /* Verspätungsanzeige */
+  --timetable-header-bg:   #3a1a08;           /* Kopfzeile Hintergrund */
+  --timetable-header-text: rgb(216, 216, 216);/* Kopfzeile Textfarbe */
+
+  /* Sekundäre Textfarbe (z.B. Via-Linie in Tabelle) */
+  --text-muted: #888;
 
   /* Schriftarten */
   --font-display: 'Playfair Display', Georgia, serif;  /* Überschriften */
   --font-body:    'Abel', Arial, sans-serif;            /* Fliesstext */
+
+  /*
+   * Breakpoints (Mobile First — min-width)
+   * ───────────────────────────────────────
+   * Hinweis: CSS Custom Properties funktionieren leider nicht in @media.
+   * Diese Werte hier dienen nur als Referenz — immer gleich halten!
+   *
+   *   --bp-tablet:     768px   Tablet (iPad Portrait)
+   *   --bp-desktop:   1024px   Desktop / iPad Landscape
+   *   --bp-wide:      1440px   Widescreen / grosse Monitore
+   */
 }
 
 /* Reset: Box-Sizing + margin/padding auf alle Elemente */
@@ -73,6 +93,7 @@
 
 body {
   font-family: var(--font-body);
+  background-color: var(--text-dark); /* Sichtbar bis das Hero-Bild geladen ist */
   height: 100svh;
   overflow: hidden; /* Kein natürliches Scroll — läuft über #scroll-container */
 }
@@ -80,6 +101,19 @@ body {
 /* Accessibility: Skip-Link (für Tastaturnutzer) */
 .skip-link { position: absolute; top: -100px; }
 .skip-link:focus { top: 0; }
+
+/* Accessibility: Visuell versteckt, aber für Screenreader + SEO sichtbar */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Überschriften immer mit Display-Font */
 h1, h2, h3 { font-family: var(--font-display); }
@@ -136,6 +170,22 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
   overflow: hidden;
 }
 
+/* Maske: verdeckt die untersten 25px (= OVERLAP = border-radius) des Stacks.
+   Dadurch zeigt die unterste Tab-Karte (karte) dieselbe sichtbare Höhe wie alle
+   anderen Tabs — der Overlap bleibt erhalten, die Rundung bleibt sichtbar.
+   Der Footer hat z-index: 50 (JS) und schiebt sich darüber hinweg. */
+#stack::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25px;          /* = OVERLAP / border-radius */
+  background: var(--text-dark);
+  z-index: 20;
+  pointer-events: none;
+}
+
 /* Card-Basis — top + height werden vom JavaScript gesetzt */
 .card {
   position: absolute;
@@ -143,7 +193,7 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
   right: 0;
   border-radius: 25px 25px 0 0; /* Abgerundete Oberkante */
   overflow: hidden;
-  box-shadow: 0 -8px 24px rgba(28, 18, 8, 0.3);
+  box-shadow: 0 -8px 24px rgb(from var(--text-dark) r g b / 0.3);
   display: flex;
   flex-direction: column;
 }
@@ -172,7 +222,11 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   cursor: pointer;
   color: inherit;
   overflow: hidden;
-  transition: height var(--dur) var(--ease);
+  transition: height var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.card__header:hover {
+  background: rgba(255, 255, 255, 0.07);
 }
 
 /* Icon im Tab — absolut positioniert, animiert unabhängig vom Text */
@@ -299,18 +353,13 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   white-space: nowrap;
 }
 
-#hero.is-active .card__header-icon {
-  font-size: 0.9rem;
-  opacity: 0.65;
-}
-
 /* Header schwebt als dezenter Gradient-Streifen über dem Bild */
 #hero .card__header {
   position: absolute;
   top: 0;
   z-index: 2;
   color: white;
-  background: linear-gradient(to bottom, rgba(28,18,8,0.55) 0%, transparent 100%);
+  background: linear-gradient(to bottom, rgb(from var(--text-dark) r g b / 0.55) 0%, transparent 100%);
 }
 
 /* Haus-Icon — immer oben links, über Bild und Header */
@@ -352,10 +401,10 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(28, 18, 8, 0.35) 0%,
-    rgba(28, 18, 8, 0.65) 28%,
-    rgba(28, 18, 8, 0.78) 60%,
-    rgba(28, 18, 8, 0.88) 100%
+    rgb(from var(--text-dark) r g b / 0.35) 0%,
+    rgb(from var(--text-dark) r g b / 0.65) 28%,
+    rgb(from var(--text-dark) r g b / 0.78) 60%,
+    rgb(from var(--text-dark) r g b / 0.88) 100%
   );
   z-index: 1;
 }
@@ -422,7 +471,6 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 @media (min-width: 768px) {
-  #abfahrten h2 { font-size: 3rem; }
   #uhr { font-size: 3.5rem; }
 }
 
@@ -502,8 +550,8 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 .timetable th {
-  background: #3a1a08;
-  color: rgb(216, 216, 216);
+  background: var(--timetable-header-bg);
+  color: var(--timetable-header-text);
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 300;
@@ -532,7 +580,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 .timetable td small {
   display: block;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-muted);
   margin-top: 0.2rem;
   text-align: left;
 }
@@ -567,7 +615,12 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 /* Aktiver Filter: leicht dunkler Hintergrund */
-#abfahrten nav button.active { background: rgba(28, 18, 8, 0.35); }
+#abfahrten nav button.active { background: rgb(from var(--text-dark) r g b / 0.35); }
+
+#abfahrten nav button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.8);
+}
 
 
 /* ── Linien-Badges ────────────────────────────────────────────────── */
@@ -583,12 +636,12 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 
 /* Jede Linie hat eine eigene Farbe */
 .badge-ice { background: var(--badge-ice); }
-.badge-ic  { background: #922b21; }
-.badge-ec  { background: #1a5276; }
+.badge-ic  { background: var(--badge-ic);  }
+.badge-ec  { background: var(--badge-ec);  }
 .badge-s   { background: var(--badge-s);   }
 .badge-rb  { background: var(--badge-rb);  }
 .badge-re  { background: var(--badge-re);  }
-.badge-bus { background: #e67e22; }
+.badge-bus { background: var(--badge-bus); }
 
 /* Hinweistext wenn keine Züge für diesen Filter */
 .timetable-empty {
@@ -610,8 +663,6 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
    5. GESCHICHTE — Timeline
    — Vertikale Timeline mit Jahr, Punkt, Verbindungslinie und Inhalt.
    ════════════════════════════════════════════════════════════════════ */
-
-#geschichte h2 strong { font-style: normal; font-weight: 900; }
 
 /* Leichter negativer linker Offset für optisches Alignment */
 .timeline { margin-left: -8px; }
@@ -637,7 +688,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 /* Jahreszahl links */
 .timeline-year {
   flex: 0 0 73px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-size: 1.4rem;
   font-weight: 700;
   text-align: right;
@@ -658,7 +709,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 .timeline-dot::before {
   content: '';
   width: 10px; height: 10px;
-  background: rgba(255, 255, 255);
+  background: white;
   border-radius: 50%;
 }
 
@@ -707,7 +758,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 /* Trennlinien zwischen Blockquote und Paragraphen */
 #kaiser blockquote,
 #kaiser .card__body > p {
-  border-top: 1px solid rgba(28, 18, 8, 0.15);
+  border-top: 1px solid rgb(from var(--text-dark) r g b / 0.15);
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
 }
@@ -788,7 +839,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   display: flex;
   gap: 0.75rem;
   align-items: flex-start;
-  background: rgba(28, 18, 8, 0.06);
+  background: rgb(from var(--text-dark) r g b / 0.06);
   border-radius: 4px;
   padding: 1rem;
   margin-top: 0.25rem;
@@ -894,7 +945,7 @@ footer .card__body {
   padding-bottom: 1.25rem;
 }
 
-/* Desktop: Logo und Link nebeneinander */
+/* Tablet: Logo und Link nebeneinander */
 @media (min-width: 768px) {
   footer .card__body {
     flex-direction: row;
@@ -912,13 +963,6 @@ footer .card__body {
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 0.4rem;
-}
-
-.footer-meta {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  opacity: 0.4;
 }
 
 /* Pill-Button im Footer (Wikipedia) */
@@ -944,3 +988,58 @@ footer .card__body {
 }
 
 .footer-button i { font-size: 0.85rem; }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════════
+
+   Breakpoint-Stufen (Mobile First):
+   ──────────────────────────────────
+   default           →  Mobile        (< 768px)
+   min-width: 768px  →  Tablet        (iPad Portrait, kleine Laptops)
+   min-width: 1024px →  Desktop       (iPad Landscape, normale Laptops)
+   min-width: 1440px →  Widescreen    (grosse Monitore)
+
+   Regel: Ein @media-Block wird nur geschrieben wenn sich
+   tatsächlich etwas ändert — nie als leerer Platzhalter.
+   768px-Anpassungen stehen direkt bei der jeweiligen Komponente oben.
+   ════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Desktop: ab 1024px ──────────────────────────────────────────────
+   Cards bekommen eine maximale Breite und werden zentriert.
+   Typografie wächst nochmal etwas.                            ─────── */
+
+@media (min-width: 1024px) {
+
+  /* Card-Stack zentrieren und begrenzen */
+  #stack {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* Hero-Titel: kann etwas grösser werden */
+  #hero h1 {
+    font-size: clamp(4rem, 6vw, 7rem);
+  }
+
+}
+
+
+/* ── Widescreen: ab 1440px ───────────────────────────────────────────
+   Etwas mehr Platz, grössere Schriften wo es Sinn macht.      ─────── */
+
+@media (min-width: 1440px) {
+
+  /* Stack darf etwas breiter werden */
+  #stack {
+    max-width: 960px;
+  }
+
+  /* Uhr und Datum profitieren von mehr Platz */
+  #uhr {
+    font-size: 4.5rem;
+  }
+
+}

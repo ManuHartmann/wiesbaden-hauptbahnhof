@@ -37,9 +37,10 @@
       <section id="abfahrten" class="card">
         <button class="card__header">
           <i class="fa-solid fa-train card__header-icon"></i>
-          <span class="card__header-name">Nächste Verbindungen</span>
+          <span class="card__header-name" aria-hidden="true">Nächste Verbindungen</span>
         </button>
         <div class="abfahrten-sticky">
+          <h2 class="sr-only">Nächste Verbindungen</h2>
           <time id="uhr">--:--:--</time>
           <p id="datum">--</p>
 
@@ -225,9 +226,10 @@
       <section id="geschichte" class="card">
         <button class="card__header">
           <i class="fa-solid fa-book card__header-icon"></i>
-          <span class="card__header-name">Die Geschichte</span>
+          <span class="card__header-name" aria-hidden="true">Die Geschichte</span>
         </button>
         <div class="card__body">
+          <h2 class="sr-only">Die Geschichte</h2>
           <div class="timeline">
 
             <article class="timeline-entry">
@@ -310,9 +312,10 @@
       <section id="kaiser" class="card">
         <button class="card__header">
           <i class="fa-solid fa-crown card__header-icon"></i>
-          <span class="card__header-name">Der Kaiser &amp; der Bahnhof</span>
+          <span class="card__header-name" aria-hidden="true">Der Kaiser &amp; der Bahnhof</span>
         </button>
         <div class="card__body">
+          <h2 class="sr-only">Der Kaiser &amp; der Bahnhof</h2>
           <blockquote>
             Wiesbaden war die bevorzugte Sommerresidenz des Kaisers — der Bahnhof sein persönliches Empfangsportal.
           </blockquote>
@@ -346,9 +349,10 @@
       <section id="karte" class="card">
         <button class="card__header">
           <i class="fa-solid fa-map-location-dot card__header-icon"></i>
-          <span class="card__header-name">Karte &amp; Umgebung</span>
+          <span class="card__header-name" aria-hidden="true">Karte &amp; Umgebung</span>
         </button>
         <div class="card__body">
+          <h2 class="sr-only">Karte &amp; Umgebung</h2>
           <div id="map"></div>
 
           <ul class="karte-liste">
@@ -372,7 +376,7 @@
       <footer class="card">
         <div class="card__body">
           <div class="footer-top">
-            <p class="footer-title">Wiesbaden<br><em>Hauptbahnhof</em></p>
+            <h2 class="footer-title">Wiesbaden<br><em>Hauptbahnhof</em></h2>
           </div>
 
           <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer" class="footer-button">
