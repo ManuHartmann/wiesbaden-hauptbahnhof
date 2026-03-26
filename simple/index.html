@@ -21,30 +21,32 @@
     <div id="stack">
 
       <!-- ── Card 1: Hero ── -->
-      <section id="hero" class="card" aria-labelledby="hero-h">
-        <i class="fa-solid fa-house hero-icon" aria-hidden="true"></i>
-        <button class="card__header" aria-label="Wiesbaden Hauptbahnhof">
-          <span class="card__header-name" aria-hidden="true">Wiesbaden Hauptbahnhof</span>
+      <section id="hero" class="card">
+        <i class="fa-solid fa-house hero-icon"></i>
+        <button class="card__header">
+          <span class="card__header-name">Wiesbaden Hauptbahnhof </span>
         </button>
         <div class="card__body hero">
           <p class="hero-label">Hessische Landeshauptstadt · Seit 1906</p>
-          <h1 id="hero-h">Wiesbaden<br><em>Hauptbahnhof</em></h1>
+          <h1>Wiesbaden<br><em>Hauptbahnhof</em></h1>
           <p>1906 als Weltkurstadt-Bahnhof eröffnet, mit Kaiserempfang und exklusivem Erstklasse-Salon. 118 Jahre später: zweitgrösster Bahnhof Hessens.</p>
         </div>
       </section>
 
       <!-- ── Card 2: Abfahrten ── -->
-      <section id="abfahrten" class="card" aria-labelledby="abfahrten-h">
-        <button class="card__header" aria-label="Nächste Verbindungen">
-          <i class="fa-solid fa-train card__header-icon" aria-hidden="true"></i>
+      <section id="abfahrten" class="card">
+        <button class="card__header">
+          <i class="fa-solid fa-train card__header-icon"></i>
           <span class="card__header-name" aria-hidden="true">Nächste Verbindungen</span>
         </button>
         <div class="abfahrten-sticky">
-          <h2 id="abfahrten-h" class="sr-only">Nächste Verbindungen</h2>
-          <time id="uhr">--:--:--</time>
-          <p id="datum">--</p>
+          <h2 class="sr-only">Nächste Verbindungen</h2>
+          <div class="clock-group">
+            <time id="uhr">--:--:--</time>
+            <p id="datum">--</p>
+          </div>
 
-          <nav aria-label="Zugtyp filtern">
+          <nav>
             <button class="active">Alle</button>
             <button>ICE</button>
             <button>IC</button>
@@ -59,13 +61,13 @@
         <div class="card__body">
           <p class="timetable-empty" hidden>Keine Verbindungen für diesen Filter.</p>
           <div class="timetable-wrap">
-            <table class="timetable" aria-label="Abfahrtsplan Wiesbaden Hauptbahnhof">
+            <table class="timetable">
               <thead>
                 <tr>
-                  <th scope="col">Abfahrt</th>
-                  <th scope="col">Ziel</th>
-                  <th scope="col">Linie</th>
-                  <th scope="col">Gleis</th>
+                  <th>Abfahrt</th>
+                  <th>Ziel</th>
+                  <th>Linie</th>
+                  <th>Gleis</th>
                 </tr>
               </thead>
               <tbody>
@@ -222,13 +224,13 @@
 
 
       <!-- ── Card 3: Geschichte ── -->
-      <section id="geschichte" class="card" aria-labelledby="geschichte-h">
-        <button class="card__header" aria-label="Die Geschichte">
-          <i class="fa-solid fa-book card__header-icon" aria-hidden="true"></i>
+      <section id="geschichte" class="card">
+        <button class="card__header">
+          <i class="fa-solid fa-book card__header-icon"></i>
           <span class="card__header-name" aria-hidden="true">Die Geschichte</span>
         </button>
         <div class="card__body">
-          <h2 id="geschichte-h" class="sr-only">Die Geschichte</h2>
+          <h2 class="sr-only">Die Geschichte</h2>
           <div class="timeline">
 
             <article class="timeline-entry">
@@ -315,13 +317,14 @@
       </section>
 
       <!-- ── Card 4: Kaiser ── -->
-      <section id="kaiser" class="card" aria-labelledby="kaiser-h">
-        <button class="card__header" aria-label="Der Kaiser &amp; der Bahnhof">
-          <i class="fa-solid fa-crown card__header-icon" aria-hidden="true"></i>
+      <section id="kaiser" class="card">
+        <button class="card__header">
+          <i class="fa-solid fa-crown card__header-icon"></i>
           <span class="card__header-name" aria-hidden="true">Der Kaiser &amp; der Bahnhof</span>
         </button>
         <div class="card__body">
-          <h2 id="kaiser-h" class="sr-only">Der Kaiser &amp; der Bahnhof</h2>
+          <h2 class="sr-only">Der Kaiser &amp; der Bahnhof</h2>
+          <div class="kaiser-text-wrap">
           <blockquote>
             Wiesbaden war die bevorzugte Sommerresidenz des Kaisers. 
             <br>
@@ -332,6 +335,8 @@
             <p>Kaiser Wilhelm II. reiste jeden Mai nach Wiesbaden, das als seine bevorzugte Kurstadt galt. Der Bahnhof wurde bewusst auf diesen Gast ausgerichtet: Ein eigenes Empfangsgebäude an der Westseite der Bahnsteighalle, baulich vom Hauptgebäude getrennt, empfing den Kaiser.</p>
             <p>Der Kaiserbahnsteig war für Hofzüge reserviert und für die Öffentlichkeit vollständig gesperrt. Sogar ein eigener Wartesaal für die erste Klasse war eingerichtet. Kein anderer Bahnhof im Deutschen Reich verfügte über einen solchen separaten Empfangsraum.</p>
           </div>
+          </div><!-- /.kaiser-text-wrap -->
+
           <div class="kaiser-bilder">
             <figure>
               <img src="img/Wartesaal_1_Klasse_WI_Hbf.tif.jpg" alt="Wartesaal 1. Klasse" loading="lazy">
@@ -368,14 +373,14 @@
       </section>
 
       <!-- ── Card 5: Karte ── -->
-      <section id="karte" class="card" aria-labelledby="karte-h">
-        <button class="card__header" aria-label="Karte &amp; Umgebung">
-          <i class="fa-solid fa-map-location-dot card__header-icon" aria-hidden="true"></i>
+      <section id="karte" class="card">
+        <button class="card__header">
+          <i class="fa-solid fa-map-location-dot card__header-icon"></i>
           <span class="card__header-name" aria-hidden="true">Karte &amp; Umgebung</span>
         </button>
         <div class="card__body">
-          <h2 id="karte-h" class="sr-only">Karte &amp; Umgebung</h2>
-          <div id="map" role="application" aria-label="Kartenansicht Wiesbaden Hauptbahnhof"></div>
+          <h2 class="sr-only">Karte &amp; Umgebung</h2>
+          <div id="map"></div>
 
           <div class="karte-side">
             <ul class="karte-liste">
@@ -410,7 +415,7 @@
             </ul>
 
             <div class="karte-links">
-              <a href="https://maps.google.com/?q=Wiesbaden+Hauptbahnhof" target="_blank" rel="noopener noreferrer" aria-label="Google Maps öffnen (neues Fenster)">Google Maps öffnen</a>
+              <a href="https://maps.google.com/?q=Wiesbaden+Hauptbahnhof" target="_blank" rel="noopener noreferrer">Google Maps öffnen</a>
             </div>
           </div>
         </div>
@@ -419,11 +424,13 @@
       <!-- ── Card 6: Footer ── -->
       <footer class="card">
         <div class="card__body">
-          <h2 class="footer-title">Wiesbaden<br><em>Hauptbahnhof</em></h2>
+          <div class="footer-top">
+            <h2 class="footer-title">Wiesbaden<br><em>Hauptbahnhof</em></h2>
+          </div>
 
-          <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer" class="footer-button" aria-label="Weiterlesen auf Wikipedia (neues Fenster)">
+          <a href="https://de.wikipedia.org/wiki/Wiesbaden_Hauptbahnhof" target="_blank" rel="noopener noreferrer" class="footer-button">
             Weiterlesen auf Wikipedia
-            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
       </footer>
