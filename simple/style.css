@@ -26,7 +26,7 @@
 :root {
   /* Layout-Grundwerte */
   --pad:   20px;   /* Horizontaler Innenabstand aller Cards */
-  --tab-h: 50px;   /* Höhe eines zugeklappten Card-Headers (Tab) */
+  --tab-h: 50px;   /* Sichtbare Höhe eines zugeklappten Tabs — JS: NET = TAB - OVERLAP */
 
   /* Timing für alle Animationen (Card-Header-Morphing) */
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
@@ -119,7 +119,7 @@ body {
 h1, h2, h3 { font-family: var(--font-display); }
 
 /* Bilder nie grösser als ihr Container */
-img { max-width: 100%; max-height: 100%; object-fit: cover; }
+img { max-width: 100%; max-height: 100%; }
 
 /* Accessibility: kein sichtbarer Standard-Fokus-Ring, stattdessen
    schöner focus-visible Ring (nur bei Tastaturnavigation) */
@@ -158,7 +158,6 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
   overflow-y: scroll;
   position: relative;
   scrollbar-width: none;          /* Firefox */
-  -webkit-overflow-scrolling: touch;
 }
 #scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
@@ -219,6 +218,8 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
   width: 100%;
   background: transparent;
   border: none;
+  -webkit-appearance: none;
+  appearance: none;
   cursor: pointer;
   color: inherit;
   overflow: hidden;
@@ -486,7 +487,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 /* Body-Reset: kein Default-Padding, Flex-Column für Sticky + Tabelle */
 #abfahrten .card__body {
   padding-top: 0;
-  padding-bottom: 1rem;
+  padding-bottom: 2rem;
   padding-left: var(--pad);
   padding-right: var(--pad);
   mask-image: none;       /* Kein Fade-Effekt in der Abfahrten-Card */
@@ -604,7 +605,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 #abfahrten nav button {
   min-height: 44px;          /* Touch-Target mind. 44px */
   padding: 0.5rem 1rem;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   background: transparent;
   color: white;
   text-transform: uppercase;
@@ -612,14 +613,23 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
   letter-spacing: 0.08em;
   cursor: pointer;
   border-radius: 8px;
+  transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 /* Aktiver Filter: leicht dunkler Hintergrund */
-#abfahrten nav button.active { background: rgb(from var(--text-dark) r g b / 0.35); }
+#abfahrten nav button.active {
+  background: rgb(from var(--text-dark) r g b / 0.35);
+  border-color: rgba(255, 255, 255, 0.9);
+}
 
 #abfahrten nav button:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.8);
+}
+
+#abfahrten nav button:active {
+  background: rgba(255, 255, 255, 0.2);
+  transition: none;
 }
 
 
@@ -740,7 +750,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 .timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
 .timeline-content p { font-size: 1rem; line-height: 1.6; opacity: 0.85; }
 .timeline-content figure { margin-top: 0.75rem; }
-.timeline-content img { width: 100%; min-height: 150px; border-radius: 4px; }
+.timeline-content img { width: 100%; min-height: 150px; border-radius: 4px; object-fit: cover; }
 .timeline-content figcaption { font-size: 0.85rem; opacity: 0.55; margin-top: 0.3rem; }
 .timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; }
 
@@ -775,24 +785,28 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 
 #kaiser blockquote {
   position: relative;
-  padding-left: 2.5rem;
+  padding-left: 0;
   font-style: normal;
   font-size: 1rem;
   line-height: 1.65;
   opacity: 0.85;
   border-left: none;
+  overflow: hidden;
 }
 
-/* Dekoratives Anführungszeichen als Pseudo-Element */
+/* Dekoratives Anführungszeichen als Hintergrund-Element */
 #kaiser blockquote::before {
   content: '\201C';
   position: absolute;
-  left: 0;
-  top: 0.9rem;
+  left: -1rem;
+  top: -2rem;
   font-family: var(--font-display);
-  font-size: 2.75rem;
+  font-size: 18rem;
   line-height: 1;
   color: var(--accent-kaiser);
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Drop Cap für den ersten Buchstaben jedes Paragraphen */
@@ -1042,15 +1056,30 @@ footer .card__body {
     margin: 0 auto;
   }
 
+  /* ── Card-Header Tabs: etwas grösser auf Desktop ──────────────────── */
+
+  .card__header-icon { font-size: 1.05rem; }
+
+  .card__header-name { font-size: 0.85rem; }
+
+  .card.is-active .card__header-icon { font-size: 1.3rem; }
+
+  .card.is-active .card__header-name { font-size: 1.5rem; }
+
+  .card.is-active.is-scrolled .card__header-icon { font-size: 1.05rem; }
+
+  .card.is-active.is-scrolled .card__header-name { font-size: 0.85rem; }
+
   /* Hero-Titel: ~50–60% der Viewport-Breite */
   #hero h1 {
-    font-size: clamp(5rem, 10vw, 11rem);
+    font-size: clamp(3.3rem, 6.7vw, 7.3rem);
   }
 
   /* Besseres Aussenaufnahme-Bild auf Desktop */
   #hero .card__body {
     background-image: url('img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');
     background-position: center;
+    background-size: 108% auto;
   }
 
   /* ── Abfahrten ─────────────────────────────────────────────────────── */
@@ -1108,7 +1137,7 @@ footer .card__body {
 
   /* Mehr Luft links und rechts im Body */
   #geschichte .card__body {
-    max-width: 860px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     padding-left:  clamp(3rem, 5vw, 5rem);
@@ -1150,7 +1179,7 @@ footer .card__body {
 
   /* Höhe fix, Breite passt sich den Originalproprtionen an */
   .timeline-content img {
-    height: 360px;   /* ← hier anpassen */
+    height: 280px;   /* ← hier anpassen */
     width: auto;
     min-height: unset;
     object-fit: unset;
@@ -1159,20 +1188,26 @@ footer .card__body {
   /* ── Kaiser ────────────────────────────────────────────────────────── */
 
   #kaiser .card__body {
-    max-width: none;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     padding-left:  clamp(3rem, 5vw, 5rem);
     padding-right: clamp(3rem, 5vw, 5rem);
   }
 
-  #kaiser blockquote,
-  #kaiser .kaiser-text {
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
+  /* Zitat oben, Text darunter zweispaltig */
   #kaiser blockquote {
     font-size: clamp(1.2rem, 2vw, 1.8rem);
+    max-width: none;
+    margin: 0;
+  }
+
+  #kaiser .kaiser-text {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: none;
+    margin: 0;
   }
 
   #kaiser .kaiser-text > p {
@@ -1180,23 +1215,20 @@ footer .card__body {
     line-height: 1.75;
   }
 
-  /* Bilder nebeneinander, horizontaler Scroll wenn nötig */
+  /* Bilder statisch nebeneinander — 3 gleich breite Spalten */
   .kaiser-bilder {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    overflow-x: unset;
+    scroll-snap-type: unset;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    margin-left: calc(-1 * clamp(3rem, 5vw, 5rem));
-    margin-right: calc(-1 * clamp(3rem, 5vw, 5rem));
   }
 
-  .kaiser-bilder figure {
-    flex: 0 0 clamp(320px, 38vw, 460px);
-  }
-
-  .kaiser-bilder figure:first-child { margin-left: clamp(3rem, 5vw, 5rem); }
-  .kaiser-bilder figure:last-child  { margin-right: clamp(3rem, 5vw, 5rem); }
+  .kaiser-bilder figure { flex: unset; }
+  .kaiser-bilder figure:first-child { margin-left: 0; }
+  .kaiser-bilder figure:last-child  { margin-right: 0; }
 
   .kaiser-bilder img {
     width: 100%;
@@ -1215,11 +1247,15 @@ footer .card__body {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     align-items: start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #map {
     height: 100%;
     min-height: 400px;
+    min-width: 400px;
   }
 
   .karte-side {

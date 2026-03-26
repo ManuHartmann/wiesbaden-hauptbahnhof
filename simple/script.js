@@ -1,5 +1,30 @@
 const tage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 
+// ── Hero Parallax ──────────────────────────────────────────────────────────
+const heroBody = document.querySelector('#hero .card__body');
+if (heroBody && window.matchMedia('(pointer: fine)').matches) {
+  let tx = 0, ty = 0, cx = 0, cy = 0, rafId = null;
+
+  function lerpParallax() {
+    cx += (tx - cx) * 0.08;
+    cy += (ty - cy) * 0.08;
+    heroBody.style.backgroundPosition = `calc(50% + ${cx.toFixed(2)}px) calc(50% + ${cy.toFixed(2)}px)`;
+    rafId = requestAnimationFrame(lerpParallax);
+  }
+
+  heroBody.addEventListener('mousemove', e => {
+    const { left, top, width, height } = heroBody.getBoundingClientRect();
+    tx = ((e.clientX - left) / width  - 0.5) * -20;
+    ty = ((e.clientY - top)  / height - 0.5) * -14;
+    if (!rafId) rafId = requestAnimationFrame(lerpParallax);
+  });
+
+  heroBody.addEventListener('mouseleave', () => {
+    tx = 0; ty = 0;
+    setTimeout(() => { cancelAnimationFrame(rafId); rafId = null; }, 800);
+  });
+}
+
 function tick() {
   const d = new Date();
   const h = String(d.getHours()).padStart(2, '0');
@@ -12,10 +37,10 @@ tick();
 setInterval(tick, 1000);
 
 // ── Card Stack (komplex-Architektur) ──────────────────────────────────────
-const TAB     = 75;              // px — muss mit --tab-h in CSS übereinstimmen
-const OVERLAP = 25;             // px — muss mit border-radius in CSS übereinstimmen!
-const NET     = TAB - OVERLAP;  // px — netto Scroll-Abstand pro Tab
-const PAUSE   = 150;            // px — Scroll-Stop am Ende jeder Card
+const TAB     = 75;              // px — sichtbare Höhe (--tab-h: 50px) + OVERLAP (25px)
+const OVERLAP = 25;             // px — gleich wie border-radius in CSS
+const NET     = TAB - OVERLAP;  // px — sichtbarer Versatz pro Tab (= --tab-h)
+const PAUSE   = 150;            // px — Scroll-Pause am Ende jeder Card
 
 const scroller = document.getElementById('scroll-container');
 const spacer   = document.getElementById('scroll-spacer');
@@ -185,7 +210,7 @@ function scrollToCard(idx) {
 
 cards.forEach((card, i) => {
   if (i === N - 1) return;  // Footer hat keinen Header
-  const header = card.querySelector('.card__header, .card__tab');
+  const header = card.querySelector('.card__header');
   if (header) header.addEventListener('click', () => scrollToCard(i));
 });
 
@@ -224,6 +249,10 @@ document.addEventListener('keydown', e => {
   next.focus({ preventScroll: true });
 });
 
+// Mausklick-Flag: focusin durch Maus/Touch soll kein Scroll auslösen
+let isPointerFocus = false;
+document.addEventListener('pointerdown', () => { isPointerFocus = true; });
+
 // focusin: bei jedem Fokus zur richtigen Stelle scrollen
 function offsetInBody(el, body) {
   let offset = 0;
@@ -235,7 +264,9 @@ function offsetInBody(el, body) {
   return offset;
 }
 
+
 document.addEventListener('focusin', e => {
+  if (isPointerFocus) { isPointerFocus = false; return; }  // Mausklick → kein Scroll
   if (e.target.closest('#abfahrten nav')) return;  // Filter-Buttons ausschliessen
   const cardEl  = e.target.closest('.card');
   if (!cardEl) return;
@@ -312,8 +343,6 @@ filterBtns.forEach(btn => {
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     applyCurrentFilter();
-    buildRanges();
-    update();
   });
 });
 
