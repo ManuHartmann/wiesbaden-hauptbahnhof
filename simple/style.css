@@ -480,7 +480,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 /* Dieser Bereich klebt über der scrollenden Tabelle */
 .abfahrten-sticky {
   flex-shrink: 0;
-  padding: 1rem var(--pad) 0;
+  padding: 0.5rem var(--pad) 0;
 }
 
 /* Body-Reset: kein Default-Padding, Flex-Column für Sticky + Tabelle */
@@ -511,7 +511,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); box
 }
 
 @media (min-width: 768px) {
-  .abfahrten-sticky { padding: 2rem 2.5rem 0; }
+  .abfahrten-sticky { padding: 1rem 2.5rem 0; }
 }
 
 
@@ -1042,9 +1042,15 @@ footer .card__body {
     margin: 0 auto;
   }
 
-  /* Hero-Titel: kann etwas grösser werden */
+  /* Hero-Titel: ~50–60% der Viewport-Breite */
   #hero h1 {
-    font-size: clamp(4rem, 6vw, 7rem);
+    font-size: clamp(5rem, 10vw, 11rem);
+  }
+
+  /* Besseres Aussenaufnahme-Bild auf Desktop */
+  #hero .card__body {
+    background-image: url('img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');
+    background-position: center;
   }
 
   /* ── Abfahrten ─────────────────────────────────────────────────────── */
@@ -1054,42 +1060,36 @@ footer .card__body {
     max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: var(--pad);
+    padding-right: var(--pad);
   }
 
   /* Uhr + Datum links, Filter-Nav rechts */
   .abfahrten-sticky {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    column-gap: 3rem;
-    padding: 2rem 2rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 1rem var(--pad) 1rem;
     max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
+    box-sizing: border-box;
   }
 
   #uhr {
-    grid-column: 1;
-    grid-row: 1;
-    font-size: clamp(3rem, 4vw, 5rem);
+    font-size: clamp(4rem, 4vw, 5rem);
     margin-bottom: 0.2rem;
   }
 
   #datum {
-    grid-column: 1;
-    grid-row: 2;
     margin-bottom: 0;
   }
 
   #abfahrten nav {
-    grid-column: 2;
-    grid-row: 1 / 3;
     margin-bottom: 0;
     justify-content: flex-end;
     align-items: flex-end;
-    align-self: end;
   }
 
   /* Spaltenbreiten: Ziel bekommt mehr Platz */
@@ -1108,7 +1108,7 @@ footer .card__body {
 
   /* Mehr Luft links und rechts im Body */
   #geschichte .card__body {
-    max-width: 1200px;
+    max-width: 860px;
     margin-left: auto;
     margin-right: auto;
     padding-left:  clamp(3rem, 5vw, 5rem);
@@ -1150,9 +1150,8 @@ footer .card__body {
 
   /* Höhe fix, Breite passt sich den Originalproprtionen an */
   .timeline-content img {
-    height: 250px;   /* ← hier anpassen */
+    height: 360px;   /* ← hier anpassen */
     width: auto;
-    max-width: 50%;
     min-height: unset;
     object-fit: unset;
   }
@@ -1160,7 +1159,7 @@ footer .card__body {
   /* ── Kaiser ────────────────────────────────────────────────────────── */
 
   #kaiser .card__body {
-    max-width: 1200px;
+    max-width: 860px;
     margin-left: auto;
     margin-right: auto;
     padding-left:  clamp(3rem, 5vw, 5rem);
@@ -1171,40 +1170,29 @@ footer .card__body {
     font-size: clamp(1.2rem, 2vw, 1.8rem);
   }
 
-  #kaiser .kaiser-text {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    align-items: stretch;
-  }
-
   #kaiser .kaiser-text > p {
-    height: 100%;
-    box-sizing: border-box;
     font-size: clamp(1rem, 1.4vw, 1.2rem);
     line-height: 1.75;
   }
 
-  /* Alle 3 Bilder nebeneinander — kein horizontales Scrollen */
+  /* Bilder nebeneinander, horizontaler Scroll wenn nötig */
   .kaiser-bilder {
-    overflow-x: visible;
-    scroll-snap-type: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     flex-wrap: nowrap;
     margin: 1.5rem 0;
   }
 
   .kaiser-bilder figure {
-    flex: 1;
-    flex-basis: 0;
-    min-width: 0;
+    flex: 0 0 clamp(320px, 38vw, 460px);
   }
 
   .kaiser-bilder figure:first-child { margin-left: 0; }
   .kaiser-bilder figure:last-child  { margin-right: 0; }
 
   .kaiser-bilder img {
-    height: 220px;   /* ← hier anpassen */
     width: 100%;
+    height: 340px;   /* ← hier anpassen */
     object-fit: cover;
   }
 
