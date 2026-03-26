@@ -14,7 +14,12 @@
       "WebFetch(domain:en.wikipedia.org)",
       "WebFetch(domain:www.rmv.de)",
       "Bash(rm -rf \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/wiesbaden-hauptbahnhof/simple/img\" && cp -R \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/wiesbaden-hauptbahnhof/komplex/img\" \"/Users/manuelanyffenegger/Documents/HF/HFIAD24 Semester 4/Responsive Design/wiesbaden-hauptbahnhof/simple/img\")",
-      "WebFetch(domain:v6.db.transport.rest)"
+      "WebFetch(domain:v6.db.transport.rest)",
+      "WebFetch(domain:grokipedia.com)",
+      "WebFetch(domain:www.wiesbaden.de)",
+      "WebFetch(domain:wiki-gateway.eudic.net)",
+      "WebFetch(domain:structurae.net)",
+      "WebFetch(domain:dewiki.de)"
     ]
   }
 }

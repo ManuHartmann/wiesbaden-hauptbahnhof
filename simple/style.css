@@ -206,7 +206,7 @@ img { max-width: 100%; max-height: 100%; object-fit: cover; }
 #geschichte { background: var(--color-geschichte); color: var(--text-light); }
 #kaiser     { background: var(--color-kaiser);     color: var(--text-dark);  }
 #karte      { background: var(--color-karte);      color: var(--text-light); }
-footer.card { background: var(--color-footer);     color: var(--text-light); }
+footer.card { background: var(--color-footer);     color: var(--text-light); box-shadow: none; }
 
 
 /* ── Card Header ──────────────────────────────────────────────────── */
@@ -667,6 +667,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 /* Leichter negativer linker Offset für optisches Alignment */
 .timeline { margin-left: -8px; }
 
+
 .timeline-entry {
   display: flex;
   align-items: flex-start;
@@ -674,7 +675,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
   position: relative;
 }
 
-/* Vertikale Linie zwischen den Einträgen (ausser beim letzten) */
+/* Linie: läuft vom Dot genau bis zum nächsten Dot — Höhe = 100% + margin-bottom */
 .timeline-entry:not(:last-child)::after {
   content: '';
   position: absolute;
@@ -727,6 +728,15 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 
 /* Textinhalt rechts neben dem Dot */
 .timeline-content { flex: 1; padding-left: 0.75rem; }
+
+.timeline-content a {
+  font-size: 0.8rem;
+  opacity: 0.4;
+  text-decoration: none;
+  color: inherit;
+}
+
+.timeline-content a:hover { opacity: 0.8; }
 .timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
 .timeline-content p { font-size: 1rem; line-height: 1.6; opacity: 0.85; }
 .timeline-content figure { margin-top: 0.75rem; }
@@ -757,7 +767,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 
 /* Trennlinien zwischen Blockquote und Paragraphen */
 #kaiser blockquote,
-#kaiser .card__body > p {
+#kaiser .kaiser-text > p {
   border-top: 1px solid rgb(from var(--text-dark) r g b / 0.15);
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
@@ -786,7 +796,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 /* Drop Cap für den ersten Buchstaben jedes Paragraphen */
-#kaiser .card__body > p::first-letter {
+#kaiser .kaiser-text > p::first-letter {
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 900;
@@ -846,6 +856,7 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 }
 
 .kaiser-note i { font-size: 1.1rem; opacity: 0.5; flex-shrink: 0; padding-top: 0.15rem; }
+.kaiser-note strong { display: block; font-size: 0.9rem; margin-bottom: 0.3rem; opacity: 0.9; }
 .kaiser-note p { font-size: 1rem; line-height: 1.6; opacity: 0.75; margin: 0; }
 
 @media (min-width: 768px) {
@@ -887,24 +898,37 @@ footer.card { background: var(--color-footer);     color: var(--text-light); }
 
 .karte-liste li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
-  font-size: 1rem;
-  opacity: 0.85;
 }
 
 .karte-liste i {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   width: 1.4rem;
   text-align: center;
   flex-shrink: 0;
   opacity: 0.6;
+  padding-top: 0.15rem;
+}
+
+.karte-liste strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.karte-liste span {
+  display: block;
+  font-size: 0.82rem;
+  opacity: 0.6;
+  margin-top: 0.1rem;
 }
 
 /* Externe Link-Buttons (Google Maps / DB) */
 .karte-links {
   display: flex;
   gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .karte-links a {
@@ -1013,15 +1037,199 @@ footer .card__body {
 
 @media (min-width: 1024px) {
 
-  /* Card-Stack zentrieren und begrenzen */
+  /* Card-Stack zentrieren — kein Limit bis 1440px */
   #stack {
-    max-width: 780px;
     margin: 0 auto;
   }
 
   /* Hero-Titel: kann etwas grösser werden */
   #hero h1 {
     font-size: clamp(4rem, 6vw, 7rem);
+  }
+
+  /* ── Abfahrten ─────────────────────────────────────────────────────── */
+
+  /* Inhalt zentrieren — gleicher horizontaler Abstand wie sticky */
+  #abfahrten .card__body {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  /* Uhr + Datum links, Filter-Nav rechts */
+  .abfahrten-sticky {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 3rem;
+    padding: 2rem 2rem 1rem;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #uhr {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(3rem, 4vw, 5rem);
+    margin-bottom: 0.2rem;
+  }
+
+  #datum {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 0;
+  }
+
+  #abfahrten nav {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    margin-bottom: 0;
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-self: end;
+  }
+
+  /* Spaltenbreiten: Ziel bekommt mehr Platz */
+  .timetable th:nth-child(1), .timetable td:nth-child(1) { width: 15%; }
+  .timetable th:nth-child(2), .timetable td:nth-child(2) { width: 54%; white-space: nowrap; }
+  .timetable th:nth-child(3), .timetable td:nth-child(3) { width: 17%; }
+  .timetable th:nth-child(4), .timetable td:nth-child(4) { width: 14%; }
+
+  /* Zeilenhöhe offen lassen, Schriften skalieren */
+  .timetable td { height: auto; max-height: none; }
+  .timetable th { font-size: clamp(11px, 1vw, 14px); padding: 0.75rem 1rem; }
+  .timetable td { font-size: clamp(0.95rem, 1.3vw, 1.15rem); padding: 0.9rem 1rem; }
+  .timetable td small { font-size: clamp(0.75rem, 0.9vw, 0.9rem); }
+
+  /* ── Geschichte ───────────────────────────────────────────────────── */
+
+  /* Mehr Luft links und rechts im Body */
+  #geschichte .card__body {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left:  clamp(3rem, 5vw, 5rem);
+    padding-right: clamp(3rem, 5vw, 5rem);
+  }
+
+  /* Mehr Abstand zwischen den Einträgen */
+  .timeline-entry {
+    margin-bottom: clamp(2.5rem, 4vw, 5rem);
+  }
+
+  /* Linie: Position + Höhe passen zum variablen Abstand */
+  .timeline-entry:not(:last-child)::after {
+    left:   calc(clamp(100px, 10vw, 160px) + clamp(16px, 1.5vw, 24px));
+    height: calc(100% + clamp(2.5rem, 4vw, 5rem));
+  }
+
+  /* Jahreszahl: breiter, grösser, bündig mit dem Titel */
+  .timeline-year {
+    flex-basis:  clamp(100px, 10vw, 160px);
+    font-size:   clamp(1.2rem, 2vw, 2rem);
+    line-height: 1;
+  }
+
+  /* Dot-Spalte wächst mit */
+  .timeline-dot {
+    flex-basis: clamp(32px, 3vw, 48px);
+  }
+
+  /* Titel und Text wachsen mit dem Viewport */
+  .timeline-content h3 {
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+  }
+
+  .timeline-content p {
+    font-size:   clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+  }
+
+  /* Höhe fix, Breite passt sich den Originalproprtionen an */
+  .timeline-content img {
+    height: 250px;   /* ← hier anpassen */
+    width: auto;
+    max-width: 50%;
+    min-height: unset;
+    object-fit: unset;
+  }
+
+  /* ── Kaiser ────────────────────────────────────────────────────────── */
+
+  #kaiser .card__body {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left:  clamp(3rem, 5vw, 5rem);
+    padding-right: clamp(3rem, 5vw, 5rem);
+  }
+
+  #kaiser blockquote {
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+  }
+
+  #kaiser .kaiser-text {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: stretch;
+  }
+
+  #kaiser .kaiser-text > p {
+    height: 100%;
+    box-sizing: border-box;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+  }
+
+  /* Alle 3 Bilder nebeneinander — kein horizontales Scrollen */
+  .kaiser-bilder {
+    overflow-x: visible;
+    scroll-snap-type: none;
+    flex-wrap: nowrap;
+    margin: 1.5rem 0;
+  }
+
+  .kaiser-bilder figure {
+    flex: 1;
+    flex-basis: 0;
+    min-width: 0;
+  }
+
+  .kaiser-bilder figure:first-child { margin-left: 0; }
+  .kaiser-bilder figure:last-child  { margin-right: 0; }
+
+  .kaiser-bilder img {
+    height: 220px;   /* ← hier anpassen */
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Karte ─────────────────────────────────────────────────────────── */
+
+  .karte-liste strong { font-size: clamp(1rem, 1.3vw, 1.2rem); }
+  .karte-liste span   { font-size: clamp(0.85rem, 1.1vw, 1rem); }
+
+
+  #karte .card__body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  #map {
+    height: 100%;
+    min-height: 400px;
+  }
+
+  .karte-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
 }
@@ -1032,14 +1240,14 @@ footer .card__body {
 
 @media (min-width: 1440px) {
 
-  /* Stack darf etwas breiter werden */
+  /* Stack füllt den vollen Viewport — keine Breitenbegrenzung mehr */
   #stack {
-    max-width: 960px;
+    max-width: 1440px;
   }
 
   /* Uhr und Datum profitieren von mehr Platz */
   #uhr {
-    font-size: 4.5rem;
+    font-size: 4rem;
   }
 
 }
