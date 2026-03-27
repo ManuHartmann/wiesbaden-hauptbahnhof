@@ -15,15 +15,15 @@
 </head>
 <body>
 
-  <a href="#hero" class="skip-link">Zum Inhalt springen</a>
+  <a href="#hero-btn" class="skip-link">Zum Inhalt springen</a>
 
   <div id="scroll-container">
-    <div id="stack">
+    <main id="stack">
 
       <!-- ── Card 1: Hero ── -->
       <section id="hero" class="card">
         <i class="fa-solid fa-house hero-icon"></i>
-        <button class="card__header">
+        <button id="hero-btn" class="card__header">
           <span class="card__header-name">Wiesbaden Hauptbahnhof </span>
         </button>
         <div class="card__body hero">
@@ -37,7 +37,7 @@
       <section id="abfahrten" class="card">
         <button class="card__header">
           <i class="fa-solid fa-train card__header-icon"></i>
-          <span class="card__header-name" aria-hidden="true">Nächste Verbindungen</span>
+          <span class="card__header-name">Nächste Verbindungen</span>
         </button>
         <div class="abfahrten-sticky">
           <h2 class="sr-only">Nächste Verbindungen</h2>
@@ -227,7 +227,7 @@
       <section id="geschichte" class="card">
         <button class="card__header">
           <i class="fa-solid fa-book card__header-icon"></i>
-          <span class="card__header-name" aria-hidden="true">Die Geschichte</span>
+          <span class="card__header-name">Die Geschichte</span>
         </button>
         <div class="card__body">
           <h2 class="sr-only">Die Geschichte</h2>
@@ -320,7 +320,7 @@
       <section id="kaiser" class="card">
         <button class="card__header">
           <i class="fa-solid fa-crown card__header-icon"></i>
-          <span class="card__header-name" aria-hidden="true">Der Kaiser &amp; der Bahnhof</span>
+          <span class="card__header-name">Der Kaiser &amp; der Bahnhof</span>
         </button>
         <div class="card__body">
           <h2 class="sr-only">Der Kaiser &amp; der Bahnhof</h2>
@@ -376,7 +376,7 @@
       <section id="karte" class="card">
         <button class="card__header">
           <i class="fa-solid fa-map-location-dot card__header-icon"></i>
-          <span class="card__header-name" aria-hidden="true">Karte &amp; Umgebung</span>
+          <span class="card__header-name">Karte &amp; Umgebung</span>
         </button>
         <div class="card__body">
           <h2 class="sr-only">Karte &amp; Umgebung</h2>
@@ -435,7 +435,7 @@
         </div>
       </footer>
 
-    </div><!-- #stack -->
+    </main><!-- #stack -->
     <div id="scroll-spacer"></div>
   </div><!-- #scroll-container -->
 

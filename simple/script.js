@@ -216,9 +216,10 @@ cards.forEach((card, i) => {
 
 // Tastatur: Pfeiltasten durch alle fokussierbaren Elemente navigieren
 const FOCUSABLE_CONTENT = [
-  '.card__body > p',
-  '.card__body h3',
-  'figure',
+  '.card__body > p:not(.source):not(.timetable-empty)',
+  '.card__body h1',
+  '.card__body h3:not(article *)',
+  'figure:not(article *)',
   'blockquote',
   'article.timeline-entry',
   '#map',
@@ -246,11 +247,13 @@ document.addEventListener('keydown', e => {
     : all[Math.max(idx - 1, 0)];
 
   if (!next || next === document.activeElement) return;
+  isArrowFocus = true;
   next.focus({ preventScroll: true });
 });
 
 // Mausklick-Flag: focusin durch Maus/Touch soll kein Scroll auslösen
 let isPointerFocus = false;
+let isArrowFocus   = false;
 document.addEventListener('pointerdown', () => { isPointerFocus = true; });
 
 // focusin: bei jedem Fokus zur richtigen Stelle scrollen
@@ -271,7 +274,14 @@ document.addEventListener('focusin', e => {
   const cardEl  = e.target.closest('.card');
   if (!cardEl) return;
   const cardIdx = cards.indexOf(cardEl);
-  if (cardIdx < 0 || cardIdx >= N - 1) return;  // Footer ignorieren
+  if (cardIdx < 0) return;
+
+  // Footer: direkt ans Ende scrollen
+  if (cardIdx === N - 1) {
+    const footerRange = ranges.find(r => r.type === 'footer');
+    if (footerRange) scroller.scrollTo({ top: footerRange.start, behavior: 'smooth' });
+    return;
+  }
 
   // Wo endet der Übergang zu dieser Card?
   let transEnd = 0;
@@ -279,11 +289,19 @@ document.addEventListener('focusin', e => {
     if (r.type === 'transition' && r.to === cardIdx) { transEnd = r.end; break; }
   }
 
-  const body   = cardEl.querySelector('.card__body');
-  const elOff  = offsetInBody(e.target, body);
-  const target = transEnd + Math.max(0, elOff - 20);
+  // Wo endet der Content-Range dieser Card? (verhindert Overshoot in nächste Card)
+  let contentEnd = transEnd;
+  for (const r of ranges) {
+    if (r.type === 'content' && r.idx === cardIdx) { contentEnd = r.end; break; }
+  }
 
-  scroller.scrollTo({ top: target, behavior: 'smooth' });
+  const body     = cardEl.querySelector('.card__body');
+  const elOff    = (body && body.contains(e.target)) ? offsetInBody(e.target, body) : 0;
+  const target   = Math.min(transEnd + Math.max(0, elOff - 20), contentEnd);
+  const isArrow  = isArrowFocus; isArrowFocus = false;
+  const behavior = (e.target.matches('.card__header') || isArrow) ? 'smooth' : 'instant';
+
+  scroller.scrollTo({ top: target, behavior });
 });
 
 // Resize: neu messen
