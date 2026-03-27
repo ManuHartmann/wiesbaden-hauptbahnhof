@@ -1,0 +1,112 @@
+/* ════════════════════════════════════════════════════════════════════
+   karte.css — Leaflet-Map, Ortsliste, Link-Buttons
+   ════════════════════════════════════════════════════════════════════ */
+
+#karte .card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Leaflet-Karten-Container */
+#map {
+  width: 100%;
+  height: 300px;
+  min-height: 200px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Liste der umliegenden Orte / Einrichtungen */
+.karte-liste {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.karte-liste li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.karte-liste i {
+  font-size: 1.1rem;
+  width: 1.4rem;
+  text-align: center;
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+}
+
+.karte-liste strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.karte-liste span {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 0.1rem;
+}
+
+/* Externe Link-Buttons (Google Maps / DB) */
+.karte-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.karte-links a {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-align: center;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.karte-links a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 768px) {
+  .karte-links a { flex: 0 0 auto; }
+}
+
+@media (min-width: 1024px) {
+  .karte-liste strong { font-size: clamp(1.05rem, 1.3vw, 1.2rem); }
+  .karte-liste span   { font-size: clamp(0.9rem, 1vw, 1rem); }
+
+  #karte .card__body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #map {
+    width: auto;
+    height: 100%;
+    min-height: 400px;
+    min-width: 0;
+  }
+
+  .karte-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

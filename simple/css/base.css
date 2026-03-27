@@ -1,0 +1,124 @@
+/* ════════════════════════════════════════════════════════════════════
+   base.css — CSS-Variablen, Reset, Typografie, Accessibility
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Layout-Grundwerte */
+  --pad:   20px;   /* Horizontaler Innenabstand aller Cards */
+  --tab-h: 50px;   /* Sichtbare Höhe eines zugeklappten Tabs — JS: NET = TAB - OVERLAP */
+
+  /* Timing für alle Animationen (Card-Header-Morphing) */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur:  0.45s;
+
+  /* Hintergrundfarben der einzelnen Cards */
+  --color-hero:       #cc2222;  /* Hintergrund hinter dem Hero-Bild (sichtbar bis Bild lädt) */
+  --color-abfahrten:  #8B4A2B;
+  --color-gruen:      #2D4A3E;  /* Gemeinsame Basis für Geschichte + Footer */
+  --color-geschichte: var(--color-gruen);
+  --color-kaiser:     #F5EFE0;
+  --color-karte:      #1C1208;
+  --color-footer:     var(--color-gruen);
+
+  /* Textfarben */
+  --text-light: #ffffff;
+  --text-dark:  #1C1208;
+
+  /* Akzentfarben */
+  --accent-kupfer: #c4622d;  /* Hero-Titel <em> (Kupferrot) */
+  --accent-kaiser: #8d6e63;  /* Blockquote-Anführungszeichen */
+
+  /* Farben für Linien-Badges in der Fahrplan-Tabelle */
+  --badge-ice: #e74c3c;
+  --badge-ic:  #922b21;
+  --badge-ec:  #1a5276;
+  --badge-s:   #1e8449;
+  --badge-rb:  #8d6e63;
+  --badge-re:  #1a6da3;
+  --badge-bus: #b45d11;
+
+  /* Farben innerhalb der Fahrplan-Tabelle */
+  --timetable-row:         #361a0c;           /* Zeilenhintergrund */
+  --timetable-border:      #7a3d20;           /* Trennlinie zwischen Zeilen */
+  --timetable-delay:       #e74c3c;           /* Verspätungsanzeige */
+  --timetable-header-bg:   #3a1a08;           /* Kopfzeile Hintergrund */
+  --timetable-header-text: rgb(216, 216, 216);/* Kopfzeile Textfarbe */
+
+  /* Sekundäre Textfarbe (z.B. Via-Linie in Tabelle) */
+  --text-muted: #888;
+
+  /* Schriftarten */
+  --font-display: 'Playfair Display', Georgia, serif;  /* Überschriften */
+  --font-body:    'Abel', Arial, sans-serif;            /* Fliesstext */
+
+  /*
+   * Breakpoints (Mobile First — min-width)
+   * ───────────────────────────────────────
+   * Hinweis: CSS Custom Properties funktionieren leider nicht in @media.
+   * Diese Werte hier dienen nur als Referenz — immer gleich halten!
+   *
+   *   --bp-tablet:     768px   Tablet (iPad Portrait)
+   *   --bp-desktop:   1024px   Desktop / iPad Landscape
+   *   --bp-wide:      1440px   Widescreen / grosse Monitore
+   */
+}
+
+/* Reset: Box-Sizing + margin/padding auf alle Elemente */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--text-dark); /* Sichtbar bis das Hero-Bild geladen ist */
+  height: 100svh;
+  overflow: hidden; /* Kein natürliches Scroll — läuft über #scroll-container */
+}
+
+/* Accessibility: Skip-Link (für Tastaturnutzer) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--pad);
+  z-index: 100;
+  background: var(--text-dark);
+  color: var(--text-light);
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 6px 6px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.skip-link:focus { top: 0; }
+
+/* Accessibility: Visuell versteckt, aber für Screenreader + SEO sichtbar */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Überschriften immer mit Display-Font */
+h1, h2, h3 { font-family: var(--font-display); }
+
+/* Bilder nie grösser als ihr Container */
+img { max-width: 100%; max-height: 100%; }
+
+/* Accessibility: kein sichtbarer Standard-Fokus-Ring, stattdessen
+   schöner focus-visible Ring (nur bei Tastaturnavigation) */
+:focus { outline: none; }
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 3px;
+}

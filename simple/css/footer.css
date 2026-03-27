@@ -1,0 +1,56 @@
+/* ════════════════════════════════════════════════════════════════════
+   footer.css — Logo, Wikipedia-Link
+   ════════════════════════════════════════════════════════════════════ */
+
+footer .card__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+/* Tablet: Logo und Link nebeneinander */
+@media (min-width: 768px) {
+  footer .card__body {
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.footer-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+}
+
+/* Pill-Button im Footer (Wikipedia) */
+.footer-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+
+.footer-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-button i { font-size: 0.85rem; }

@@ -1,0 +1,141 @@
+/* ════════════════════════════════════════════════════════════════════
+   geschichte.css — Timeline (Jahreseinträge mit Dot + Linie)
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Leichter negativer linker Offset für optisches Alignment */
+.timeline { margin-left: -8px; }
+
+.timeline-entry {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+/* Linie: läuft vom Dot genau bis zum nächsten Dot — Höhe = 100% + margin-bottom */
+.timeline-entry:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 81px;
+  top: 17px;
+  height: calc(100% + 2.5rem);
+  width: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Jahreszahl links */
+.timeline-year {
+  flex: 0 0 73px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 0.6rem;
+  line-height: 1.2;
+}
+
+/* Dot-Spalte (weisser Punkt + weicher Halo) */
+.timeline-dot {
+  flex: 0 0 18px;
+  display: flex;
+  justify-content: center;
+  padding-top: 12px;
+  position: relative;
+}
+
+/* Weisser Punkt */
+.timeline-dot::before {
+  content: '';
+  width: 10px; height: 10px;
+  background: white;
+  border-radius: 50%;
+}
+
+/* Transparenter Halo um den Punkt */
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  top: 9.5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px; height: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+/* Textinhalt rechts neben dem Dot */
+.timeline-content { flex: 1; padding-left: 0.75rem; border-radius: 6px; }
+
+article.timeline-entry:focus-visible {
+  outline: none;
+}
+article.timeline-entry:focus-visible .timeline-content {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 6px;
+}
+
+.timeline-content a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75); /* 5.5:1 on #2D4A3E — passes WCAG AA */
+}
+
+.timeline-content a:hover { color: #fff; }
+.timeline-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem; }
+.timeline-content p { font-size: 1rem; line-height: 1.6; opacity: 0.85; }
+.timeline-content figure { margin-top: 0.75rem; }
+.timeline-content img { width: 100%; min-height: 150px; border-radius: 4px; object-fit: cover; }
+.timeline-content figcaption { font-size: 1rem; opacity: 0.55; margin-top: 0.3rem; }
+.timeline-content > a { display: inline-block; margin-top: 0.75rem; color: rgba(255, 255, 255, 0.75); font-size: 0.9rem; }
+
+@media (min-width: 768px) {
+  .timeline-entry:not(:last-child)::after { left: calc(100px + 16px); }
+  .timeline-year { flex-basis: 100px; font-size: 1.9rem; font-family: var(--font-display); }
+  .timeline-dot { flex-basis: 32px; }
+  .timeline-content h3 { font-size: 1.6rem; }
+}
+
+@media (min-width: 1024px) {
+  #geschichte .card__body {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left:  clamp(3rem, 5vw, 5rem);
+    padding-right: clamp(3rem, 5vw, 5rem);
+  }
+
+  .timeline-entry {
+    margin-bottom: clamp(2.5rem, 4vw, 5rem);
+  }
+
+  .timeline-entry:not(:last-child)::after {
+    left:   calc(clamp(100px, 10vw, 160px) + clamp(16px, 1.5vw, 24px));
+    height: calc(100% + clamp(2.5rem, 4vw, 5rem));
+  }
+
+  .timeline-year {
+    flex-basis:  clamp(100px, 10vw, 160px);
+    font-size:   clamp(1.2rem, 2vw, 2rem);
+    line-height: 1;
+  }
+
+  .timeline-dot {
+    flex-basis: clamp(32px, 3vw, 48px);
+  }
+
+  .timeline-content h3 {
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+  }
+
+  .timeline-content p {
+    font-size:   clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.75;
+  }
+
+  .timeline-content img {
+    height: 280px;
+    width: auto;
+    min-height: unset;
+    object-fit: unset;
+  }
+}

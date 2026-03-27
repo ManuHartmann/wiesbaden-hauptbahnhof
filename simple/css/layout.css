@@ -1,0 +1,217 @@
+/* ════════════════════════════════════════════════════════════════════
+   layout.css — Scroll-Architektur & Card-System
+   ════════════════════════════════════════════════════════════════════
+
+   Wie das Scrollen funktioniert:
+   ──────────────────────────────
+   • #scroll-container   nimmt den Scroll entgegen (overflow-y: scroll)
+   • #stack              ist sticky — bleibt immer auf 100svh sichtbar
+   • .card               wird vom JavaScript absolut positioniert
+                         (top + height via inline style)
+   • Beim Scrollen schiebt JS die Cards übereinander, das Fenster
+     (#stack) bleibt immer gleich gross.
+
+   Card-Header: 3 States
+   ──────────────────────
+   State 1 (default)      — kleiner Tab (--tab-h hoch), Icon + Label
+   State 2 (.is-active)   — Header wächst, grosses Icon, grosser Titel
+   State 3 (.is-scrolled) — schrumpft wieder auf Tab-Grösse zurück
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Der eigentliche Scroll-Behälter — die Seite selbst scrollt nicht */
+#scroll-container {
+  height: 100svh;
+  overflow-y: scroll;
+  position: relative;
+  scrollbar-width: none;          /* Firefox */
+}
+#scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+/* Das "Fenster" — sticky, immer sichtbar, clippt die Cards */
+#stack {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  #stack { margin: 0 auto; }
+}
+
+@media (min-width: 1440px) {
+  #stack { max-width: 1440px; }
+}
+
+/* Maske: verdeckt die untersten 25px (= OVERLAP = border-radius) des Stacks. */
+#stack::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25px;          /* = OVERLAP / border-radius */
+  background: var(--text-dark);
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Card-Basis — top + height werden vom JavaScript gesetzt */
+.card {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: 25px 25px 0 0; /* Abgerundete Oberkante */
+  overflow: hidden;
+  box-shadow: 0 -8px 24px rgb(from var(--text-dark) r g b / 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hero hat keine abgerundeten Ecken — füllt den vollen Viewport */
+#hero.card { border-radius: 0; }
+
+/* Card-Hintergrundfarben */
+#abfahrten  { background: var(--color-abfahrten);  color: var(--text-light); }
+#geschichte { background: var(--color-geschichte); color: var(--text-light); }
+#kaiser     { background: var(--color-kaiser);     color: var(--text-dark);  }
+#karte      { background: var(--color-karte);      color: var(--text-light); }
+footer.card { background: var(--color-footer);     color: var(--text-light); box-shadow: none; }
+
+
+/* ── Card Header ──────────────────────────────────────────────────── */
+
+/* State 1: Collapsed (Standard-Tab) */
+.card__header {
+  position: relative;
+  height: var(--tab-h);
+  flex-shrink: 0;
+  width: 100%;
+  background: transparent;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  color: inherit;
+  overflow: hidden;
+  transition: height var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.card__header:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Icon im Tab — absolut positioniert, animiert unabhängig vom Text */
+.card__header-icon {
+  position: absolute;
+  left: var(--pad);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.65;
+  transition:
+    top      var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    font-size var(--dur) var(--ease),
+    opacity   var(--dur) var(--ease);
+}
+
+/* Label im Tab — absolut positioniert, animiert unabhängig vom Icon */
+.card__header-name {
+  position: absolute;
+  left: calc(var(--pad) + 1.4rem + 0.75rem);
+  right: var(--pad);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    top          var(--dur) var(--ease),
+    left         var(--dur) var(--ease),
+    transform    var(--dur) var(--ease),
+    font-size    var(--dur) var(--ease),
+    letter-spacing var(--dur) var(--ease);
+}
+
+/* State 2: Expanded (.is-active) — Icon + Titel wachsen */
+.card.is-active .card__header-icon {
+  top: calc(var(--tab-h) / 2);
+  transform: translateY(-50%);
+  font-size: 1.1rem;
+  opacity: 1;
+}
+
+.card.is-active .card__header-name {
+  top: calc(var(--tab-h) / 2);
+  left: calc(var(--pad) + 1.4rem + 0.75rem);
+  right: var(--pad);
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* State 3: Scrolled (.is-active.is-scrolled) — schrumpft zurück auf Tab */
+.card.is-active.is-scrolled .card__header {
+  height: var(--tab-h);
+}
+
+.card.is-active.is-scrolled .card__header-icon {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.65;
+}
+
+.card.is-active.is-scrolled .card__header-name {
+  top: 50%;
+  left: calc(var(--pad) + 1.4rem + 0.75rem);
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  .card__header-icon { font-size: 1.05rem; }
+  .card__header-name { font-size: 0.85rem; }
+  .card.is-active .card__header-icon { font-size: 1.3rem; }
+  .card.is-active .card__header-name { font-size: 1.5rem; }
+  .card.is-active.is-scrolled .card__header-icon { font-size: 1.05rem; }
+  .card.is-active.is-scrolled .card__header-name { font-size: 0.85rem; }
+}
+
+
+/* ── Card Body ────────────────────────────────────────────────────── */
+
+/* JS setzt scrollTop direkt auf .card__body */
+.card__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: hidden;
+  padding: 1.5rem var(--pad) 7rem;
+  /* Soft-Fade oben: Inhalt läuft hinter den Header */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 2.5rem);
+  mask-image: linear-gradient(to bottom, transparent 0, black 2.5rem);
+}
+
+@media (min-width: 768px) {
+  .card__body { padding: 2rem 2.5rem 9rem; }
+}

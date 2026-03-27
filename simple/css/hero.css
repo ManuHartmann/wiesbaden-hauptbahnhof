@@ -1,0 +1,132 @@
+/* ════════════════════════════════════════════════════════════════════
+   hero.css — Startbild, Titel, Overlay, Einblend-Animation
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Hero-Header bleibt immer klein (Override des is-active State) */
+#hero.is-active .card__header-name {
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Header schwebt als dezenter Gradient-Streifen über dem Bild */
+#hero .card__header {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  color: white;
+  background: linear-gradient(to bottom, rgb(from var(--text-dark) r g b / 0.55) 0%, transparent 100%);
+}
+
+/* Haus-Icon — immer oben links, über Bild und Header */
+.hero-icon {
+  position: absolute;
+  top: calc(var(--tab-h) / 2);
+  transform: translateY(-50%);
+  left: var(--pad);
+  z-index: 3;
+  color: white;
+  font-size: 0.9rem;
+  opacity: 0.65;
+  pointer-events: none; /* kein versehentlicher Klick */
+}
+
+/* Body füllt die ganze Card — trägt Hintergrundbild + Overlay */
+#hero .card__body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100svh;
+  mask-image: none;
+  -webkit-mask-image: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 30vh var(--pad) var(--pad);
+  color: white;
+  background: url('../img/ICE_an_Gleis_8_B.jpg') 60% / cover;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Dunkler Verlauf über dem Bild für Lesbarkeit des Titels */
+#hero .card__body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(from var(--text-dark) r g b / 0.35) 0%,
+    rgb(from var(--text-dark) r g b / 0.65) 28%,
+    rgb(from var(--text-dark) r g b / 0.78) 60%,
+    rgb(from var(--text-dark) r g b / 0.88) 100%
+  );
+  z-index: 1;
+}
+
+/* Alle direkten Kinder über dem Overlay */
+#hero .card__body > * { position: relative; z-index: 2; }
+
+/* Einblend-Animation für Titel und Label */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-label {
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  margin-bottom: 0.5rem;
+  animation: hero-rise 0.7s ease forwards;
+  animation-delay: 0.2s;
+}
+
+/* Haupttitel — fluid zwischen 2.8rem und 5.5rem */
+#hero h1 {
+  font-size: clamp(2.8rem, 12vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  opacity: 0;
+  animation: hero-rise 0.8s ease forwards;
+  animation-delay: 0.5s;
+}
+
+#hero .card__body > p:not(.hero-label) {
+  opacity: 0;
+  animation: hero-rise 0.7s ease forwards;
+  animation-delay: 0.85s;
+}
+
+/* "Hauptbahnhof" in Kupferrot hervorheben */
+#hero h1 em {
+  font-style: normal;
+  font-weight: 900;
+  color: var(--accent-kupfer);
+}
+
+#hero p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.8;
+  max-width: 42ch;
+}
+
+@media (min-width: 1024px) {
+  #hero h1 {
+    font-size: clamp(3.3rem, 6.7vw, 7.3rem);
+  }
+
+  #hero .card__body {
+    background-image: url('../img/BD-HauptbahnhofWiesbaden-20130507-IMG_1754.jpg');
+    background-position: center;
+    background-size: 108% auto;
+  }
+}

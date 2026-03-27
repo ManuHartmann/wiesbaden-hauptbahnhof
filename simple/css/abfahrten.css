@@ -1,0 +1,269 @@
+/* ════════════════════════════════════════════════════════════════════
+   abfahrten.css — Fahrplan-Card: Uhr, Filter, Tabelle, Badges
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Datum-Label über der Uhr */
+#datum {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Digitale Uhr — gross, Display-Font */
+#uhr {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: bold;
+  font-family: var(--font-display);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  #uhr { font-size: 3.5rem; }
+}
+
+@media (min-width: 1024px) {
+  #uhr { font-size: clamp(4rem, 4vw, 5rem); margin-bottom: 0.2rem; }
+  #datum { margin-bottom: 0; }
+}
+
+@media (min-width: 1440px) {
+  #uhr { font-size: 4rem; }
+}
+
+
+/* ── Sticky-Bereich: Uhr + Datum + Filter ─────────────────────────── */
+
+/* Dieser Bereich klebt über der scrollenden Tabelle */
+.abfahrten-sticky {
+  flex-shrink: 0;
+  padding: 0.5rem var(--pad) 0;
+}
+
+/* Body-Reset: kein Default-Padding, Flex-Column für Sticky + Tabelle */
+#abfahrten .card__body {
+  padding-top: 0;
+  padding-bottom: 2rem;
+  padding-left: var(--pad);
+  padding-right: var(--pad);
+  mask-image: none;       /* Kein Fade-Effekt in der Abfahrten-Card */
+  -webkit-mask-image: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tabellen-Wrapper: scrollt nur wenn die Card vollständig offen ist */
+#abfahrten .timetable-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+
+/* JS fügt .is-fully-open hinzu wenn die Card ganz oben ist */
+#abfahrten.is-fully-open .timetable-wrap {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 768px) {
+  .abfahrten-sticky { padding: 1rem 2.5rem 0; }
+}
+
+@media (min-width: 1024px) {
+  #abfahrten .card__body {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--pad);
+    padding-right: var(--pad);
+  }
+
+  /* Uhr + Datum links, Filter-Nav rechts */
+  .abfahrten-sticky {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 1rem var(--pad) 1rem;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  #abfahrten nav {
+    margin-bottom: 0;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+
+/* ── Fahrplan-Tabelle ─────────────────────────────────────────────── */
+
+.timetable-wrap {
+  border-radius: 1px;
+}
+
+.timetable {
+  width: 100%;
+  min-width: 320px;
+  border-collapse: collapse;
+  table-layout: fixed; /* Fixe Breiten — thead und tbody fluchten */
+}
+
+/* Abfahrende Züge werden vom JS ausgefadet */
+.timetable tr.departing {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateX(-24px);
+  pointer-events: none;
+}
+
+/* Spaltenbreiten: Abfahrt / Ziel / Linie / Gleis */
+.timetable th:nth-child(1), .timetable td:nth-child(1) { width: 22%; }
+.timetable th:nth-child(2), .timetable td:nth-child(2) { width: 45%; }
+.timetable th:nth-child(3), .timetable td:nth-child(3) { width: 18%; }
+.timetable th:nth-child(4), .timetable td:nth-child(4) { width: 15%; }
+
+/* Tabellenkopf bleibt beim Scrollen der Tabelle oben kleben */
+.timetable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.timetable th {
+  background: var(--timetable-header-bg);
+  color: var(--timetable-header-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.6rem 0.5rem;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.timetable td {
+  background: var(--timetable-row);
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  height: 56px;
+  max-height: 56px;
+  overflow: hidden;
+  padding: 0.85rem 0.5rem;
+  border-bottom: 1px solid var(--timetable-border);
+  text-align: left;
+}
+
+/* Via-Linie unter dem Ziel */
+.timetable td small {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  text-align: left;
+}
+
+/* Verspätungsanzeige in Rot */
+.timetable td small.delay { display: inline; color: var(--timetable-delay); font-size: 0.85rem; }
+
+/* Gleis-Spalte rechtsbündig */
+.timetable th:nth-child(4),
+.timetable td:nth-child(4) { text-align: right; padding-right: 12px; }
+
+@media (min-width: 768px) {
+  .timetable th, .timetable td { font-size: 15px; padding: 10px 12px; }
+}
+
+@media (min-width: 1024px) {
+  /* Spaltenbreiten: Ziel bekommt mehr Platz */
+  .timetable th:nth-child(1), .timetable td:nth-child(1) { width: 15%; }
+  .timetable th:nth-child(2), .timetable td:nth-child(2) { width: 54%; white-space: nowrap; }
+  .timetable th:nth-child(3), .timetable td:nth-child(3) { width: 17%; }
+  .timetable th:nth-child(4), .timetable td:nth-child(4) { width: 14%; }
+
+  .timetable td { height: auto; max-height: none; }
+  .timetable th { font-size: clamp(13px, 1vw, 15px); padding: 0.75rem 1rem; }
+  .timetable td { font-size: clamp(0.95rem, 1.3vw, 1.15rem); padding: 0.9rem 1rem; }
+  .timetable td small { font-size: clamp(0.8rem, 0.9vw, 0.9rem); }
+}
+
+
+/* ── Filter-Buttons ───────────────────────────────────────────────── */
+
+#abfahrten nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+
+#abfahrten nav button {
+  min-height: 44px;          /* Touch-Target mind. 44px */
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: white;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+/* Aktiver Filter: leicht dunkler Hintergrund */
+#abfahrten nav button.active {
+  background: rgb(from var(--text-dark) r g b / 0.35);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
+#abfahrten nav button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+#abfahrten nav button:active {
+  background: rgba(255, 255, 255, 0.2);
+  transition: none;
+}
+
+
+/* ── Linien-Badges ────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* Jede Linie hat eine eigene Farbe */
+.badge-ice { background: var(--badge-ice); }
+.badge-ic  { background: var(--badge-ic);  }
+.badge-ec  { background: var(--badge-ec);  }
+.badge-s   { background: var(--badge-s);   }
+.badge-rb  { background: var(--badge-rb);  }
+.badge-re  { background: var(--badge-re);  }
+.badge-bus { background: var(--badge-bus); }
+
+/* Hinweistext wenn keine Züge für diesen Filter */
+.timetable-empty {
+  font-size: 1rem;
+  opacity: 0.5;
+  padding: 1.5rem 0;
+  text-align: center;
+}
+
+/* Quellenangabe unter der Tabelle */
+#abfahrten .card__body .source {
+  font-size: 0.85rem;
+  opacity: 0.55;
+  margin-top: 0.5rem;
+}
