@@ -1,1 +1,1 @@
-https://manuhartmann.github.io/wiesbaden-hauptbahnhof/
+https://manuhartmann.github.io/wiesbaden-hauptbahnhof/simple
