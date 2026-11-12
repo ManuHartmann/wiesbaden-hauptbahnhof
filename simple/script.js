@@ -510,6 +510,45 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19
 }).addTo(map);
 
-L.marker([50.0708, 8.2439])
+// Orte aus der Liste — Koordinaten ungefähr (OSM). Reihenfolge = Reihenfolge der <li> in .karte-liste
+const ORTE = [
+  { name: 'Alter Kaisereingang', icon: 'fa-crown',            pos: [50.0709, 8.2428] },
+  { name: 'Busbahnhof ZOB',      icon: 'fa-bus',              pos: [50.0717, 8.2441] },
+  { name: 'Altstadt',            icon: 'fa-building-columns', pos: [50.0820, 8.2438] },
+  { name: 'Kurpark',             icon: 'fa-tree',             pos: [50.0858, 8.2505] },
+  { name: 'Taxistand',           icon: 'fa-taxi',             pos: [50.0713, 8.2448] },
+  { name: 'Fahrradverleih',      icon: 'fa-bicycle',          pos: [50.0715, 8.2433] },
+  { name: 'Gepäckaufbewahrung',  icon: 'fa-suitcase',         pos: [50.0704, 8.2440] }
+];
+
+const ortIcon = (icon) => L.divIcon({
+  className: 'ort-marker',
+  html: `<i class="fa-solid ${icon}"></i>`,
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  popupAnchor: [0, -15]
+});
+
+const hbfMarker = L.marker([50.0708, 8.2439])
   .addTo(map)
   .bindPopup('Wiesbaden Hauptbahnhof');
+
+const ortMarker = ORTE.map(o =>
+  L.marker(o.pos, { icon: ortIcon(o.icon), title: o.name }).addTo(map).bindPopup(o.name)
+);
+
+// Startansicht: nur die Orte direkt am Bahnhof (sonst überlappen die Marker).
+// Altstadt & Kurpark erreicht man per Klick in der Liste oder durch Herauszoomen.
+const nahe = ORTE.filter(o => !['Altstadt', 'Kurpark'].includes(o.name)).map(o => o.pos);
+map.fitBounds(L.latLngBounds([hbfMarker.getLatLng(), ...nahe]), { padding: [40, 40], maxZoom: 17 });
+
+// Klick auf Listeneintrag → Karte springt zum Ort
+document.querySelectorAll('.karte-liste li').forEach((li, i) => {
+  const marker = ortMarker[i];
+  if (!marker) return;
+  li.classList.add('karte-liste__item--link');
+  li.tabIndex = 0;
+  const zeigen = () => { map.flyTo(marker.getLatLng(), 17); marker.openPopup(); };
+  li.addEventListener('click', zeigen);
+  li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); zeigen(); } });
+});
