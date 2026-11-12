@@ -503,7 +503,7 @@ setInterval(fetchDepartures, 60_000);
 
 // ── Leaflet Karte ─────────────────────────────────────────────
 // scrollWheelZoom deaktiviert — sonst würde das Mausrad die Karte zoomen statt zu scrollen
-const map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([50.0708, 8.2439], 15);
+const map = L.map('map', { zoomControl: true, scrollWheelZoom: false }).setView([50.0699, 8.2440], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
@@ -515,7 +515,7 @@ const ORTE = [
   { name: 'Alter Kaisereingang', icon: 'fa-crown',            pos: [50.0709, 8.2428] },
   { name: 'Busbahnhof ZOB',      icon: 'fa-bus',              pos: [50.0717, 8.2441] },
   { name: 'Altstadt',            icon: 'fa-building-columns', pos: [50.0820, 8.2438] },
-  { name: 'Kurpark',             icon: 'fa-tree',             pos: [50.0857, 8.2490] },
+  { name: 'Kurpark',             icon: 'fa-tree',             pos: [50.0844, 8.2513] },
   { name: 'Taxistand',           icon: 'fa-taxi',             pos: [50.0713, 8.2448] },
   { name: 'Fahrradverleih',      icon: 'fa-bicycle',          pos: [50.0715, 8.2433] },
   { name: 'Gepäckaufbewahrung',  icon: 'fa-suitcase',         pos: [50.0704, 8.2440] }
@@ -529,7 +529,7 @@ const ortIcon = (icon) => L.divIcon({
   popupAnchor: [0, -15]
 });
 
-const hbfMarker = L.marker([50.0708, 8.2439])
+const hbfMarker = L.marker([50.0699, 8.2440])
   .addTo(map)
   .bindPopup('Wiesbaden Hauptbahnhof');
 
