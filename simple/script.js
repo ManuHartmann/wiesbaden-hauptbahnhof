@@ -515,7 +515,7 @@ const ORTE = [
   { name: 'Alter Kaisereingang', icon: 'fa-crown',            pos: [50.0709, 8.2428] },
   { name: 'Busbahnhof ZOB',      icon: 'fa-bus',              pos: [50.0717, 8.2441] },
   { name: 'Altstadt',            icon: 'fa-building-columns', pos: [50.0820, 8.2438] },
-  { name: 'Kurpark',             icon: 'fa-tree',             pos: [50.0858, 8.2505] },
+  { name: 'Kurpark',             icon: 'fa-tree',             pos: [50.0866, 8.2490] },
   { name: 'Taxistand',           icon: 'fa-taxi',             pos: [50.0713, 8.2448] },
   { name: 'Fahrradverleih',      icon: 'fa-bicycle',          pos: [50.0715, 8.2433] },
   { name: 'Gepäckaufbewahrung',  icon: 'fa-suitcase',         pos: [50.0704, 8.2440] }
