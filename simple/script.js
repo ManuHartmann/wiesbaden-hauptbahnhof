@@ -537,6 +537,10 @@ const ortMarker = ORTE.map(o =>
   L.marker(o.pos, { icon: ortIcon(o.icon), title: o.name }).addTo(map).bindPopup(o.name)
 );
 
+// Gleiches Verhalten wie Klick in der Liste: Karte fliegt zum Ort und zoomt heran
+const zeigeOrt = (marker) => { map.flyTo(marker.getLatLng(), 17); marker.openPopup(); };
+[hbfMarker, ...ortMarker].forEach(m => m.on('click', () => zeigeOrt(m)));
+
 // Startansicht: nur die Orte direkt am Bahnhof (sonst überlappen die Marker).
 // Altstadt & Kurpark erreicht man per Klick in der Liste oder durch Herauszoomen.
 const nahe = ORTE.filter(o => !['Altstadt', 'Kurpark'].includes(o.name)).map(o => o.pos);
@@ -548,7 +552,7 @@ document.querySelectorAll('.karte-liste li').forEach((li, i) => {
   if (!marker) return;
   li.classList.add('karte-liste__item--link');
   li.tabIndex = 0;
-  const zeigen = () => { map.flyTo(marker.getLatLng(), 17); marker.openPopup(); };
+  const zeigen = () => zeigeOrt(marker);
   li.addEventListener('click', zeigen);
   li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); zeigen(); } });
 });
